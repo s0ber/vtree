@@ -44,4 +44,4 @@ When changing any part of DOM tree, corresponding branch of views tree will be r
 
 That's the basic functionality, but it is more complicated and can be easily overwritten.
 
-In general, the main idea of this library — I don't want to know what I need to initialize. I wan't to get pure html from server, insert it into DOM, and all other work, related to initialization of related JS — should be made automatically.
+In general, the main idea of this library — I don't want to know what I need to initialize. I wan't to get pure html from server, insert it into DOM, and all other work, related to initialization of corresponding JS — should be made automatically.
