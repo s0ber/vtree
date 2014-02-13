@@ -1,0 +1,28 @@
+{
+  "name": "vtree",
+  "version": "0.1.0",
+  "homepage": "https://github.com/s0ber/vtree",
+  "authors": [
+    "Sergey Shishkalov <sergeyshishkalov@gmail.com>"
+  ],
+  "description": "Library for automated initialization of backbone views",
+
+  "devDependencies": {
+    "modula": ""
+  },
+
+  "dependencies": {
+    "jquery": "",
+    "underscore": "",
+    "backbone": "",
+    "sugar": ""
+  },
+
+  "license": "MIT",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ]
+}
