@@ -7,11 +7,8 @@
   ],
   "description": "Library for automated initialization of backbone views",
 
-  "devDependencies": {
-    "modula": ""
-  },
-
   "dependencies": {
+    "modula": "",
     "jquery": "",
     "underscore": "",
     "backbone": "",
