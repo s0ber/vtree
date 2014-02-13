@@ -5,14 +5,18 @@ module.exports = function (grunt) {
         basePath: '',
         frameworks: ['mocha', 'sinon-chai'],
         files: [
-          { pattern: 'spec/fixtures/**/*.html',
+          { pattern: 'spec/fixtures/*.html',
             included: true },
 
           'bower_components/jquery/jquery.js',
           'bower_components/modula/lib/modula.js',
           'bower_components/sugar/release/sugar-full.development.js',
           'bower_components/underscore/underscore.js',
-          'bower_components/backbone/backbone.js'
+          'bower_components/backbone/backbone.js',
+
+          'src/vtree.coffee',
+          'src/*_src/*.coffee',
+          'spec/**/*_spec.coffee'
         ],
         exclude: [],
         reporters: ['progress'],
