@@ -10,17 +10,19 @@ This library also provides dom manipulations methods, which helps to automatical
 
 Let's say we have such HTML:
 
-    <html>
-      <div data-app="my_app">
-        <header data-view="header"></header>
-        <section data-app="content">
-          <article data-view="item"></article>
-          <article data-view="item"></article>
-          <article data-view="item"></article>
-        </section>
-        <footer data-view="footer"></footer>
-      </div>
-    </html>
+``` html
+<html>
+  <div data-app="my_app">
+    <header data-view="header"></header>
+    <section data-app="content">
+      <article data-view="item"></article>
+      <article data-view="item"></article>
+      <article data-view="item"></article>
+    </section>
+    <footer data-view="footer"></footer>
+  </div>
+</html>
+```
 
 **Vtree** will initialize views based on ```[data-app]``` and ```[data-view]``` attributes. Actually, instances of next classes will be created in specified order:
 
