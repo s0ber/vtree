@@ -8,8 +8,6 @@ class TreeManager
   constructor: (@options) ->
     @options ?= {appSelector: '[data-app]', viewSelector: '[data-view]'}
 
-    # TODO: add ability to set order for library sources
-    # (I haven't find a way of doing this)
     @ViewNode = ViewNode
     @ViewWrapper = ViewWrapper
     @initViewHooks()
