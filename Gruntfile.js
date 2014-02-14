@@ -8,7 +8,7 @@ module.exports = function (grunt) {
           { pattern: 'spec/fixtures/*.html',
             included: true },
 
-          'bower_components/jquery/jquery.js',
+          'bower_components/jquery/dist/jquery.js',
           'bower_components/modula/lib/modula.js',
           'bower_components/sugar/release/sugar-full.development.js',
           'bower_components/underscore/underscore.js',
