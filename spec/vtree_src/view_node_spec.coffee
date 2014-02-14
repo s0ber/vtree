@@ -1,4 +1,3 @@
-Vtree = require('vtree')
 ViewNode = require('vtree/view_node')
 ViewHooks = require('vtree/view_hooks')
 
@@ -12,19 +11,23 @@ describe 'ViewNode', ->
     sinon.spy(ViewNode::, 'setAsRemoved')
 
   beforeEach ->
+    @options = {option: 'value'}
     @$el = $('div')
     @$secondEl = $('div')
     @$thirdEl = $('div')
     @$fourthEl = $('div')
 
-    @viewNode = new ViewNode(@$el)
+    @viewNode = new ViewNode(@$el, null, @options)
     @secondViewNode = new ViewNode(@$secondEl)
     @thirdViewNode = new ViewNode(@$thirdEl)
     @fourthViewNode = new ViewNode(@$fourthEl)
 
   describe '.constructor', ->
-    it 'shares options from base Vtree class', ->
-      expect(@viewNode.options).to.be.equal Vtree.options
+    it 'saves provided options in @options', ->
+      expect(@viewNode.options).to.be.equal @options
+
+    it 'saves reference to empty object in @options if no options provided', ->
+      expect(@secondViewNode.options).to.be.eql {}
 
     it 'has uniq id', ->
       ids = [@viewNode.id, @secondViewNode.id, @thirdViewNode.id]

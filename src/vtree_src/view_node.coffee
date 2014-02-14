@@ -1,12 +1,10 @@
-ViewFactory = require('vtree')
 ViewHooks = require('vtree/view_hooks')
 
 class ViewNode
 
   viewNodeId = 1
 
-  constructor: (@$el, viewHooks) ->
-    @options = ViewFactory.options
+  constructor: (@$el, viewHooks, @options = {}) ->
     @viewHooks = viewHooks || new ViewHooks()
 
     @el = @$el[0]

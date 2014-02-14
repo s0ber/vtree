@@ -1,22 +1,23 @@
-Vtree = require('vtree')
 NodesCache = require('vtree/nodes_cache')
+ViewNode = require('vtree/view_node')
+ViewWrapper = require('vtree/view_wrapper')
+ViewHooks = require('vtree/view_hooks')
 
 class TreeManager
 
-  constructor: ->
-    @options = Vtree.options
+  constructor: (@options) ->
+    @options ?= {appSelector: '[data-app]', viewSelector: '[data-view]'}
 
     # TODO: add ability to set order for library sources
     # (I haven't find a way of doing this)
-    @ViewNode = require('vtree/view_node')
-    @ViewWrapper = require('vtree/view_wrapper')
+    @ViewNode = ViewNode
+    @ViewWrapper = ViewWrapper
     @initViewHooks()
 
     @initialNodes = []
     @nodesCache = new NodesCache()
 
   initViewHooks: ->
-    ViewHooks = require('vtree/view_hooks')
     @viewHooks = new ViewHooks
     @viewHooks.onInit @addViewNodeIdToElData.bind(@)
     @viewHooks.onInit @addRemoveEventHandlerToEl.bind(@)
@@ -35,7 +36,7 @@ class TreeManager
     @initialNodes = []
 
     for i in [0...$els.length]
-      node = new @ViewNode($els.eq(i), @viewHooks)
+      node = new @ViewNode($els.eq(i), @viewHooks, @options)
       @nodesCache.add(node)
       @initialNodes.push(node)
 

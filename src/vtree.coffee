@@ -1,6 +1,8 @@
 # TODO: at this moment complicated views factory only works with Modula,
 # export to window is not supported
 
+TreeManager = require('vtree/tree_manager')
+
 class Vtree
 
   VIEW_SELECTOR = '[data-view]'
@@ -20,9 +22,7 @@ class Vtree
   @initTreeManager: ->
     return if @isTreeManagerInitialized()
     @setTreeManagerAsInitialized()
-
-    TreeManager = require('vtree/tree_manager')
-    @treeManager = new TreeManager
+    @treeManager = new TreeManager(@options)
 
   @createViewsTree: ->
     @treeManager.createTree()

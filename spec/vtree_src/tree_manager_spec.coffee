@@ -1,4 +1,3 @@
-Vtree = require('vtree')
 TreeManager = require('vtree/tree_manager')
 NodesCache = require('vtree/nodes_cache')
 ViewHooks = require('vtree/view_hooks')
@@ -85,11 +84,14 @@ describe 'TreeManager', ->
 
   describe 'Constructor and tree building behavior', ->
     beforeEach ->
-      @treeManager = new TreeManager
+      @options = {appSelector: '[data-app]', viewSelector: '[data-view]'}
+      @treeManager = new TreeManager(@options)
 
     describe '.constructor', ->
-      it 'shares options from base Vtree class', ->
-        expect(@treeManager.options).to.be.equal Vtree.options
+      it 'saves provided options in @options', ->
+        expect(@treeManager.options).to.be.equal @options
+        expect(@treeManager.options).to.have.property 'appSelector'
+        expect(@treeManager.options).to.have.property 'viewSelector'
 
       it 'sets reference to ViewNode constructor in @ViewNode', ->
         expect(@treeManager.ViewNode).to.match(/ViewNode/)

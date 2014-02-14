@@ -14,8 +14,13 @@ module.exports = function (grunt) {
           'bower_components/underscore/underscore.js',
           'bower_components/backbone/backbone.js',
 
+          'src/vtree_src/nodes_cache.coffee',
+          'src/vtree_src/view_hooks.coffee',
+          'src/vtree_src/view_node.coffee',
+          'src/vtree_src/view_wrapper.coffee',
+          'src/vtree_src/tree_manager.coffee',
           'src/vtree.coffee',
-          'src/*_src/*.coffee',
+
           'spec/**/*_spec.coffee'
         ],
         exclude: [],
