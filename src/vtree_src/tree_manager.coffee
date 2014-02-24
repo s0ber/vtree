@@ -1,4 +1,4 @@
-NodesCache = require('vtree/nodes_cache')
+NodesCache = require('vtree/view_nodes_cache')
 ViewNode = require('vtree/view_node')
 ViewWrapper = require('vtree/view_wrapper')
 ViewHooks = require('vtree/view_hooks')

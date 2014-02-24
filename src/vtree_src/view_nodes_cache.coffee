@@ -1,4 +1,4 @@
-class NodesCache
+class ViewNodesCache
 
   constructor: (@nodes = {}, @rootNodes = []) ->
 
@@ -25,4 +25,4 @@ class NodesCache
     @nodes = {}
     @rootNodes = []
 
-modula.export('vtree/nodes_cache', NodesCache)
+modula.export('vtree/view_nodes_cache', ViewNodesCache)

@@ -12,9 +12,8 @@ module.exports = function (grunt) {
           'bower_components/modula/lib/modula.js',
           'bower_components/sugar/release/sugar-full.development.js',
           'bower_components/underscore/underscore.js',
-          'bower_components/backbone/backbone.js',
 
-          'src/vtree_src/nodes_cache.coffee',
+          'src/vtree_src/view_nodes_cache.coffee',
           'src/vtree_src/view_hooks.coffee',
           'src/vtree_src/view_node.coffee',
           'src/vtree_src/view_wrapper.coffee',

@@ -1,6 +1,7 @@
 ViewWrapper = require('vtree/view_wrapper')
-ViewNode = require('vtree/view_node')
-TreeManager = require('vtree/tree_manager')
+ViewNode = class
+  $el: $('')
+  el: ''
 
 describe 'ViewWrapper', ->
 
@@ -35,7 +36,8 @@ describe 'ViewWrapper', ->
       expect(viewWrapper.initView).to.be.calledOnce
 
   describe 'View initialization', ->
-    before ->
+
+    prepareFixtureComponents = ->
       window.TestAppComponent =
         LayoutView: sinon.spy()
         TestView1View: sinon.spy()
@@ -51,15 +53,15 @@ describe 'ViewWrapper', ->
         TestView7View: sinon.spy()
         TestView9View: sinon.spy()
 
-    beforeEach ->
-      # preparing fixtures data
+    prepareFixtureData = ->
+      TreeManager = require('vtree/tree_manager')
       $els = $render('nodes_with_data_view')
       $newEls = $render('nodes_for_refresh')
-      treeManager = new TreeManager
 
       $('body').empty().append($els)
       $('#app1').append($newEls)
 
+      treeManager = new TreeManager
       treeManager.setInitialNodes()
       treeManager.setParentsForInitialNodes()
       treeManager.setChildrenForInitialNodes()
@@ -73,6 +75,12 @@ describe 'ViewWrapper', ->
         id = $('#' + view).data('view-node-id')
         @["#{view}Node"] = treeManager.nodesCache.getById(id)
         @["#{view}Node"].activate()
+
+    before ->
+      prepareFixtureComponents.apply(@)
+
+    beforeEach ->
+      prepareFixtureData.apply(@)
 
     describe '.initView', ->
       sharedViewConstructors = ->

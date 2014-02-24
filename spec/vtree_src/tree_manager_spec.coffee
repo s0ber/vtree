@@ -1,7 +1,4 @@
 TreeManager = require('vtree/tree_manager')
-NodesCache = require('vtree/nodes_cache')
-ViewHooks = require('vtree/view_hooks')
-ViewWrapper = require('vtree/view_wrapper')
 
 describe 'TreeManager', ->
 
@@ -73,7 +70,7 @@ describe 'TreeManager', ->
         viewNode = new @treeManager.ViewNode($el)
         @treeManager.initView(viewNode)
 
-        expect(viewNode.viewWrapper).to.be.instanceOf(ViewWrapper)
+        expect(viewNode.viewWrapper.constructor).to.match(/ViewWrapper/)
 
     describe '.unloadView', ->
       it 'unloads ViewWrapper instance', ->
@@ -100,7 +97,7 @@ describe 'TreeManager', ->
         expect(@treeManager.ViewWrapper).to.match(/ViewWrapper/)
 
       it 'creates NodesCache instance in @nodesCache', ->
-        expect(@treeManager.nodesCache).to.be.instanceOf(NodesCache)
+        expect(@treeManager.nodesCache.constructor).to.match(/NodesCache/)
 
       it 'has empty @initialNodes list', ->
         expect(@treeManager.initialNodes).to.be.an('array')
