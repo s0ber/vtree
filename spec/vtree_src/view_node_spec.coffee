@@ -1,5 +1,8 @@
 ViewNode = require('vtree/view_node')
-ViewHooks = require('vtree/view_hooks')
+ViewHooks = class
+  init: ->
+  activate: ->
+  unload: ->
 
 describe 'ViewNode', ->
 
@@ -40,7 +43,7 @@ describe 'ViewNode', ->
 
     it 'has reference to new empty ViewHooks instance if not viewHooks provided', ->
       viewNode = new ViewNode(@$el)
-      expect(viewNode.viewHooks).to.be.instanceOf(ViewHooks)
+      expect(viewNode.viewHooks.constructor).to.match(/ViewHooks/)
 
     it 'has reference to provided jquery dom element', ->
       expect(@viewNode.$el).to.be.equal @$el
@@ -50,7 +53,7 @@ describe 'ViewNode', ->
       expect(@viewNode.parent).to.be.null
 
     it 'has empty list reference for @children', ->
-      expect(@viewNode.children).to.be.an('array')
+      expect(@viewNode.children).to.be.an 'array'
       expect(@viewNode.children).to.be.eql []
 
     it 'calls .init method', ->
@@ -89,9 +92,7 @@ describe 'ViewNode', ->
   describe 'Initialization behavior', ->
 
     beforeEach ->
-      @viewHooks = new ViewHooks
-      sinon.spy(@viewHooks, 'init')
-
+      @viewHooks = sinon.createStubInstance(ViewHooks)
       @viewNode = new ViewNode(@$el, @viewHooks)
 
     describe '.init', ->
@@ -106,9 +107,7 @@ describe 'ViewNode', ->
   describe 'Activation behavior', ->
 
     beforeEach ->
-      @viewHooks = new ViewHooks
-      sinon.spy(@viewHooks, 'activate')
-
+      @viewHooks = sinon.createStubInstance(ViewHooks)
       @viewNode = new ViewNode(@$el, @viewHooks)
 
     describe '.activate', ->
@@ -134,9 +133,7 @@ describe 'ViewNode', ->
   describe 'Unload behavior', ->
 
     beforeEach ->
-      @viewHooks = new ViewHooks
-      sinon.spy(@viewHooks, 'unload')
-
+      @viewHooks = sinon.createStubInstance(ViewHooks)
       @viewNode = new ViewNode(@$el, @viewHooks)
 
     describe '.unload', ->

@@ -10,13 +10,13 @@ describe 'NodesCache', ->
     describe '.show', ->
       it 'returns empty hash by default', ->
         nodesHash = @nodesCache.show()
-        expect(nodesHash).to.be.an('object')
+        expect(nodesHash).to.be.an 'object'
         expect(nodesHash).to.be.eql {}
 
     describe '.showRootNodes', ->
       it 'returns empty list by default', ->
         rootNodesList = @nodesCache.showRootNodes()
-        expect(rootNodesList).to.be.an('array')
+        expect(rootNodesList).to.be.an 'array'
         expect(rootNodesList).to.be.eql []
 
   describe 'Cache management actions', ->
@@ -46,7 +46,7 @@ describe 'NodesCache', ->
         @nodesCache.add(@node)
 
         returnedNode = @nodesCache.getById(@node.id)
-        expect(returnedNode).to.be.equal @node
+        expect(returnedNode).to.be.equal(@node)
 
     describe '.removeById', ->
       it 'removes node from nodes hash by provided id', ->
@@ -72,7 +72,7 @@ describe 'NodesCache', ->
         @nodesCache.clear()
 
         nodesHash = @nodesCache.show()
-        expect(nodesHash).to.be.an('object')
+        expect(nodesHash).to.be.an 'object'
         expect(nodesHash).to.be.eql {}
 
       it 'clears root nodes list', ->
@@ -81,5 +81,5 @@ describe 'NodesCache', ->
         @nodesCache.clear()
 
         rootNodesList = @nodesCache.showRootNodes()
-        expect(rootNodesList).to.be.an('array')
+        expect(rootNodesList).to.be.an 'array'
         expect(rootNodesList).to.be.eql []
