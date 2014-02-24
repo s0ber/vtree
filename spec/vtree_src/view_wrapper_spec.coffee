@@ -1,6 +1,6 @@
+ViewWrapper = require('vtree/view_wrapper')
 ViewNode = require('vtree/view_node')
 TreeManager = require('vtree/tree_manager')
-ViewWrapper = require('vtree/view_wrapper')
 
 describe 'ViewWrapper', ->
 
@@ -52,6 +52,7 @@ describe 'ViewWrapper', ->
         TestView9View: sinon.spy()
 
     beforeEach ->
+      # preparing fixtures data
       $els = $render('nodes_with_data_view')
       $newEls = $render('nodes_for_refresh')
       treeManager = new TreeManager
@@ -68,10 +69,10 @@ describe 'ViewWrapper', ->
       @appNode.activate()
 
       # order matters here
-      for el in 'view1 view2 view3 view4 view5 view6 view7 app2 view8 view9'.split(' ')
-        id = $('#' + el).data('view-node-id')
-        @[el + 'Node'] = treeManager.nodesCache.getById(id)
-        @[el + 'Node'].activate()
+      for view in 'view1 view2 view3 view4 view5 view6 view7 app2 view8 view9'.split(' ')
+        id = $('#' + view).data('view-node-id')
+        @["#{view}Node"] = treeManager.nodesCache.getById(id)
+        @["#{view}Node"].activate()
 
     describe '.initView', ->
       sharedViewConstructors = ->

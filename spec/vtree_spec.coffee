@@ -1,5 +1,4 @@
 Vtree = require('vtree')
-TreeManager = require('vtree/tree_manager')
 
 describe 'Vtree', ->
 
@@ -45,7 +44,7 @@ describe 'Vtree', ->
   describe '.initTreeManager', ->
     it 'saves reference to new TreeManager instance in @treeManager', ->
       Vtree.initTreeManager()
-      expect(Vtree.treeManager).to.be.instanceOf(TreeManager)
+      expect(Vtree.treeManager.constructor).to.match(/TreeManager/)
 
   describe '.createViewsTree', ->
     it 'creates view tree with help of @treeManager', ->

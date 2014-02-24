@@ -1,6 +1,3 @@
-# TODO: at this moment complicated views factory only works with Modula,
-# export to window is not supported
-
 TreeManager = require('vtree/tree_manager')
 
 class Vtree
