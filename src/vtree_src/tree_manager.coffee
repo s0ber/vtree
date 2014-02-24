@@ -21,6 +21,7 @@ class TreeManager
     @viewHooks.onInit @addRemoveEventHandlerToEl.bind(@)
     @viewHooks.onActivation @initView.bind(@)
     @viewHooks.onUnload @unloadView.bind(@)
+    @viewHooks.onUnload @deleteViewWrapper.bind(@)
 
   createTree: ->
     @setInitialNodes()
@@ -134,9 +135,12 @@ class TreeManager
     viewNode.$el.on('remove', => @removeNode(viewNode))
 
   initView: (viewNode) ->
-    viewNode.viewWrapper = new @ViewWrapper(viewNode)
+    viewNode.viewWrapper = new @ViewWrapper(viewNode, @options)
 
   unloadView: (viewNode) ->
     viewNode.viewWrapper?.unload?()
+
+  deleteViewWrapper: (viewNode) ->
+    delete(viewNode.viewWrapper)
 
 modula.export('vtree/tree_manager', TreeManager)

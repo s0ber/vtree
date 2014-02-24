@@ -18,6 +18,7 @@ module.exports = function (grunt) {
           'src/vtree_src/view_node.coffee',
           'src/vtree_src/view_wrapper.coffee',
           'src/vtree_src/tree_manager.coffee',
+          'src/vtree_src/vtree_launcher.coffee',
           'src/vtree.coffee',
 
           'spec/**/*_spec.coffee'

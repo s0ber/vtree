@@ -2,38 +2,68 @@ ViewWrapper = require('vtree/view_wrapper')
 ViewNode = class
   $el: $('')
   el: ''
+VtreeHooks = class
+  init: ->
+  unload: ->
 
 describe 'ViewWrapper', ->
 
   $render = (name) ->
     $(window.__html__["spec/fixtures/#{name}.html"])
 
-  describe '.constructor', ->
+  describe 'Basic methods', ->
     beforeEach ->
       @$el = $('<div />')
       @viewNode = new ViewNode(@$el)
-      @viewWrapper = new ViewWrapper(@viewNode)
+      vtreeHooks = sinon.createStubInstance(VtreeHooks)
 
-    it 'saves reference to provided view node in @viewNode', ->
-      expect(@viewWrapper.viewNode).to.be.equal @viewNode
+      @options = {option: 'value', vtreeHooks: vtreeHooks}
+      @viewWrapper = new ViewWrapper(@viewNode, @options)
 
-    it 'saves reference to viewNode.$el in @$el', ->
-      expect(@viewWrapper.$el).to.be.equal @viewNode.$el
+    describe '.constructor', ->
 
-    it 'saves reference to viewNode.el in @el', ->
-      expect(@viewWrapper.el).to.be.equal @viewNode.el
+      it 'saves reference to provided view node in @viewNode', ->
+        expect(@viewWrapper.viewNode).to.be.equal @viewNode
 
-    it 'identifies view', ->
-      sinon.spy(ViewWrapper::, 'identifyView')
-      viewNode = new ViewNode(@$el)
-      viewWrapper = new ViewWrapper(viewNode)
-      expect(viewWrapper.identifyView).to.be.calledOnce
+      it 'saves reference to viewNode.$el in @$el', ->
+        expect(@viewWrapper.$el).to.be.equal @viewNode.$el
 
-    it 'initializes view', ->
-      sinon.spy(ViewWrapper::, 'initView')
-      viewNode = new ViewNode(@$el)
-      viewWrapper = new ViewWrapper(viewNode)
-      expect(viewWrapper.initView).to.be.calledOnce
+      it 'saves reference to viewNode.el in @el', ->
+        expect(@viewWrapper.el).to.be.equal @viewNode.el
+
+      it 'saves provided options in @options', ->
+        expect(@viewWrapper.options).to.be.equal @options
+
+      it 'identifies view', ->
+        sinon.spy(ViewWrapper::, 'identifyView')
+        viewNode = new ViewNode(@$el)
+        viewWrapper = new ViewWrapper(viewNode)
+        expect(viewWrapper.identifyView).to.be.calledOnce
+
+      it 'initializes view', ->
+        sinon.spy(ViewWrapper::, 'initView')
+        viewNode = new ViewNode(@$el)
+        viewWrapper = new ViewWrapper(viewNode)
+        expect(viewWrapper.initView).to.be.calledOnce
+
+      it 'initializes new Vtree node', ->
+        sinon.spy(ViewWrapper::, 'initVtreeNode')
+        viewNode = new ViewNode(@$el)
+        viewWrapper = new ViewWrapper(viewNode)
+        expect(viewWrapper.initVtreeNode).to.be.calledOnce
+
+    describe '.initVtreeNode', ->
+      it 'calls VtreeHooks init hooks', ->
+        expect(@viewWrapper.options.vtreeHooks.init).to.be.calledOnce
+
+      it 'provides node object to init call', ->
+        object = @viewWrapper.options.vtreeHooks.init.lastCall.args[0]
+        expect(object.constructor).to.match(/VtreeNode/)
+
+    describe '.createNode', ->
+      it 'returns ViewNode object based on current state of ViewWrapper', ->
+        object = @viewWrapper.createNode()
+        expect(object.constructor).to.match(/VtreeNode/)
 
   describe 'View initialization', ->
 

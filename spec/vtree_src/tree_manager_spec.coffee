@@ -1,3 +1,4 @@
+VtreeLauncher = require('vtree/vtree_launcher')
 TreeManager = require('vtree/tree_manager')
 
 describe 'TreeManager', ->
@@ -8,6 +9,7 @@ describe 'TreeManager', ->
 
   describe 'ViewNode callbacks', ->
     before ->
+      VtreeLauncher.initRemoveEvent()
       sinon.spy(TreeManager::, 'initViewHooks')
 
     it 'initializes hooks for view nodes when creating instance', ->
@@ -48,6 +50,13 @@ describe 'TreeManager', ->
         viewNode.unload()
         expect(@treeManager.unloadView).to.be.calledOnce
 
+      it 'adds @deleteViewWrapper unload hook', ->
+        sinon.spy(TreeManager::, 'deleteViewWrapper')
+        @treeManager = new TreeManager
+        viewNode = new @treeManager.ViewNode(@$el, @treeManager.viewHooks)
+        viewNode.unload()
+        expect(@treeManager.deleteViewWrapper).to.be.calledOnce
+
     describe '.addViewNodeIdToElData', ->
       it "adds viewNodeId to node's $element", ->
         $el = $('<div />')
@@ -57,7 +66,7 @@ describe 'TreeManager', ->
         expect($el.data('view-node-id')).to.be.eql viewNode.id
 
     describe '.addRemoveEventHandlerToEl', ->
-      it "adds viewNodeId to node's $element", ->
+      it "adds calls @treemanager.removeNode with $el viewNode provided", ->
         $el = $('<div />')
         viewNode = new @treeManager.ViewNode($el, @treeManager.viewHooks)
         sinon.spy(@treeManager, 'removeNode')
@@ -78,6 +87,12 @@ describe 'TreeManager', ->
         viewNode.viewWrapper = {unload: sinon.spy()}
         @treeManager.unloadView(viewNode)
         expect(viewNode.viewWrapper.unload).to.be.calledOnce
+
+    describe '.deleteViewWrapper', ->
+      it 'deletes ViewWrapper instance from corresponding ViewNode', ->
+        viewNode = {viewWrapper: {}}
+        @treeManager.deleteViewWrapper(viewNode)
+        expect(viewNode.viewWrapper).to.be.undefined
 
   describe 'Constructor and tree building behavior', ->
     beforeEach ->
