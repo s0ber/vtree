@@ -1,5 +1,5 @@
 ViewNode = require('vtree/view_node')
-VtreeHooks = class
+Hooks = class
   init: ->
   activate: ->
   unload: ->
@@ -36,14 +36,14 @@ describe 'ViewNode', ->
       ids = [@viewNode.id, @secondViewNode.id, @thirdViewNode.id]
       expect(ids.unique()).to.have.length 3
 
-    it 'has reference to provided VtreeHooks instance if provided', ->
-      hooks = new VtreeHooks
+    it 'has reference to provided Hooks instance if provided', ->
+      hooks = new Hooks
       viewNode = new ViewNode(@$el, hooks)
       expect(viewNode.hooks).to.be.equal hooks
 
-    it 'has reference to new empty VtreeHooks instance if not hooks object provided', ->
+    it 'has reference to new empty Hooks instance if not hooks object provided', ->
       viewNode = new ViewNode(@$el)
-      expect(viewNode.hooks.constructor).to.match(/VtreeHooks/)
+      expect(viewNode.hooks.constructor).to.match(/Hooks/)
 
     it 'has reference to provided jquery dom element', ->
       expect(@viewNode.$el).to.be.equal @$el
@@ -92,7 +92,7 @@ describe 'ViewNode', ->
   describe 'Initialization behavior', ->
 
     beforeEach ->
-      @hooks = sinon.createStubInstance(VtreeHooks)
+      @hooks = sinon.createStubInstance(Hooks)
       @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.init', ->
@@ -107,7 +107,7 @@ describe 'ViewNode', ->
   describe 'Activation behavior', ->
 
     beforeEach ->
-      @hooks = sinon.createStubInstance(VtreeHooks)
+      @hooks = sinon.createStubInstance(Hooks)
       @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.activate', ->
@@ -133,7 +133,7 @@ describe 'ViewNode', ->
   describe 'Unload behavior', ->
 
     beforeEach ->
-      @hooks = sinon.createStubInstance(VtreeHooks)
+      @hooks = sinon.createStubInstance(Hooks)
       @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.unload', ->

@@ -9,8 +9,8 @@ class Launcher
     viewSelector: VIEW_SELECTOR
     appSelector: APP_SELECTOR
 
-  @launch: (vtreeHooks) ->
-    @options.hooks = vtreeHooks
+  @launch: (hooks) ->
+    @options.hooks = hooks
 
     @initTreeManager()
     @initRemoveEvent()

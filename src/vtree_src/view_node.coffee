@@ -1,11 +1,11 @@
-VtreeHooks = require('vtree/vtree_hooks')
+Hooks = require('vtree/hooks')
 
 class ViewNode
 
   viewNodeId = 1
 
   constructor: (@$el, hooks, @options = {}) ->
-    @hooks = hooks || new VtreeHooks()
+    @hooks = hooks || new Hooks()
 
     @el = @$el[0]
     @id = "viewNodeId#{viewNodeId}"

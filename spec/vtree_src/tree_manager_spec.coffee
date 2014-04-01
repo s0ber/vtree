@@ -20,9 +20,9 @@ describe 'TreeManager', ->
       @$el = $('<div />')
 
     describe '.initViewHooks', ->
-      it 'saves new VtreeHooks object in @hooks', ->
+      it 'saves new Hooks object in @hooks', ->
         @treeManager = new TreeManager
-        expect(@treeManager.hooks.constructor).to.match(/VtreeHooks/)
+        expect(@treeManager.hooks.constructor).to.match(/Hooks/)
 
       it 'adds @addViewNodeIdToElData init hook', ->
         sinon.spy(TreeManager::, 'addViewNodeIdToElData')

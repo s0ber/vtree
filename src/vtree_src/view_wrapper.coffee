@@ -41,7 +41,7 @@ class ViewWrapper
 
   initVtreeNode: ->
     @node = @createNode()
-    @vtreeHooks()?.init?(@node)
+    @hooks()?.init?(@node)
 
   createNode: ->
     class VtreeNode
@@ -73,7 +73,7 @@ class ViewWrapper
   unload: ->
     delete @viewNode
 
-  vtreeHooks: ->
-    @options.vtreeHooks
+  hooks: ->
+    @options.hooks
 
 modula.export('vtree/view_wrapper', ViewWrapper)

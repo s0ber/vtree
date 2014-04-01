@@ -1,9 +1,9 @@
-VtreeHooks = require('vtree/vtree_hooks')
+Hooks = require('vtree/hooks')
 
-describe 'VtreeHooks', ->
+describe 'Hooks', ->
 
   beforeEach ->
-    @hooks = new VtreeHooks()
+    @hooks = new Hooks()
     @callback = sinon.spy()
     @secondCallback = sinon.spy()
     @thirdCallback = sinon.spy()

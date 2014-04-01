@@ -1,9 +1,9 @@
 Launcher = require('vtree/launcher')
-VtreeHooks = require('vtree/vtree_hooks')
+Hooks = require('vtree/hooks')
 
 class Vtree
 
-  hooks = new VtreeHooks()
+  hooks = new Hooks()
 
   @initNodes: ->
     @_launcher().launch(hooks)

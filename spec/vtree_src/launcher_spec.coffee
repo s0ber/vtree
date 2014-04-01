@@ -1,5 +1,5 @@
 Launcher = require('vtree/launcher')
-VtreeHooks = ->
+Hooks = ->
 
 describe 'Launcher', ->
 
@@ -22,8 +22,8 @@ describe 'Launcher', ->
       expect(fnSpy).to.be.calledTwice
 
   describe '.launch', ->
-    it 'saves provided VtreeHooks object in @options', ->
-      hooks = sinon.createStubInstance(VtreeHooks)
+    it 'saves provided Hooks object in @options', ->
+      hooks = sinon.createStubInstance(Hooks)
 
       Launcher.launch(hooks)
       expect(Launcher.options.hooks).to.be.eql hooks

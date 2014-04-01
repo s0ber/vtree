@@ -2,7 +2,7 @@ ViewWrapper = require('vtree/view_wrapper')
 ViewNode = class
   $el: $('')
   el: ''
-VtreeHooks = class
+Hooks = class
   init: ->
   unload: ->
 
@@ -15,9 +15,9 @@ describe 'ViewWrapper', ->
     beforeEach ->
       @$el = $('<div />')
       @viewNode = new ViewNode(@$el)
-      vtreeHooks = sinon.createStubInstance(VtreeHooks)
+      hooks = sinon.createStubInstance(Hooks)
 
-      @options = {option: 'value', vtreeHooks: vtreeHooks}
+      @options = {option: 'value', hooks}
       @viewWrapper = new ViewWrapper(@viewNode, @options)
 
     describe '.constructor', ->
@@ -53,11 +53,11 @@ describe 'ViewWrapper', ->
         expect(viewWrapper.initVtreeNode).to.be.calledOnce
 
     describe '.initVtreeNode', ->
-      it 'calls VtreeHooks init hooks', ->
-        expect(@viewWrapper.options.vtreeHooks.init).to.be.calledOnce
+      it 'calls Hooks init hooks', ->
+        expect(@viewWrapper.options.hooks.init).to.be.calledOnce
 
       it 'provides node object to init call', ->
-        object = @viewWrapper.options.vtreeHooks.init.lastCall.args[0]
+        object = @viewWrapper.options.hooks.init.lastCall.args[0]
         expect(object.constructor).to.match(/VtreeNode/)
 
     describe '.createNode', ->

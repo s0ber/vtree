@@ -1,7 +1,7 @@
 NodesCache = require('vtree/view_nodes_cache')
 ViewNode = require('vtree/view_node')
 ViewWrapper = require('vtree/view_wrapper')
-VtreeHooks = require('vtree/vtree_hooks')
+Hooks = require('vtree/hooks')
 
 class TreeManager
 
@@ -16,7 +16,7 @@ class TreeManager
     @nodesCache = new NodesCache()
 
   initViewHooks: ->
-    @hooks = new VtreeHooks
+    @hooks = new Hooks
     @hooks.onInit @addViewNodeIdToElData.bind(@)
     @hooks.onInit @addRemoveEventHandlerToEl.bind(@)
     @hooks.onActivation @initView.bind(@)
