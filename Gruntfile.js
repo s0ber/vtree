@@ -13,7 +13,7 @@ module.exports = function (grunt) {
           'bower_components/sugar/release/sugar-full.development.js',
           'bower_components/underscore/underscore.js',
 
-          'src/vtree_src/view_nodes_cache.coffee',
+          'src/vtree_src/vtree_nodes_cache.coffee',
           'src/vtree_src/hooks.coffee',
           'src/vtree_src/view_node.coffee',
           'src/vtree_src/view_wrapper.coffee',

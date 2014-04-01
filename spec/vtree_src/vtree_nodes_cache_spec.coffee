@@ -1,9 +1,9 @@
-ViewNodesCache = require('vtree/view_nodes_cache')
+VtreeNodesCache = require('vtree/vtree_nodes_cache')
 
-describe 'ViewNodesCache', ->
+describe 'VtreeNodesCache', ->
 
   beforeEach ->
-    @viewNodesCache = new ViewNodesCache
+    @viewNodesCache = new VtreeNodesCache
 
   describe 'Initial state of cache', ->
 
