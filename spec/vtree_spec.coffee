@@ -1,18 +1,18 @@
 Vtree = require('vtree')
-VtreeLauncher =
+Launcher =
   launch: sinon.spy()
   createViewsTree: sinon.spy()
 
 describe 'Vtree', ->
 
   before ->
-    Vtree._launcher = (-> VtreeLauncher)
+    Vtree._launcher = (-> Launcher)
 
   describe '.initNodes', ->
-    it "calls VtreeLauncher's launch and createViewsTree functions", ->
+    it "calls Launcher's launch and createViewsTree functions", ->
       Vtree.initNodes()
-      expect(VtreeLauncher.launch).to.be.calledOnce
-      expect(VtreeLauncher.createViewsTree).to.be.calledOnce
+      expect(Launcher.launch).to.be.calledOnce
+      expect(Launcher.createViewsTree).to.be.calledOnce
 
   describe '.getInitCallbacks', ->
     it 'returns empty list by default', ->

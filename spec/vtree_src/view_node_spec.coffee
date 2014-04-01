@@ -1,5 +1,5 @@
 ViewNode = require('vtree/view_node')
-ViewHooks = class
+VtreeHooks = class
   init: ->
   activate: ->
   unload: ->
@@ -36,14 +36,14 @@ describe 'ViewNode', ->
       ids = [@viewNode.id, @secondViewNode.id, @thirdViewNode.id]
       expect(ids.unique()).to.have.length 3
 
-    it 'has reference to provided ViewHooks instance if provided', ->
-      viewHooks = new ViewHooks
-      viewNode = new ViewNode(@$el, viewHooks)
-      expect(viewNode.viewHooks).to.be.equal viewHooks
+    it 'has reference to provided VtreeHooks instance if provided', ->
+      hooks = new VtreeHooks
+      viewNode = new ViewNode(@$el, hooks)
+      expect(viewNode.hooks).to.be.equal hooks
 
-    it 'has reference to new empty ViewHooks instance if not viewHooks provided', ->
+    it 'has reference to new empty VtreeHooks instance if not hooks object provided', ->
       viewNode = new ViewNode(@$el)
-      expect(viewNode.viewHooks.constructor).to.match(/ViewHooks/)
+      expect(viewNode.hooks.constructor).to.match(/VtreeHooks/)
 
     it 'has reference to provided jquery dom element', ->
       expect(@viewNode.$el).to.be.equal @$el
@@ -92,32 +92,32 @@ describe 'ViewNode', ->
   describe 'Initialization behavior', ->
 
     beforeEach ->
-      @viewHooks = sinon.createStubInstance(ViewHooks)
-      @viewNode = new ViewNode(@$el, @viewHooks)
+      @hooks = sinon.createStubInstance(VtreeHooks)
+      @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.init', ->
-      it 'calls @viewHooks.init method', ->
+      it 'calls @hooks.init method', ->
         @viewNode.init()
-        expect(@viewHooks.init).to.be.called.once
+        expect(@hooks.init).to.be.called.once
 
-      it 'calls @viewHooks.init with current viewNode instance as first argument', ->
+      it 'calls @hooks.init with current viewNode instance as first argument', ->
         @viewNode.init()
-        expect(@viewHooks.init.lastCall.args[0]).to.be.equal @viewNode
+        expect(@hooks.init.lastCall.args[0]).to.be.equal @viewNode
 
   describe 'Activation behavior', ->
 
     beforeEach ->
-      @viewHooks = sinon.createStubInstance(ViewHooks)
-      @viewNode = new ViewNode(@$el, @viewHooks)
+      @hooks = sinon.createStubInstance(VtreeHooks)
+      @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.activate', ->
-      it 'calls @viewHooks.activate method', ->
+      it 'calls @hooks.activate method', ->
         @viewNode.activate()
-        expect(@viewHooks.activate).to.be.called.once
+        expect(@hooks.activate).to.be.called.once
 
-      it 'calls @viewHooks.activate with current viewNode instance as first argument', ->
+      it 'calls @hooks.activate with current viewNode instance as first argument', ->
         @viewNode.activate()
-        expect(@viewHooks.activate.lastCall.args[0]).to.be.equal @viewNode
+        expect(@hooks.activate.lastCall.args[0]).to.be.equal @viewNode
 
       it 'sets viewNode as activated', ->
         @viewNode.activate()
@@ -133,18 +133,18 @@ describe 'ViewNode', ->
   describe 'Unload behavior', ->
 
     beforeEach ->
-      @viewHooks = sinon.createStubInstance(ViewHooks)
-      @viewNode = new ViewNode(@$el, @viewHooks)
+      @hooks = sinon.createStubInstance(VtreeHooks)
+      @viewNode = new ViewNode(@$el, @hooks)
 
     describe '.unload', ->
-      it 'calls @viewHooks.unload method', ->
+      it 'calls @hooks.unload method', ->
         @viewNode.unload()
 
-        expect(@viewHooks.unload).to.be.called.once
+        expect(@hooks.unload).to.be.called.once
 
       it 'calls callbacks with current viewNode instance as first argument', ->
         @viewNode.unload()
-        expect(@viewHooks.unload.lastCall.args[0]).to.be.equal @viewNode
+        expect(@hooks.unload.lastCall.args[0]).to.be.equal @viewNode
 
       it 'sets viewNode as not activated', ->
         @viewNode.activate()

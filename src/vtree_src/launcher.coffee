@@ -1,6 +1,6 @@
 TreeManager = require('vtree/tree_manager')
 
-class VtreeLauncher
+class Launcher
 
   VIEW_SELECTOR = '[data-view]'
   APP_SELECTOR = '[data-app]'
@@ -9,8 +9,8 @@ class VtreeLauncher
     viewSelector: VIEW_SELECTOR
     appSelector: APP_SELECTOR
 
-  @launch: (viewHooks) ->
-    @options.vtreeHooks = viewHooks
+  @launch: (vtreeHooks) ->
+    @options.hooks = vtreeHooks
 
     @initTreeManager()
     @initRemoveEvent()
@@ -84,4 +84,4 @@ class VtreeLauncher
   @viewSelector: ->
     @_viewSelector ||= "#{@options.appSelector}, #{@options.viewSelector}"
 
-modula.export('vtree/vtree_launcher', VtreeLauncher)
+modula.export('vtree/launcher', Launcher)

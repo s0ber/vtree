@@ -1,30 +1,30 @@
-VtreeLauncher = require('vtree/vtree_launcher')
-ViewHooks = require('vtree/view_hooks')
+Launcher = require('vtree/launcher')
+VtreeHooks = require('vtree/vtree_hooks')
 
 class Vtree
 
-  viewHooks = new ViewHooks()
+  hooks = new VtreeHooks()
 
   @initNodes: ->
-    @_launcher().launch(viewHooks)
+    @_launcher().launch(hooks)
     @_launcher().createViewsTree()
 
   @onNodeInit: (callback) ->
-    viewHooks.onInit(callback)
+    hooks.onInit(callback)
 
   @getInitCallbacks: ->
-    viewHooks.onInitCallbacks()
+    hooks.onInitCallbacks()
 
   @onNodeUnload: (callback) ->
-    viewHooks.onUnload(callback)
+    hooks.onUnload(callback)
 
   @getUnloadCallbacks: ->
-    viewHooks.onUnloadCallbacks()
+    hooks.onUnloadCallbacks()
 
 
   # private
 
   @_launcher: ->
-    VtreeLauncher
+    Launcher
 
 modula.export('vtree', Vtree)

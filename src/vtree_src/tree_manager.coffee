@@ -1,7 +1,7 @@
 NodesCache = require('vtree/view_nodes_cache')
 ViewNode = require('vtree/view_node')
 ViewWrapper = require('vtree/view_wrapper')
-ViewHooks = require('vtree/view_hooks')
+VtreeHooks = require('vtree/vtree_hooks')
 
 class TreeManager
 
@@ -16,12 +16,12 @@ class TreeManager
     @nodesCache = new NodesCache()
 
   initViewHooks: ->
-    @viewHooks = new ViewHooks
-    @viewHooks.onInit @addViewNodeIdToElData.bind(@)
-    @viewHooks.onInit @addRemoveEventHandlerToEl.bind(@)
-    @viewHooks.onActivation @initView.bind(@)
-    @viewHooks.onUnload @unloadView.bind(@)
-    @viewHooks.onUnload @deleteViewWrapper.bind(@)
+    @hooks = new VtreeHooks
+    @hooks.onInit @addViewNodeIdToElData.bind(@)
+    @hooks.onInit @addRemoveEventHandlerToEl.bind(@)
+    @hooks.onActivation @initView.bind(@)
+    @hooks.onUnload @unloadView.bind(@)
+    @hooks.onUnload @deleteViewWrapper.bind(@)
 
   createTree: ->
     @setInitialNodes()
@@ -35,7 +35,7 @@ class TreeManager
     @initialNodes = []
 
     for i in [0...$els.length]
-      node = new @ViewNode($els.eq(i), @viewHooks, @options)
+      node = new @ViewNode($els.eq(i), @hooks, @options)
       @nodesCache.add(node)
       @initialNodes.push(node)
 
@@ -116,7 +116,7 @@ class TreeManager
 
       # else we need to initialize new viewNode
       else
-        node = new @ViewNode($els.eq(i), @viewHooks)
+        node = new @ViewNode($els.eq(i), @hooks)
         @nodesCache.add(node)
 
       newNodes.push(node)

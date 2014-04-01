@@ -1,4 +1,4 @@
-class ViewHooks
+class VtreeHooks
 
   onInit: (callback) ->
     @onInitCallbacks().push(callback)
@@ -29,4 +29,4 @@ class ViewHooks
   unload: (args...) ->
     callback(args...) for callback in @onUnloadCallbacks()
 
-modula.export('vtree/view_hooks', ViewHooks)
+modula.export('vtree/vtree_hooks', VtreeHooks)

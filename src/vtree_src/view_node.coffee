@@ -1,11 +1,11 @@
-ViewHooks = require('vtree/view_hooks')
+VtreeHooks = require('vtree/vtree_hooks')
 
 class ViewNode
 
   viewNodeId = 1
 
-  constructor: (@$el, viewHooks, @options = {}) ->
-    @viewHooks = viewHooks || new ViewHooks()
+  constructor: (@$el, hooks, @options = {}) ->
+    @hooks = hooks || new VtreeHooks()
 
     @el = @$el[0]
     @id = "viewNodeId#{viewNodeId}"
@@ -29,13 +29,13 @@ class ViewNode
     @children = _.reject(@children, (childNode) -> childNode is viewNode)
 
   init: ->
-    @viewHooks.init(@)
+    @hooks.init(@)
 
   activate: ->
     return if @isActivated()
 
     @setAsActivated()
-    @viewHooks.activate(@)
+    @hooks.activate(@)
 
   remove: ->
     return if @isRemoved()
@@ -45,7 +45,7 @@ class ViewNode
       @unload()
 
   unload: ->
-    @viewHooks.unload(@)
+    @hooks.unload(@)
     @setAsNotActivated()
 
 
