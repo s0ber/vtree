@@ -11,14 +11,15 @@ describe 'NodeWrapper', ->
   $render = (name) ->
     $(window.__html__["spec/fixtures/#{name}.html"])
 
+  before ->
+    hooks = sinon.createStubInstance(Hooks)
+    NodeWrapper::_hooks = (-> hooks)
+
   describe 'Basic methods', ->
     beforeEach ->
       @$el = $('<div />')
       @node = new Node(@$el)
-      hooks = sinon.createStubInstance(Hooks)
-
-      @options = {option: 'value', hooks}
-      @nodeWrapper = new NodeWrapper(@node, @options)
+      @nodeWrapper = new NodeWrapper(@node)
 
     describe '.constructor', ->
 
@@ -30,9 +31,6 @@ describe 'NodeWrapper', ->
 
       it 'saves reference to node.el in @el', ->
         expect(@nodeWrapper.el).to.be.equal @node.el
-
-      it 'saves provided options in @options', ->
-        expect(@nodeWrapper.options).to.be.equal @options
 
       it 'identifies view', ->
         sinon.spy(NodeWrapper::, 'identifyView')
@@ -54,10 +52,12 @@ describe 'NodeWrapper', ->
 
     describe '.initVtreeNode', ->
       it 'calls Hooks init hooks', ->
-        expect(@nodeWrapper.options.hooks.init).to.be.calledOnce
+        initialCallCount = @nodeWrapper._hooks().init.callCount
+        @nodeWrapper.initVtreeNode()
+        expect(@nodeWrapper._hooks().init.callCount).to.be.eql(initialCallCount + 1)
 
       it 'provides node object to init call', ->
-        object = @nodeWrapper.options.hooks.init.lastCall.args[0]
+        object = @nodeWrapper._hooks().init.lastCall.args[0]
         expect(object.constructor).to.match(/VtreeNode/)
 
     describe '.createNode', ->

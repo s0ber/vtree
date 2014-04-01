@@ -4,7 +4,7 @@ class NodeWrapper
   COMPONENT_PATTERN = /(.+)#(.+)/
   SECRET_KEY = 'semarf'
 
-  constructor: (@node, @options = {}) ->
+  constructor: (@node) ->
     @$el = @node.$el
     @el = @node.el
 
@@ -41,7 +41,7 @@ class NodeWrapper
 
   initVtreeNode: ->
     @vtreeNode = @createNode()
-    @hooks()?.init?(@vtreeNode)
+    @_hooks()?.init?(@vtreeNode)
 
   createNode: ->
     class VtreeNode
@@ -73,7 +73,10 @@ class NodeWrapper
   unload: ->
     delete @node
 
-  hooks: ->
-    @options.hooks
+
+  # private
+
+  _hooks: ->
+    # @options.hooks
 
 modula.export('vtree/node_wrapper', NodeWrapper)

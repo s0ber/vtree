@@ -1,13 +1,9 @@
 TreeManager = require('vtree/tree_manager')
+config = require('vtree/config')
 
 class Launcher
 
-  VIEW_SELECTOR = '[data-view]'
-  APP_SELECTOR = '[data-app]'
-
-  @options:
-    viewSelector: VIEW_SELECTOR
-    appSelector: APP_SELECTOR
+  @options: {}
 
   @launch: (hooks) ->
     @options.hooks = hooks
@@ -44,12 +40,12 @@ class Launcher
       e.stopPropagation()
 
       # finding closest element with node (it can be actually e.currentTarget)
-      $elWithNode = $(e.currentTarget).closest(@viewSelector())
+      $elWithNode = $(e.currentTarget).closest(config.selector)
       nodeId = $elWithNode.data('vtree-node-id')
 
       # if current target don't have node, searching for it's parent
       while $elWithNode.length and not nodeId
-        $elWithNode = $elWithNode.parent().closest(@viewSelector())
+        $elWithNode = $elWithNode.parent().closest(config.selector)
         nodeId = $elWithNode.data('vtree-node-id')
 
       return unless nodeId

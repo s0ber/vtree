@@ -4,7 +4,7 @@ class Node
 
   nodeId = 1
 
-  constructor: (@$el, hooks, @options = {}) ->
+  constructor: (@$el, hooks) ->
     @hooks = hooks || new Hooks()
 
     @el = @$el[0]

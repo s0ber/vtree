@@ -1,3 +1,5 @@
+config = require('vtree/config')
+
 NodesCache = require('vtree/vtree_nodes_cache')
 Node = require('vtree/node')
 NodeWrapper = require('vtree/node_wrapper')
@@ -5,9 +7,7 @@ Hooks = require('vtree/hooks')
 
 class TreeManager
 
-  constructor: (@options) ->
-    @options ?= {appSelector: '[data-app]', viewSelector: '[data-view]'}
-
+  constructor: ->
     @initNodeHooks()
 
     @initialNodes = []
@@ -28,11 +28,11 @@ class TreeManager
     @activateInitialNodes()
 
   setInitialNodes: ->
-    $els = $(@viewSelector())
+    $els = $(config.selector)
     @initialNodes = []
 
     for i in [0...$els.length]
-      node = new Node($els.eq(i), @hooks, @options)
+      node = new Node($els.eq(i), @hooks)
       @nodesCache.add(node)
       @initialNodes.push(node)
 
@@ -44,7 +44,7 @@ class TreeManager
 
   setParentsForNodes: (nodes) ->
     for node in nodes
-      $parentEl = node.$el.parent().closest(@viewSelector())
+      $parentEl = node.$el.parent().closest(config.selector)
 
       # element has no parent if not found (i.e. it is root element)
       if $parentEl.length is 0
@@ -101,7 +101,7 @@ class TreeManager
       @nodesCache.removeById(childNode.id)
 
   refresh: (refreshedNode) ->
-    $els = refreshedNode.$el.find(@viewSelector())
+    $els = refreshedNode.$el.find(config.selector)
     newNodes = [refreshedNode]
 
     for i in [0...$els.length]
@@ -122,9 +122,6 @@ class TreeManager
     @setChildrenForNodes(newNodes)
     @activateNode(refreshedNode)
 
-  viewSelector: ->
-    @_viewSelector ||= "#{@options.appSelector}, #{@options.viewSelector}"
-
   addNodeIdToElData: (node) ->
     node.$el.data('vtree-node-id', node.id)
 
@@ -132,7 +129,7 @@ class TreeManager
     node.$el.on('remove', => @removeNode(node))
 
   addNodeWrapper: (node) ->
-    node.nodeWrapper = new NodeWrapper(node, @options)
+    node.nodeWrapper = new NodeWrapper(node)
 
   unloadView: (node) ->
     node.nodeWrapper?.unload?()

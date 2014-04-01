@@ -26,12 +26,6 @@ describe 'Node', ->
     @fourthNode = new Node(@$fourthEl)
 
   describe '.constructor', ->
-    it 'saves provided options in @options', ->
-      expect(@node.options).to.be.equal @options
-
-    it 'saves reference to empty object in @options if no options provided', ->
-      expect(@secondNode.options).to.be.eql {}
-
     it 'has uniq id', ->
       ids = [@node.id, @secondNode.id, @thirdNode.id]
       expect(ids.unique()).to.have.length 3

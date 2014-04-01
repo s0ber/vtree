@@ -1,3 +1,5 @@
+config = require('vtree/config')
+
 Launcher = require('vtree/launcher')
 Node = require('vtree/node')
 TreeManager = require('vtree/tree_manager')
@@ -97,15 +99,9 @@ describe 'TreeManager', ->
 
   describe 'Constructor and tree building behavior', ->
     beforeEach ->
-      @options = {appSelector: '[data-app]', viewSelector: '[data-view]'}
-      @treeManager = new TreeManager(@options)
+      @treeManager = new TreeManager()
 
     describe '.constructor', ->
-      it 'saves provided options in @options', ->
-        expect(@treeManager.options).to.be.equal @options
-        expect(@treeManager.options).to.have.property 'appSelector'
-        expect(@treeManager.options).to.have.property 'viewSelector'
-
       it 'creates NodesCache instance in @nodesCache', ->
         expect(@treeManager.nodesCache.constructor).to.match(/NodesCache/)
 
@@ -149,7 +145,7 @@ describe 'TreeManager', ->
           # expect(Node.callCount).to.be.eql 4
 
         it 'has nodes pointed to corresponding dom elements in @initialNodes list', ->
-          $els = $('body').find(@treeManager.viewSelector())
+          $els = $('body').find(config.selector)
           expectedElsArray = $els.toArray()
 
           @treeManager.setInitialNodes()
@@ -391,7 +387,7 @@ describe 'TreeManager', ->
               @newNodesList.push(@[el + 'Node'])
 
           it 'has nodes initialized for new view elements', ->
-            $els = @$newEls.wrap('<div />').parent().find(@treeManager.viewSelector())
+            $els = @$newEls.wrap('<div />').parent().find(config.selector)
             expectedElsArray = $els.toArray()
             newElsArray = expectedElsArray.map((el) =>
               id = $(el).data('vtree-node-id')
