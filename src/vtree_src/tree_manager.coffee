@@ -1,5 +1,5 @@
 NodesCache = require('vtree/vtree_nodes_cache')
-ViewNode = require('vtree/view_node')
+Node = require('vtree/node')
 ViewWrapper = require('vtree/view_wrapper')
 Hooks = require('vtree/hooks')
 
@@ -8,8 +8,6 @@ class TreeManager
   constructor: (@options) ->
     @options ?= {appSelector: '[data-app]', viewSelector: '[data-view]'}
 
-    @ViewNode = ViewNode
-    @ViewWrapper = ViewWrapper
     @initViewHooks()
 
     @initialNodes = []
@@ -17,7 +15,7 @@ class TreeManager
 
   initViewHooks: ->
     @hooks = new Hooks
-    @hooks.onInit @addViewNodeIdToElData.bind(@)
+    @hooks.onInit @addNodeIdToElData.bind(@)
     @hooks.onInit @addRemoveEventHandlerToEl.bind(@)
     @hooks.onActivation @initView.bind(@)
     @hooks.onUnload @unloadView.bind(@)
@@ -31,11 +29,10 @@ class TreeManager
 
   setInitialNodes: ->
     $els = $(@viewSelector())
-
     @initialNodes = []
 
     for i in [0...$els.length]
-      node = new @ViewNode($els.eq(i), @hooks, @options)
+      node = new Node($els.eq(i), @hooks, @options)
       @nodesCache.add(node)
       @initialNodes.push(node)
 
@@ -53,8 +50,8 @@ class TreeManager
       if $parentEl.length is 0
         @nodesCache.addAsRoot(node)
       else
-        # getting access to element viewNode through cache
-        nodeId = $parentEl.data('view-node-id')
+        # getting access to element node through cache
+        nodeId = $parentEl.data('vtree-node-id')
         node.parent = @nodesCache.getById(nodeId)
 
   setChildrenForNodes: (nodes) ->
@@ -110,13 +107,13 @@ class TreeManager
     for i in [0...$els.length]
       $el = $els.eq(i)
 
-      # if el has link to viewNode then viewNode is initialized
-      if nodeId = $el.data('view-node-id')
+      # if el has link to node then node is initialized
+      if nodeId = $el.data('vtree-node-id')
         node = @nodesCache.getById(nodeId)
 
-      # else we need to initialize new viewNode
+      # else we need to initialize new node
       else
-        node = new @ViewNode($els.eq(i), @hooks)
+        node = new Node($els.eq(i), @hooks)
         @nodesCache.add(node)
 
       newNodes.push(node)
@@ -128,19 +125,19 @@ class TreeManager
   viewSelector: ->
     @_viewSelector ||= "#{@options.appSelector}, #{@options.viewSelector}"
 
-  addViewNodeIdToElData: (viewNode) ->
-    viewNode.$el.data('view-node-id', viewNode.id)
+  addNodeIdToElData: (node) ->
+    node.$el.data('vtree-node-id', node.id)
 
-  addRemoveEventHandlerToEl: (viewNode) ->
-    viewNode.$el.on('remove', => @removeNode(viewNode))
+  addRemoveEventHandlerToEl: (node) ->
+    node.$el.on('remove', => @removeNode(node))
 
-  initView: (viewNode) ->
-    viewNode.viewWrapper = new @ViewWrapper(viewNode, @options)
+  initView: (node) ->
+    node.viewWrapper = new ViewWrapper(node, @options)
 
-  unloadView: (viewNode) ->
-    viewNode.viewWrapper?.unload?()
+  unloadView: (node) ->
+    node.viewWrapper?.unload?()
 
-  deleteViewWrapper: (viewNode) ->
-    delete(viewNode.viewWrapper)
+  deleteViewWrapper: (node) ->
+    delete(node.viewWrapper)
 
 modula.export('vtree/tree_manager', TreeManager)

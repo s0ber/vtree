@@ -1,32 +1,32 @@
 Hooks = require('vtree/hooks')
 
-class ViewNode
+class Node
 
-  viewNodeId = 1
+  nodeId = 1
 
   constructor: (@$el, hooks, @options = {}) ->
     @hooks = hooks || new Hooks()
 
     @el = @$el[0]
-    @id = "viewNodeId#{viewNodeId}"
+    @id = "nodeId#{nodeId}"
     @parent = null
     @children = []
 
-    viewNodeId++
+    nodeId++
 
     @init()
 
-  setParent: (viewNode) ->
-    @parent = viewNode
+  setParent: (node) ->
+    @parent = node
 
-  setChildren: (viewNodes) ->
-    @children = _.filter(viewNodes, (node) =>
+  setChildren: (nodes) ->
+    @children = _.filter(nodes, (node) =>
       node.parent and node.parent.el is @el
     )
 
-  removeChild: (viewNode) ->
-    return if _.indexOf(@children, viewNode) is -1
-    @children = _.reject(@children, (childNode) -> childNode is viewNode)
+  removeChild: (node) ->
+    return if _.indexOf(@children, node) is -1
+    @children = _.reject(@children, (childNode) -> childNode is node)
 
   init: ->
     @hooks.init(@)
@@ -66,4 +66,4 @@ class ViewNode
   isRemoved: ->
     @_isRemoved ||= false
 
-modula.export('vtree/view_node', ViewNode)
+modula.export('vtree/node', Node)

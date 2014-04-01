@@ -1,5 +1,5 @@
 ViewWrapper = require('vtree/view_wrapper')
-ViewNode = class
+Node = class
   $el: $('')
   el: ''
 Hooks = class
@@ -14,42 +14,42 @@ describe 'ViewWrapper', ->
   describe 'Basic methods', ->
     beforeEach ->
       @$el = $('<div />')
-      @viewNode = new ViewNode(@$el)
+      @node = new Node(@$el)
       hooks = sinon.createStubInstance(Hooks)
 
       @options = {option: 'value', hooks}
-      @viewWrapper = new ViewWrapper(@viewNode, @options)
+      @viewWrapper = new ViewWrapper(@node, @options)
 
     describe '.constructor', ->
 
-      it 'saves reference to provided view node in @viewNode', ->
-        expect(@viewWrapper.viewNode).to.be.equal @viewNode
+      it 'saves reference to provided view node in @node', ->
+        expect(@viewWrapper.node).to.be.equal @node
 
-      it 'saves reference to viewNode.$el in @$el', ->
-        expect(@viewWrapper.$el).to.be.equal @viewNode.$el
+      it 'saves reference to node.$el in @$el', ->
+        expect(@viewWrapper.$el).to.be.equal @node.$el
 
-      it 'saves reference to viewNode.el in @el', ->
-        expect(@viewWrapper.el).to.be.equal @viewNode.el
+      it 'saves reference to node.el in @el', ->
+        expect(@viewWrapper.el).to.be.equal @node.el
 
       it 'saves provided options in @options', ->
         expect(@viewWrapper.options).to.be.equal @options
 
       it 'identifies view', ->
         sinon.spy(ViewWrapper::, 'identifyView')
-        viewNode = new ViewNode(@$el)
-        viewWrapper = new ViewWrapper(viewNode)
+        node = new Node(@$el)
+        viewWrapper = new ViewWrapper(node)
         expect(viewWrapper.identifyView).to.be.calledOnce
 
       it 'initializes view', ->
         sinon.spy(ViewWrapper::, 'initView')
-        viewNode = new ViewNode(@$el)
-        viewWrapper = new ViewWrapper(viewNode)
+        node = new Node(@$el)
+        viewWrapper = new ViewWrapper(node)
         expect(viewWrapper.initView).to.be.calledOnce
 
       it 'initializes new Vtree node', ->
         sinon.spy(ViewWrapper::, 'initVtreeNode')
-        viewNode = new ViewNode(@$el)
-        viewWrapper = new ViewWrapper(viewNode)
+        node = new Node(@$el)
+        viewWrapper = new ViewWrapper(node)
         expect(viewWrapper.initVtreeNode).to.be.calledOnce
 
     describe '.initVtreeNode', ->
@@ -61,7 +61,7 @@ describe 'ViewWrapper', ->
         expect(object.constructor).to.match(/VtreeNode/)
 
     describe '.createNode', ->
-      it 'returns ViewNode object based on current state of ViewWrapper', ->
+      it 'returns Node object based on current state of ViewWrapper', ->
         object = @viewWrapper.createNode()
         expect(object.constructor).to.match(/VtreeNode/)
 
@@ -96,13 +96,13 @@ describe 'ViewWrapper', ->
       treeManager.setParentsForInitialNodes()
       treeManager.setChildrenForInitialNodes()
 
-      appNodeId = $('#app1').data('view-node-id')
+      appNodeId = $('#app1').data('vtree-node-id')
       @appNode = treeManager.nodesCache.getById(appNodeId)
       @appNode.activate()
 
       # order matters here
       for view in 'view1 view2 view3 view4 view5 view6 view7 app2 view8 view9'.split(' ')
-        id = $('#' + view).data('view-node-id')
+        id = $('#' + view).data('vtree-node-id')
         @["#{view}Node"] = treeManager.nodesCache.getById(id)
         @["#{view}Node"].activate()
 
@@ -132,7 +132,7 @@ describe 'ViewWrapper', ->
         sharedViewConstructors.call(@)
 
     describe '.isLayout', ->
-      it 'checks if viewNode should initialize a layout view', ->
+      it 'checks if node should initialize a layout view', ->
         expect(@appNode.viewWrapper.isLayout()).to.be.true
         expect(@view1Node.viewWrapper.isLayout()).to.be.false
         expect(@view2Node.viewWrapper.isLayout()).to.be.false

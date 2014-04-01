@@ -4,9 +4,9 @@ class ViewWrapper
   COMPONENT_PATTERN = /(.+)#(.+)/
   SECRET_KEY = 'semarf'
 
-  constructor: (@viewNode, @options = {}) ->
-    @$el = @viewNode.$el
-    @el = @viewNode.el
+  constructor: (@node, @options = {}) ->
+    @$el = @node.$el
+    @el = @node.el
 
     layoutId++ if @isLayout()
     @identifyView()
@@ -40,8 +40,8 @@ class ViewWrapper
       # Core.warn "Can find view class for '#{viewName}'"
 
   initVtreeNode: ->
-    @node = @createNode()
-    @hooks()?.init?(@node)
+    @vtreeNode = @createNode()
+    @hooks()?.init?(@vtreeNode)
 
   createNode: ->
     class VtreeNode
@@ -65,13 +65,13 @@ class ViewWrapper
     @_layout ||=
       if @isLayout()
         {name: @$el.data('app'), id: layoutId}
-      else if @viewNode.parent?
-        @viewNode.parent.viewWrapper.layout()
+      else if @node.parent?
+        @node.parent.viewWrapper.layout()
       else
         {name: SECRET_KEY, id: 0}
 
   unload: ->
-    delete @viewNode
+    delete @node
 
   hooks: ->
     @options.hooks

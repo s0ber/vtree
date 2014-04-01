@@ -38,7 +38,7 @@ Component is a wrapper for a set of views, but component also has it's own view,
 
 I.e. if element has ```[data-app="Search"]```, at first, *SearchComponent.LayoutView* will be initialized, and all inner views will be initialized from *SearchComponent* namespace unless other inner namespaces are specified.
 
-Views are being initialized in an order corresponding to it's place in a DOM tree. Actually, **Vtree** constructs tree of *ViewNode* objects, and each node in this tree represents DOM-node, on which backbone view should be initialized.
+Views are being initialized in an order corresponding to it's place in a DOM tree. Actually, **Vtree** constructs tree of *Node* objects, and each node in this tree represents DOM-node, on which backbone view should be initialized.
 
 When changing any part of DOM tree, corresponding branch of views tree will be rebuilded and new views for new DOM-elements will be initialized (and, moreover, views for removed DOM nodes will be unloaded).
 

@@ -43,14 +43,14 @@ class Launcher
     $('body').on 'refresh', '*' , (e) =>
       e.stopPropagation()
 
-      # finding closest element with viewNode (it can be actually e.currentTarget)
+      # finding closest element with node (it can be actually e.currentTarget)
       $elWithNode = $(e.currentTarget).closest(@viewSelector())
-      nodeId = $elWithNode.data('view-node-id')
+      nodeId = $elWithNode.data('vtree-node-id')
 
-      # if current target don't have viewNode, searching for it's parent
+      # if current target don't have node, searching for it's parent
       while $elWithNode.length and not nodeId
         $elWithNode = $elWithNode.parent().closest(@viewSelector())
-        nodeId = $elWithNode.data('view-node-id')
+        nodeId = $elWithNode.data('vtree-node-id')
 
       return unless nodeId
 

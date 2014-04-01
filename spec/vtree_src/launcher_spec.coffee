@@ -75,17 +75,17 @@ describe 'Launcher', ->
         $el.trigger('refresh')
         expect(@treeManager.refresh.callCount).to.be.eql(initCallCount + 1)
 
-      it 'looks for closest element with initialized viewNode', ->
+      it 'looks for closest element with initialized node', ->
         $elWithoutView = $('body').find('#no_view')
         $closestWithView = $('body').find('#app1')
         $elWithoutView.trigger('refresh')
 
-        viewNode = @treeManager.refresh.lastCall.args[0]
-        expect(viewNode.el).to.be.equal $closestWithView[0]
+        node = @treeManager.refresh.lastCall.args[0]
+        expect(node.el).to.be.equal $closestWithView[0]
 
-      it 'refreshes element if it has viewNode', ->
+      it 'refreshes element if it has node', ->
         $el = $('body').find('#view2')
         $el.trigger('refresh')
 
-        viewNode = @treeManager.refresh.lastCall.args[0]
-        expect(viewNode.el).to.be.equal $el[0]
+        node = @treeManager.refresh.lastCall.args[0]
+        expect(node.el).to.be.equal $el[0]
