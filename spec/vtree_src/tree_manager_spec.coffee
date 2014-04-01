@@ -11,16 +11,16 @@ describe 'TreeManager', ->
   describe 'Node callbacks', ->
     before ->
       Launcher.initRemoveEvent()
-      sinon.spy(TreeManager::, 'initViewHooks')
+      sinon.spy(TreeManager::, 'initNodeHooks')
 
     it 'initializes hooks for view nodes when creating instance', ->
       @treeManager = new TreeManager
-      expect(@treeManager.initViewHooks).to.be.calledOnce
+      expect(@treeManager.initNodeHooks).to.be.calledOnce
 
     beforeEach ->
       @$el = $('<div />')
 
-    describe '.initViewHooks', ->
+    describe '.initNodeHooks', ->
       it 'saves new Hooks object in @hooks', ->
         @treeManager = new TreeManager
         expect(@treeManager.hooks.constructor).to.match(/Hooks/)
@@ -37,12 +37,12 @@ describe 'TreeManager', ->
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addRemoveEventHandlerToEl).to.be.calledOnce
 
-      it 'adds @initView activation hook', ->
-        sinon.spy(TreeManager::, 'initView')
+      it 'adds @addNodeWrapper activation hook', ->
+        sinon.spy(TreeManager::, 'addNodeWrapper')
         @treeManager = new TreeManager
         node = new Node(@$el, @treeManager.hooks)
         node.activate()
-        expect(@treeManager.initView).to.be.calledOnce
+        expect(@treeManager.addNodeWrapper).to.be.calledOnce
 
       it 'adds @unloadView unload hook', ->
         sinon.spy(TreeManager::, 'unloadView')
@@ -51,12 +51,12 @@ describe 'TreeManager', ->
         node.unload()
         expect(@treeManager.unloadView).to.be.calledOnce
 
-      it 'adds @deleteViewWrapper unload hook', ->
-        sinon.spy(TreeManager::, 'deleteViewWrapper')
+      it 'adds @deleteNodeWrapper unload hook', ->
+        sinon.spy(TreeManager::, 'deleteNodeWrapper')
         @treeManager = new TreeManager
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
-        expect(@treeManager.deleteViewWrapper).to.be.calledOnce
+        expect(@treeManager.deleteNodeWrapper).to.be.calledOnce
 
     describe '.addNodeIdToElData', ->
       it "adds nodeId to node's $element", ->
@@ -74,26 +74,26 @@ describe 'TreeManager', ->
         node.$el.remove()
         expect(@treeManager.removeNode).to.be.calledOnce
 
-    describe '.initView', ->
-      it 'initializes ViewWrapper instance', ->
+    describe '.addNodeWrapper', ->
+      it 'initializes NodeWrapper instance', ->
         $el = $('<div />')
         node = new Node($el)
-        @treeManager.initView(node)
+        @treeManager.addNodeWrapper(node)
 
-        expect(node.viewWrapper.constructor).to.match(/ViewWrapper/)
+        expect(node.nodeWrapper.constructor).to.match(/NodeWrapper/)
 
     describe '.unloadView', ->
-      it 'unloads ViewWrapper instance', ->
+      it 'unloads NodeWrapper instance', ->
         node = {}
-        node.viewWrapper = {unload: sinon.spy()}
+        node.nodeWrapper = {unload: sinon.spy()}
         @treeManager.unloadView(node)
-        expect(node.viewWrapper.unload).to.be.calledOnce
+        expect(node.nodeWrapper.unload).to.be.calledOnce
 
-    describe '.deleteViewWrapper', ->
-      it 'deletes ViewWrapper instance from corresponding Node', ->
-        node = {viewWrapper: {}}
-        @treeManager.deleteViewWrapper(node)
-        expect(node.viewWrapper).to.be.undefined
+    describe '.deleteNodeWrapper', ->
+      it 'deletes NodeWrapper instance from corresponding Node', ->
+        node = {nodeWrapper: {}}
+        @treeManager.deleteNodeWrapper(node)
+        expect(node.nodeWrapper).to.be.undefined
 
   describe 'Constructor and tree building behavior', ->
     beforeEach ->

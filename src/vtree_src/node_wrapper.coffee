@@ -1,4 +1,4 @@
-class ViewWrapper
+class NodeWrapper
 
   layoutId = 0
   COMPONENT_PATTERN = /(.+)#(.+)/
@@ -66,7 +66,7 @@ class ViewWrapper
       if @isLayout()
         {name: @$el.data('app'), id: layoutId}
       else if @node.parent?
-        @node.parent.viewWrapper.layout()
+        @node.parent.nodeWrapper.layout()
       else
         {name: SECRET_KEY, id: 0}
 
@@ -76,4 +76,4 @@ class ViewWrapper
   hooks: ->
     @options.hooks
 
-modula.export('vtree/view_wrapper', ViewWrapper)
+modula.export('vtree/node_wrapper', NodeWrapper)

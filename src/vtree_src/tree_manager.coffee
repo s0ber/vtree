@@ -1,6 +1,6 @@
 NodesCache = require('vtree/vtree_nodes_cache')
 Node = require('vtree/node')
-ViewWrapper = require('vtree/view_wrapper')
+NodeWrapper = require('vtree/node_wrapper')
 Hooks = require('vtree/hooks')
 
 class TreeManager
@@ -8,18 +8,18 @@ class TreeManager
   constructor: (@options) ->
     @options ?= {appSelector: '[data-app]', viewSelector: '[data-view]'}
 
-    @initViewHooks()
+    @initNodeHooks()
 
     @initialNodes = []
     @nodesCache = new NodesCache()
 
-  initViewHooks: ->
+  initNodeHooks: ->
     @hooks = new Hooks
     @hooks.onInit @addNodeIdToElData.bind(@)
     @hooks.onInit @addRemoveEventHandlerToEl.bind(@)
-    @hooks.onActivation @initView.bind(@)
+    @hooks.onActivation @addNodeWrapper.bind(@)
     @hooks.onUnload @unloadView.bind(@)
-    @hooks.onUnload @deleteViewWrapper.bind(@)
+    @hooks.onUnload @deleteNodeWrapper.bind(@)
 
   createTree: ->
     @setInitialNodes()
@@ -131,13 +131,13 @@ class TreeManager
   addRemoveEventHandlerToEl: (node) ->
     node.$el.on('remove', => @removeNode(node))
 
-  initView: (node) ->
-    node.viewWrapper = new ViewWrapper(node, @options)
+  addNodeWrapper: (node) ->
+    node.nodeWrapper = new NodeWrapper(node, @options)
 
   unloadView: (node) ->
-    node.viewWrapper?.unload?()
+    node.nodeWrapper?.unload?()
 
-  deleteViewWrapper: (node) ->
-    delete(node.viewWrapper)
+  deleteNodeWrapper: (node) ->
+    delete(node.nodeWrapper)
 
 modula.export('vtree/tree_manager', TreeManager)
