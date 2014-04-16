@@ -11,14 +11,14 @@ class Configuration
   layoutUnderscoredName: ($el) ->
     $el.data('app')
 
-  viewUnderscoredName: ($el) ->
+  nodeUnderscoredName: ($el) ->
     if @isLayout($el) then 'layout' else $el.data('view') || ''
 
   hasComponent: ($el) ->
-    @componentPattern.test @viewUnderscoredName($el)
+    @componentPattern.test @nodeUnderscoredName($el)
 
   extractComponentData: ($el) ->
-    [__, componentName, viewName] = @viewUnderscoredName($el).match @componentPattern
+    [__, componentName, viewName] = @nodeUnderscoredName($el).match @componentPattern
     [componentName, viewName]
 
 

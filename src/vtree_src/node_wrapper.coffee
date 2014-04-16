@@ -1,4 +1,5 @@
 Vtree = require('vtree')
+NodeData = require('vtree/node_data')
 
 class NodeWrapper
 
@@ -11,45 +12,52 @@ class NodeWrapper
     @el = @node.el
 
     layoutId++ if @isLayout()
-    @identifyView()
-    @initView()
-    @initVtreeNode()
+    @identifyNodeAttributes()
+    @initNodeDataObject()
 
-  identifyView: ->
+  identifyNodeAttributes: ->
     @layoutName = @layout().name
     @layoutId = @layout().id
 
     if @hasComponent()
-      [@componentName, @viewName] = Vtree.config().extractComponentData(@$el)
+      [@componentName, @nodeName] = Vtree.config().extractComponentData(@$el)
     else
       @componentName = @layoutName
-      @viewName = @viewUnderscoredName()
+      @nodeName = @nodeUnderscoredName()
 
-    @componentClassName = @componentName.camelize() + 'Component'
-    @viewClassName = @viewName.camelize() + 'View'
+  initNodeDataObject: ->
+    @nodeData = @initNodeData()
+    @_hooks()?.init?(@nodeData)
 
-  initView: ->
-    viewName = "#{@componentClassName}.#{@viewClassName}"
-
-    if ViewConstructor = window[@componentClassName]?[@viewClassName]
-      @viewInstance = new ViewConstructor
-        el: @el
-        viewClassName: @viewClassName
-        viewFullName: @viewName
-        layoutId: @layoutId
-
+  initNodeData: ->
+    if @hasComponent()
+      componentNameUnderscored = @componentName
+      componentName = @componentName.camelize()
+      applicationNameUnderscored = null
+      applicationName = null
     else
-      # TODO: 'show errors'
-      # Core.warn "Can find view class for '#{viewName}'"
+      applicationNameUnderscored = @componentName
+      applicationName = @componentName.camelize()
+      componentNameUnderscored = null
+      componentName = null
 
-  initVtreeNode: ->
-    @vtreeNode = @createNode()
-    @_hooks()?.init?(@vtreeNode)
+    new NodeData({
+      isApplicationLayout: @isLayout()
+      isApplicationPart: not @hasComponent()
+      isComponentPart: @hasComponent()
+      applicationId: if not @hasComponent() then @layoutId else null
 
-  createNode: ->
-    class VtreeNode
-      init: ->
-    new VtreeNode
+      nodeName: @nodeName
+      applicationName,
+      applicationNameUnderscored,
+      componentName,
+      componentNameUnderscored
+    })
+
+  unload: ->
+    @_hooks()?.unload?(@nodeData)
+    delete @nodeData
+    delete @node
 
   hasComponent: ->
     @_hasComponent ||= Vtree.config().hasComponent(@$el)
@@ -63,9 +71,6 @@ class NodeWrapper
       else
         {name: SECRET_KEY, id: 0}
 
-  unload: ->
-    delete @node
-
 
   # private
 
@@ -75,8 +80,8 @@ class NodeWrapper
   layoutUnderscoredName: ->
     @_layoutUnderscoredName ?= Vtree.config().layoutUnderscoredName(@$el)
 
-  viewUnderscoredName: ->
-    @_viewUnderscoredName ?= Vtree.config().viewUnderscoredName(@$el)
+  nodeUnderscoredName: ->
+    @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)
 
   _hooks: ->
     # @options.hooks
