@@ -24,6 +24,7 @@ module.exports = function (grunt) {
           'src/vtree_src/node_wrapper.coffee',
           'src/vtree_src/tree_manager.coffee',
           'src/vtree_src/launcher.coffee',
+          'src/vtree_src/dom.coffee',
 
           'spec/**/*_spec.coffee'
         ],

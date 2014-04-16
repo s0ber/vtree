@@ -21,5 +21,4 @@ class Configuration
     [__, componentName, viewName] = @nodeUnderscoredName($el).match @componentPattern
     [componentName, viewName]
 
-
 modula.export('vtree/configuration', Configuration)
