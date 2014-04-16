@@ -44,7 +44,7 @@ module.exports = function (grunt) {
       release: {
         singleRun: true
       },
-      continuous: {
+      ci: {
         singleRun: true,
         browsers: ['PhantomJS']
       }
