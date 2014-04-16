@@ -6,20 +6,26 @@
 
   "devDependencies": {
     "coffee-script": "",
-    "karma": "",
-    "mocha": "",
-    "karma-mocha": "",
-    "chai": "",
-    "karma-chai": "",
-    "sinon": "",
-    "sinon-chai": "",
-    "karma-sinon-chai": "",
-    "karma-phantomjs-launcher": "",
+
     "grunt": "",
     "grunt-cli": "",
     "grunt-karma": "",
     "grunt-contrib-coffee": "",
-    "grunt-contrib-uglify": ""
+    "grunt-contrib-uglify": "",
+
+    "mocha": "",
+    "chai": "",
+    "sinon": "",
+    "sinon-chai": "",
+
+    "karma": "",
+    "karma-cli": "",
+    "karma-html2js-preprocessor": "",
+    "karma-coffee-preprocessor": "",
+    "karma-phantomjs-launcher": "",
+    "karma-mocha": "",
+    "karma-chai": "",
+    "karma-sinon-chai": ""
   },
 
   "engine": {

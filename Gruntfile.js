@@ -2,11 +2,14 @@ module.exports = function (grunt) {
   grunt.initConfig({
     karma: {
       options: {
+        preprocessors: {
+          '**/*.coffee': ['coffee'],
+          '**/*.html': ['html2js']
+        },
         basePath: '',
         frameworks: ['mocha', 'sinon-chai'],
         files: [
-          { pattern: 'spec/fixtures/*.html',
-            included: true },
+          {pattern: 'spec/fixtures/**/*.html', included: true},
 
           'bower_components/jquery/dist/jquery.js',
           'bower_components/modula/lib/modula.js',
