@@ -28,7 +28,7 @@ describe 'Node', ->
   describe '.constructor', ->
     it 'has uniq id', ->
       ids = [@node.id, @secondNode.id, @thirdNode.id]
-      expect(ids.unique()).to.have.length 3
+      expect(_.uniq(ids)).to.have.length 3
 
     it 'has reference to provided Hooks instance if provided', ->
       hooks = new Hooks

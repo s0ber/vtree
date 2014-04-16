@@ -15,11 +15,11 @@ class TreeManager
 
   initNodeHooks: ->
     @hooks = new Hooks
-    @hooks.onInit @addNodeIdToElData.bind(@)
-    @hooks.onInit @addRemoveEventHandlerToEl.bind(@)
-    @hooks.onActivation @addNodeWrapper.bind(@)
-    @hooks.onUnload @unloadView.bind(@)
-    @hooks.onUnload @deleteNodeWrapper.bind(@)
+    @hooks.onInit _.bind(@addNodeIdToElData, @)
+    @hooks.onInit _.bind(@addRemoveEventHandlerToEl, @)
+    @hooks.onActivation _.bind(@addNodeWrapper, @)
+    @hooks.onUnload _.bind(@unloadView, @)
+    @hooks.onUnload _.bind(@deleteNodeWrapper, @)
 
   createTree: ->
     @setInitialNodes()

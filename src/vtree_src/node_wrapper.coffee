@@ -32,12 +32,12 @@ class NodeWrapper
   initNodeData: ->
     if @hasComponent()
       componentNameUnderscored = @componentName
-      componentName = @componentName.camelize()
+      componentName = @_camelize(@componentName)
       applicationNameUnderscored = null
       applicationName = null
     else
       applicationNameUnderscored = @componentName
-      applicationName = @componentName.camelize()
+      applicationName = @_camelize(@componentName)
       componentNameUnderscored = null
       componentName = null
 
@@ -85,5 +85,9 @@ class NodeWrapper
 
   _hooks: ->
     # @options.hooks
+
+  _camelize: (string) ->
+    string.replace /(?:^|[-_])(\w)/g, (_, c) ->
+      if c then c.toUpperCase() else ''
 
 modula.export('vtree/node_wrapper', NodeWrapper)

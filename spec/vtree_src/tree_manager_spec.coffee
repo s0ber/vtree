@@ -138,17 +138,19 @@ describe 'TreeManager', ->
         $('body').append(@$els)
 
       describe '.setInitialNodes', ->
-        it 'creates list of elements for specified "app" and "view" selectors and initializes nodes for them'#, ->
-          # sinon.spy(Node)
-          # @treeManager.setInitialNodes()
-          # expect(Node.callCount).to.be.eql 4
+
+        it 'initialized Node objects for each element for specified "app" and "view" selectors', ->
+          @treeManager.setInitialNodes()
+
+          for node in @treeManager.initialNodes
+            expect(node.constructor).to.match /Node/
 
         it 'has nodes pointed to corresponding dom elements in @initialNodes list', ->
           $els = $('body').find(Vtree.config().selector)
-          expectedElsArray = $els.toArray()
+          expectedElsArray = _.toArray($els)
 
           @treeManager.setInitialNodes()
-          initialNodesEls = @treeManager.initialNodes.map('el')
+          initialNodesEls = _.map(@treeManager.initialNodes, (node) -> node.el)
           expect(initialNodesEls).to.be.eql expectedElsArray
 
         it 'provides @hooks to nodes constructor', ->
