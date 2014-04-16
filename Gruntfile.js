@@ -1,5 +1,7 @@
 module.exports = function (grunt) {
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+
     karma: {
       options: {
         preprocessors: {
@@ -52,8 +54,41 @@ module.exports = function (grunt) {
         singleRun: true,
         browsers: ['PhantomJS']
       }
+    },
+
+    coffee: {
+      compile: {
+        files: {
+          'src/vtree.js': [
+            'src/modula.coffee',
+            'src/configuration.coffee',
+            'src/vtree.coffee',
+            'src/vtree_src/hooks.coffee',
+            'src/vtree_src/vtree_nodes_cache.coffee',
+            'src/vtree_src/node.coffee',
+            'src/vtree_src/node_data.coffee',
+            'src/vtree_src/node_wrapper.coffee',
+            'src/vtree_src/tree_manager.coffee',
+            'src/vtree_src/launcher.coffee',
+            'src/vtree_src/dom.coffee'
+          ]
+        }
+      }
+    },
+
+    uglify: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+      },
+      my_target: {
+        files: {
+          'build/vtree.min.js': ['src/vtree.js']
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-coffee');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 };
