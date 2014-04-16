@@ -236,7 +236,8 @@ describe 'NodeWrapper', ->
         expect(object.constructor).to.match(/NodeData/)
 
       it 'sets correct data to all NodeData objects', ->
-
+        expect(@appNodeData).to.have.property('el', @appNode.el)
+        expect(@appNodeData).to.have.property('$el', @appNode.$el)
         expect(@appNodeData).to.have.property('isApplicationLayout', true)
         expect(@appNodeData).to.have.property('isApplicationPart', true)
         expect(@appNodeData).to.have.property('isComponentPart', false)
@@ -247,6 +248,8 @@ describe 'NodeWrapper', ->
         expect(@appNodeData).to.have.property('componentName', null)
         expect(@appNodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view1NodeData).to.have.property('el', @view1Node.el)
+        expect(@view1NodeData).to.have.property('$el', @view1Node.$el)
         expect(@view1NodeData).to.have.property('isApplicationLayout', false)
         expect(@view1NodeData).to.have.property('isApplicationPart', true)
         expect(@view1NodeData).to.have.property('isComponentPart', false)
@@ -257,6 +260,8 @@ describe 'NodeWrapper', ->
         expect(@view1NodeData).to.have.property('componentName', null)
         expect(@view1NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view2NodeData).to.have.property('el', @view2Node.el)
+        expect(@view2NodeData).to.have.property('$el', @view2Node.$el)
         expect(@view2NodeData).to.have.property('isApplicationLayout', false)
         expect(@view2NodeData).to.have.property('isApplicationPart', true)
         expect(@view2NodeData).to.have.property('isComponentPart', false)
@@ -267,6 +272,8 @@ describe 'NodeWrapper', ->
         expect(@view2NodeData).to.have.property('componentName', null)
         expect(@view2NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view3NodeData).to.have.property('el', @view3Node.el)
+        expect(@view3NodeData).to.have.property('$el', @view3Node.$el)
         expect(@view3NodeData).to.have.property('isApplicationLayout', false)
         expect(@view3NodeData).to.have.property('isApplicationPart', true)
         expect(@view3NodeData).to.have.property('isComponentPart', false)
@@ -277,6 +284,8 @@ describe 'NodeWrapper', ->
         expect(@view3NodeData).to.have.property('componentName', null)
         expect(@view3NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view4NodeData).to.have.property('el', @view4Node.el)
+        expect(@view4NodeData).to.have.property('$el', @view4Node.$el)
         expect(@view4NodeData).to.have.property('isApplicationLayout', false)
         expect(@view4NodeData).to.have.property('isApplicationPart', true)
         expect(@view4NodeData).to.have.property('isComponentPart', false)
@@ -287,6 +296,8 @@ describe 'NodeWrapper', ->
         expect(@view4NodeData).to.have.property('componentName', null)
         expect(@view4NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view5NodeData).to.have.property('el', @view5Node.el)
+        expect(@view5NodeData).to.have.property('$el', @view5Node.$el)
         expect(@view5NodeData).to.have.property('isApplicationLayout', false)
         expect(@view5NodeData).to.have.property('isApplicationPart', true)
         expect(@view5NodeData).to.have.property('isComponentPart', false)
@@ -297,6 +308,8 @@ describe 'NodeWrapper', ->
         expect(@view5NodeData).to.have.property('componentName', null)
         expect(@view5NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view6NodeData).to.have.property('el', @view6Node.el)
+        expect(@view6NodeData).to.have.property('$el', @view6Node.$el)
         expect(@view6NodeData).to.have.property('isApplicationLayout', false)
         expect(@view6NodeData).to.have.property('isApplicationPart', true)
         expect(@view6NodeData).to.have.property('isComponentPart', false)
@@ -307,6 +320,8 @@ describe 'NodeWrapper', ->
         expect(@view6NodeData).to.have.property('componentName', null)
         expect(@view6NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view7NodeData).to.have.property('el', @view7Node.el)
+        expect(@view7NodeData).to.have.property('$el', @view7Node.$el)
         expect(@view7NodeData).to.have.property('isApplicationLayout', false)
         expect(@view7NodeData).to.have.property('isApplicationPart', false)
         expect(@view7NodeData).to.have.property('isComponentPart', true)
@@ -317,6 +332,8 @@ describe 'NodeWrapper', ->
         expect(@view7NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view7NodeData).to.have.property('componentNameUnderscored', 'test_component')
 
+        expect(@app2NodeData).to.have.property('el', @app2Node.el)
+        expect(@app2NodeData).to.have.property('$el', @app2Node.$el)
         expect(@app2NodeData).to.have.property('isApplicationLayout', true)
         expect(@app2NodeData).to.have.property('isApplicationPart', true)
         expect(@app2NodeData).to.have.property('isComponentPart', false)
@@ -327,6 +344,8 @@ describe 'NodeWrapper', ->
         expect(@app2NodeData).to.have.property('componentName', null)
         expect(@app2NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view8NodeData).to.have.property('el', @view8Node.el)
+        expect(@view8NodeData).to.have.property('$el', @view8Node.$el)
         expect(@view8NodeData).to.have.property('isApplicationLayout', false)
         expect(@view8NodeData).to.have.property('isApplicationPart', true)
         expect(@view8NodeData).to.have.property('isComponentPart', false)
@@ -337,6 +356,8 @@ describe 'NodeWrapper', ->
         expect(@view8NodeData).to.have.property('componentName', null)
         expect(@view8NodeData).to.have.property('componentNameUnderscored', null)
 
+        expect(@view9NodeData).to.have.property('el', @view9Node.el)
+        expect(@view9NodeData).to.have.property('$el', @view9Node.$el)
         expect(@view9NodeData).to.have.property('isApplicationLayout', false)
         expect(@view9NodeData).to.have.property('isApplicationPart', false)
         expect(@view9NodeData).to.have.property('isComponentPart', true)

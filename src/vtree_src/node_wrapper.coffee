@@ -42,6 +42,8 @@ class NodeWrapper
       componentName = null
 
     new NodeData({
+      el: @el
+      $el: @$el
       isApplicationLayout: @isLayout()
       isApplicationPart: not @hasComponent()
       isComponentPart: @hasComponent()

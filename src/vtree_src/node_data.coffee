@@ -1,5 +1,8 @@
 class NodeData
 
+  el: null
+  $el: null
+
   isApplicationLayout: null
   isApplicationPart: null
   isComponentPart: null
