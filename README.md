@@ -176,6 +176,11 @@ The same as **nodeName**, but for component name (is **null** if node is an appl
 </div>
 ````
 
+### nodeNameUnderscored
+**[String]**
+
+The same as **nodeName**, but in underscored form.
+
 ### applicationNameUnderscored
 **[String]**
 
