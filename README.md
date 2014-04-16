@@ -189,3 +189,32 @@ This method will save some data, associated with this node. This data then can b
 ### getData(name)
 
 This method returns data, previously attached to this node.
+
+
+## Vtree.DOM
+
+Those are methods for DOM manipulations. With them, dynamicaly added nodes will be hooked.
+
+### Vtree.DOM.html($el, html)
+
+Sets **html** for **$el** and rebuilds vtree.
+
+### Vtree.DOM.append($parentEl, $el)
+
+Appends **$el** to **$parentEl** and rebuilds vtree.
+
+### Vtree.DOM.prepend($parentEl, $el)
+
+Prepends **$el** to **$parentEl** and rebuilds vtree.
+
+### Vtree.DOM.before($el, $insertedEl)
+
+Inserts **$insertedEl** before **$el** and rebuilds vtree.
+
+### Vtree.DOM.after($el, $insertedEl)
+
+Inserts **$insertedEl** after **$el** and rebuilds vtree.
+
+### Vtree.DOM.remove($el)
+
+Removes **$el** and rebuilds vtree.
