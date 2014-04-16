@@ -53,6 +53,8 @@ Vtree.onNodeUnload (node) ->
   view = node.getData('view')
   view.unload()
 
+Vtree.initNodes()
+
 ```
 
 Here we have created a simple front-end architecture in few lines of code. Elements with ```data-app``` specify nodes, which are elements for **Layout** views. This view is being initialized from namespace, which is related to ```data-app``` attribute value. All nested views will be automatically initialized from this namespace, because Vtree keeps track of node position in DOM tree (i.e. each node knows under which namespace it is positioned).
