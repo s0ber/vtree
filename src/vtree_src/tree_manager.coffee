@@ -1,9 +1,9 @@
-Vtree = require('vtree')
+Vtree = modula.require('vtree')
 
-NodesCache = require('vtree/vtree_nodes_cache')
-Node = require('vtree/node')
-NodeWrapper = require('vtree/node_wrapper')
-Hooks = require('vtree/hooks')
+NodesCache = modula.require('vtree/vtree_nodes_cache')
+Node = modula.require('vtree/node')
+NodeWrapper = modula.require('vtree/node_wrapper')
+Hooks = modula.require('vtree/hooks')
 
 class TreeManager
 

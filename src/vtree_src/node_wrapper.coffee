@@ -1,5 +1,5 @@
-Vtree = require('vtree')
-NodeData = require('vtree/node_data')
+Vtree = modula.require('vtree')
+NodeData = modula.require('vtree/node_data')
 
 class NodeWrapper
 

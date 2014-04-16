@@ -1,4 +1,4 @@
-NodeData = require('vtree/node_data')
+NodeData = modula.require('vtree/node_data')
 
 describe 'NodeData', ->
 

@@ -1,4 +1,4 @@
-Hooks = require('vtree/hooks')
+Hooks = modula.require('vtree/hooks')
 
 describe 'Hooks', ->
 

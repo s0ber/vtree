@@ -1,7 +1,7 @@
-Vtree = require('vtree')
-Launcher = require('vtree/launcher')
-Node = require('vtree/node')
-TreeManager = require('vtree/tree_manager')
+Vtree = modula.require('vtree')
+Launcher = modula.require('vtree/launcher')
+Node = modula.require('vtree/node')
+TreeManager = modula.require('vtree/tree_manager')
 
 describe 'TreeManager', ->
 

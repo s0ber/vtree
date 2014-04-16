@@ -1,4 +1,4 @@
-Configuration = require('vtree/configuration')
+Configuration = modula.require('vtree/configuration')
 
 class Vtree
 
@@ -26,13 +26,14 @@ class Vtree
 
   @hooks: ->
     return @_hooks if @_hooks?
-    Hooks = require('vtree/hooks')
+    Hooks = modula.require('vtree/hooks')
     @_hooks ?= new Hooks
 
 
   # private
 
   @_launcher: ->
-    @__launcher ?= require('vtree/launcher')
+    @__launcher ?= modula.require('vtree/launcher')
 
 modula.export('vtree', Vtree)
+window.Vtree = Vtree

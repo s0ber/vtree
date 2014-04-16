@@ -1,4 +1,4 @@
-Launcher = require('vtree/launcher')
+Launcher = modula.require('vtree/launcher')
 Hooks = ->
 
 describe 'Launcher', ->

@@ -1,5 +1,5 @@
-Configuration = require('vtree/configuration')
-Vtree = require('vtree')
+Configuration = modula.require('vtree/configuration')
+Vtree = modula.require('vtree')
 
 Launcher =
   launch: sinon.spy()

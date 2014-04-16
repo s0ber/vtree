@@ -1,6 +1,6 @@
 modules = {}
 
-Modula =
+window.modula =
 
   export: (name, exports) ->
     modules[name] = exports
@@ -11,6 +11,3 @@ Modula =
       Module
     else
       throw("Module '#{name}' not found.")
-
-window.modula = Modula
-window.require = Modula.require

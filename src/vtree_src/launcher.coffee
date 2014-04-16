@@ -1,5 +1,5 @@
-Vtree = require('vtree')
-TreeManager = require('vtree/tree_manager')
+Vtree = modula.require('vtree')
+TreeManager = modula.require('vtree/tree_manager')
 
 class Launcher
 
