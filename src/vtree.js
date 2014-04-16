@@ -353,6 +353,10 @@
   var NodeData;
 
   NodeData = (function() {
+    NodeData.prototype.el = null;
+
+    NodeData.prototype.$el = null;
+
     NodeData.prototype.isApplicationLayout = null;
 
     NodeData.prototype.isApplicationPart = null;
@@ -453,11 +457,14 @@
         componentName = null;
       }
       return new NodeData({
+        el: this.el,
+        $el: this.$el,
         isApplicationLayout: this.isLayout(),
         isApplicationPart: !this.hasComponent(),
         isComponentPart: this.hasComponent(),
         applicationId: !this.hasComponent() ? this.layoutId : null,
-        nodeName: this.nodeName,
+        nodeName: this._camelize(this.nodeName),
+        nodeNameUnderscored: this.nodeName,
         applicationName: applicationName,
         applicationNameUnderscored: applicationNameUnderscored,
         componentName: componentName,
