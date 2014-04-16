@@ -14,13 +14,12 @@ describe 'Node', ->
     sinon.spy(Node::, 'setAsRemoved')
 
   beforeEach ->
-    @options = {option: 'value'}
     @$el = $('div')
     @$secondEl = $('div')
     @$thirdEl = $('div')
     @$fourthEl = $('div')
 
-    @node = new Node(@$el, null, @options)
+    @node = new Node(@$el, null)
     @secondNode = new Node(@$secondEl)
     @thirdNode = new Node(@$thirdEl)
     @fourthNode = new Node(@$fourthEl)

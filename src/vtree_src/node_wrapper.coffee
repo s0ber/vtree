@@ -84,7 +84,7 @@ class NodeWrapper
     @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)
 
   _hooks: ->
-    # @options.hooks
+    Vtree.hooks()
 
   _camelize: (string) ->
     string.replace /(?:^|[-_])(\w)/g, (_, c) ->

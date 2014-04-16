@@ -3,7 +3,7 @@ Configuration = modula.require('vtree/configuration')
 class Vtree
 
   @initNodes: ->
-    @_launcher().launch @hooks()
+    @_launcher().launch()
     @_launcher().createViewsTree()
 
   @onNodeInit: (callback) ->

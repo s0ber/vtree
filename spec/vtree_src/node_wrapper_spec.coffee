@@ -2,9 +2,6 @@ NodeWrapper = modula.require('vtree/node_wrapper')
 Node = class
   $el: $('')
   el: ''
-Hooks = class
-  init: ->
-  unload: ->
 
 describe 'NodeWrapper', ->
 
@@ -12,8 +9,12 @@ describe 'NodeWrapper', ->
     $(window.__html__["spec/fixtures/#{name}.html"])
 
   before ->
-    hooks = sinon.createStubInstance(Hooks)
-    NodeWrapper::_hooks = (-> hooks)
+    sinon.spy(NodeWrapper::_hooks(), 'init')
+    sinon.spy(NodeWrapper::_hooks(), 'unload')
+
+  after ->
+    NodeWrapper::_hooks().init.restore()
+    NodeWrapper::_hooks().unload.restore()
 
   describe 'Basic methods', ->
     beforeEach ->

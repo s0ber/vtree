@@ -1,5 +1,4 @@
 Launcher = modula.require('vtree/launcher')
-Hooks = ->
 
 describe 'Launcher', ->
 
@@ -22,12 +21,6 @@ describe 'Launcher', ->
       expect(fnSpy).to.be.calledTwice
 
   describe '.launch', ->
-    it 'saves provided Hooks object in @options', ->
-      hooks = sinon.createStubInstance(Hooks)
-
-      Launcher.launch(hooks)
-      expect(Launcher.options.hooks).to.be.eql hooks
-
     it 'initializes TreeManager instance', ->
       sinon.spy(Launcher, 'initTreeManager')
       Launcher.launch()

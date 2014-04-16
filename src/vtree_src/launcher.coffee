@@ -3,11 +3,7 @@ TreeManager = modula.require('vtree/tree_manager')
 
 class Launcher
 
-  @options: {}
-
-  @launch: (hooks) ->
-    @options.hooks = hooks
-
+  @launch: ->
     @initTreeManager()
     @initRemoveEvent()
     @initRefreshEvent()
@@ -15,7 +11,7 @@ class Launcher
   @initTreeManager: ->
     return if @isTreeManagerInitialized()
     @setTreeManagerAsInitialized()
-    @treeManager = new TreeManager(@options)
+    @treeManager = new TreeManager()
 
   @initRemoveEvent: ->
     return if @isRemoveEventInitialized()
