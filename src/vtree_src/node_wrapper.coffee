@@ -1,3 +1,5 @@
+Vtree = require('vtree')
+
 class NodeWrapper
 
   layoutId = 0
@@ -18,9 +20,10 @@ class NodeWrapper
     @layoutId = @layout().id
 
     if @hasComponent()
-      [__, @componentName, @viewName] = @viewDataValue().match(COMPONENT_PATTERN)
+      [@componentName, @viewName] = Vtree.config().extractComponentData(@$el)
     else
-      [@componentName, @viewName] = [@layoutName, @viewDataValue()]
+      @componentName = @layoutName
+      @viewName = @viewUnderscoredName()
 
     @componentClassName = @componentName.camelize() + 'Component'
     @viewClassName = @viewName.camelize() + 'View'
@@ -48,23 +51,13 @@ class NodeWrapper
       init: ->
     new VtreeNode
 
-  isLayout: ->
-    @_isLayout ||= @$el.data('app')?
-
-  viewDataValue: ->
-    @_viewDataValue ||=
-      if not @isLayout()
-        @$el.data('view') || SECRET_KEY
-      else
-        'layout'
-
   hasComponent: ->
-    @_hasComponent ||= COMPONENT_PATTERN.test(@viewDataValue())
+    @_hasComponent ||= Vtree.config().hasComponent(@$el)
 
   layout: ->
     @_layout ||=
       if @isLayout()
-        {name: @$el.data('app'), id: layoutId}
+        {name: @layoutUnderscoredName(), id: layoutId}
       else if @node.parent?
         @node.parent.nodeWrapper.layout()
       else
@@ -75,6 +68,15 @@ class NodeWrapper
 
 
   # private
+
+  isLayout: ->
+    @_isLayout ?= Vtree.config().isLayout(@$el)
+
+  layoutUnderscoredName: ->
+    @_layoutUnderscoredName ?= Vtree.config().layoutUnderscoredName(@$el)
+
+  viewUnderscoredName: ->
+    @_viewUnderscoredName ?= Vtree.config().viewUnderscoredName(@$el)
 
   _hooks: ->
     # @options.hooks
