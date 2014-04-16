@@ -64,3 +64,119 @@ Also, Vtree gives you more methods for dealing with DOM. You can manipulate DOM 
 I'll describe Vtree API below, and won't write anything more. If you are interested, you can create really greate apps, based on it. If not, it'll also work for very simple applications.
 
 In general, the main idea of this library — I don't want to know what I need to initialize. I wan't to get pure html from server, insert it into DOM, and all other work, related to initialization of corresponding JS — should be made automatically.
+
+## Vtree hooks
+
+We can get access to ```data-app``` and ```data-view``` nodes whenever those nodes are being added or removed from DOM. We do it with hooks. We can add any number of those hooks with ```Vtree.onNodeInit``` and ```Vtree.onNodeUnload``` methods. Those methods recieves hooks (callbacks), with very important argument, passed to them.
+
+This argument is an instance of NodeData class, which will be described next.
+
+## NodeData class
+Each Vtree node has NodeData instance, associated with it. This object contains some very important information and few methods. Here are they.
+
+### isApplicationLayout
+**[true|false]**
+
+If DOM-element has ```data-app``` specified, then this element is a wrapper for set of ```data-view``` elements. If you think of this set of widgets as of application, than, the main element of this application is a layout for this application. So, if vtree node is an application layout, than this property will be ```true```.
+
+### isApplicationPart
+**[true/false]**
+
+As you'll see, we have different kind of widgets. Some of them are parts of applications, i.e. they don't make much sense alone. In our example all such views are like that.
+
+But we can specify views, which are not part of application, but are stand-alone views, which we can put inside any namespace. We can do it like this:
+
+````html
+<div id="my_element" data-view="ui#select" ></div>
+````
+
+Here ```data-view``` value is something, which consists of two parts. The first part is a namespace, and the second is an actual view name. What is namespace? It's just a place, where we can put all such independent views. In this case, such nodes won't be *application part*, because we can use them in any part of our project, it doesn't matter inside which layout they are located. And such views will have **isApplicationPart** equal to **false**.
+
+### isComponentPart
+**[true/false]**
+
+So, views, which we haved described above, are not parts of applications, but parts of components. Components are just set of independent views. For example, we can have **UI** component, which will have a number of different widgets, which can be used anywhere in our application. Such nodes will have **isComponentPart** equal to **true**.
+
+### applicationId
+**[Integer]**
+
+If our current node is **isApplicationPart**, than, nodes, located under different layouts, will have different applicationIds. Let's say we have such html:
+
+````html
+<div data-app="my_simple_app">
+  <div data-view="widget"></div>
+  <div data-view="another_widget"></div>
+</div>
+<div data-app="my_simple_app">
+  <div data-view="widget"></div>
+  <div data-view="another_widget"></div>
+</div>
+
+````
+
+As you see, we have two layout views, which point to the same namespace. It's a problem, because, for example, we want to bind all views from one namespace with some BB-models. **applicationId** will help us, because views from different layouts will have different **applicationId**.
+
+Component views will have **applicationId** equal to **null**.
+
+### nodeName
+**[String]**
+
+This is just camelized name of widjet:
+
+````html
+<!-- nodeName is 'Layout' -->
+<div data-app="my_simple_app">
+  <!-- nodeName is 'Widget' -->
+  <div data-view="widget"></div>
+    <!-- nodeName is 'AnotherWidget' -->
+  <div data-view="another_widget"></div>
+</div>
+<!-- nodeName is 'Select' -->
+<div data-view="ui#select">
+</div>
+````
+
+### applicationName
+**[String]**
+
+The same as **nodeName**, but for application name (is **null** if node is a component part):
+
+````html
+<!-- applicationName is 'MySimpleApp' -->
+<div data-app="my_simple_app">
+  <!-- applicationName is 'MySimpleApp' -->
+  <div data-view="widget"></div>
+    <!-- applicationName is 'MySimpleApp' -->
+  <div data-view="another_widget"></div>
+</div>
+<!-- applicationName is null -->
+<div data-view="ui#select">
+</div>
+````
+
+### componentName
+**[String]**
+The same as **nodeName**, but for component name (is **null** if node is an application part):
+
+````html
+<!-- componentName is null -->
+<div data-app="my_simple_app">
+  <!-- componentName is null -->
+  <div data-view="widget"></div>
+    <!-- componentName is null -->
+  <div data-view="another_widget"></div>
+</div>
+<!-- componentName is 'Ui' -->
+<div data-view="ui#select">
+</div>
+````
+
+### applicationNameUnderscored
+**[String]**
+
+The same as **applicationName**, but in underscored form.
+
+### componentNameUnderscored
+**[String]**
+
+The same as **componentName**, but in underscored form.
