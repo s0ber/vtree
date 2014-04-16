@@ -156,6 +156,7 @@ The same as **nodeName**, but for application name (is **null** if node is a com
 
 ### componentName
 **[String]**
+
 The same as **nodeName**, but for component name (is **null** if node is an application part):
 
 ````html
@@ -180,3 +181,11 @@ The same as **applicationName**, but in underscored form.
 **[String]**
 
 The same as **componentName**, but in underscored form.
+
+### setData(name, value)
+
+This method will save some data, associated with this node. This data then can be available in unload hook. For example, we can initialize backbone view, and save reference to it. And then we'll get access to this view to unload it.
+
+### getData(name)
+
+This method returns data, previously attached to this node.
