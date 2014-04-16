@@ -49,7 +49,8 @@ class NodeWrapper
       isComponentPart: @hasComponent()
       applicationId: if not @hasComponent() then @layoutId else null
 
-      nodeName: @nodeName
+      nodeName: @_camelize(@nodeName)
+      nodeNameUnderscored: @nodeName
       applicationName,
       applicationNameUnderscored,
       componentName,
