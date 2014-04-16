@@ -3,6 +3,7 @@ Vtree
 [![Build Status](https://travis-ci.org/s0ber/vtree.png?branch=master)](https://travis-ci.org/s0ber/vtree)
 
 Vtree is a small library for managing data, attached to DOM elements.
+
 Your question will be: "Why I need this? I have data-attributes, and JQuery's ```.data``` method."
 
 I can't give simple answer. But take a look at example, and you'll understand everything.
