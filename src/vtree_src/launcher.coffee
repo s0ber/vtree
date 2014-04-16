@@ -1,5 +1,5 @@
+Vtree = require('vtree')
 TreeManager = require('vtree/tree_manager')
-config = require('vtree/config')
 
 class Launcher
 
@@ -40,12 +40,12 @@ class Launcher
       e.stopPropagation()
 
       # finding closest element with node (it can be actually e.currentTarget)
-      $elWithNode = $(e.currentTarget).closest(config.selector)
+      $elWithNode = $(e.currentTarget).closest(Vtree.config().selector)
       nodeId = $elWithNode.data('vtree-node-id')
 
       # if current target don't have node, searching for it's parent
       while $elWithNode.length and not nodeId
-        $elWithNode = $elWithNode.parent().closest(config.selector)
+        $elWithNode = $elWithNode.parent().closest(Vtree.config().selector)
         nodeId = $elWithNode.data('vtree-node-id')
 
       return unless nodeId
@@ -76,8 +76,5 @@ class Launcher
 
   @setRefreshEventAsInitialized: ->
     @_isRefreshEventInitialized = true
-
-  @viewSelector: ->
-    @_viewSelector ||= "#{@options.appSelector}, #{@options.viewSelector}"
 
 modula.export('vtree/launcher', Launcher)

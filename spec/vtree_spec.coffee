@@ -1,4 +1,6 @@
+Configuration = require('vtree/configuration')
 Vtree = require('vtree')
+
 Launcher =
   launch: sinon.spy()
   createViewsTree: sinon.spy()
@@ -39,3 +41,14 @@ describe 'Vtree', ->
       expect(Vtree.getUnloadCallbacks()).to.be.eql [callback]
       Vtree.onNodeUnload(secondCallback)
       expect(Vtree.getUnloadCallbacks()).to.be.eql [callback, secondCallback]
+
+  describe '.configure', ->
+    it 'extends configuration data with provided options', ->
+      config = new Configuration
+      Vtree.config = -> config
+      Vtree.configure
+        viewSelector: '.test_view_selector'
+        appSelector: '.test_app_selector'
+
+      expect(Vtree.config().viewSelector).to.be.equal '.test_view_selector'
+      expect(Vtree.config().appSelector).to.be.equal '.test_app_selector'

@@ -1,4 +1,4 @@
-config = require('vtree/config')
+Vtree = require('vtree')
 
 NodesCache = require('vtree/vtree_nodes_cache')
 Node = require('vtree/node')
@@ -28,7 +28,7 @@ class TreeManager
     @activateInitialNodes()
 
   setInitialNodes: ->
-    $els = $(config.selector)
+    $els = $(Vtree.config().selector)
     @initialNodes = []
 
     for i in [0...$els.length]
@@ -44,7 +44,7 @@ class TreeManager
 
   setParentsForNodes: (nodes) ->
     for node in nodes
-      $parentEl = node.$el.parent().closest(config.selector)
+      $parentEl = node.$el.parent().closest(Vtree.config().selector)
 
       # element has no parent if not found (i.e. it is root element)
       if $parentEl.length is 0
@@ -101,7 +101,7 @@ class TreeManager
       @nodesCache.removeById(childNode.id)
 
   refresh: (refreshedNode) ->
-    $els = refreshedNode.$el.find(config.selector)
+    $els = refreshedNode.$el.find(Vtree.config().selector)
     newNodes = [refreshedNode]
 
     for i in [0...$els.length]

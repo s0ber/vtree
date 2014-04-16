@@ -13,15 +13,15 @@ module.exports = function (grunt) {
           'bower_components/sugar/release/sugar-full.development.js',
           'bower_components/underscore/underscore.js',
 
-          'src/config.coffee',
-          'src/vtree_src/vtree_nodes_cache.coffee',
+          'src/configuration.coffee',
+          'src/vtree.coffee',
           'src/vtree_src/hooks.coffee',
+          'src/vtree_src/vtree_nodes_cache.coffee',
           'src/vtree_src/node.coffee',
           'src/vtree_src/node_wrapper.coffee',
           'src/vtree_src/tree_manager.coffee',
           'src/vtree_src/node_hooks.coffee',
           'src/vtree_src/launcher.coffee',
-          'src/vtree.coffee',
 
           'spec/**/*_spec.coffee'
         ],
