@@ -59,7 +59,7 @@ module.exports = function (grunt) {
     coffee: {
       compile: {
         files: {
-          'src/vtree.js': [
+          'build/vtree.js': [
             'src/modula.coffee',
             'src/configuration.coffee',
             'src/vtree.coffee',
@@ -82,7 +82,7 @@ module.exports = function (grunt) {
       },
       my_target: {
         files: {
-          'build/vtree.min.js': ['src/vtree.js']
+          'build/vtree.min.js': ['build/vtree.js']
         }
       }
     }
@@ -91,4 +91,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-coffee');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  grunt.registerTask('default', ['coffee', 'uglify']);
 };
