@@ -102,7 +102,7 @@
     };
 
     Vtree.config = function() {
-      return this._config = new Configuration;
+      return this._config != null ? this._config : this._config = new Configuration;
     };
 
     Vtree.hooks = function() {
