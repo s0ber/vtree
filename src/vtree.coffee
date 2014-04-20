@@ -22,7 +22,7 @@ class Vtree
     _.extend(@config(), options)
 
   @config: ->
-    @_config = new Configuration
+    @_config ?= new Configuration
 
   @hooks: ->
     return @_hooks if @_hooks?
