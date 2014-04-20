@@ -78,7 +78,7 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
-        banner: '/*! Vtree (v0.1.0),\n' +
+        banner: '/*! Vtree (v0.1.2),\n' +
                 'simple library for creating complicated architectures,\n' +
                 'by Sergey Shishkalov <sergeyshishkalov@gmail.com>\n' +
                 '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
