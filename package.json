@@ -3,21 +3,12 @@
   "version": "0.1.2-alpha",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views",
-
   "devDependencies": {
     "coffee-script": "",
-
-    "grunt": "",
-    "grunt-cli": "",
-    "grunt-karma": "",
-    "grunt-contrib-coffee": "",
-    "grunt-contrib-uglify": "",
-
     "mocha": "",
     "chai": "",
     "sinon": "",
     "sinon-chai": "",
-
     "karma": "",
     "karma-cli": "",
     "karma-html2js-preprocessor": "",
@@ -25,21 +16,26 @@
     "karma-phantomjs-launcher": "",
     "karma-mocha": "",
     "karma-chai": "",
-    "karma-sinon-chai": ""
-  },
+    "karma-sinon-chai": "",
 
+    "gulp": "~3.6.2",
+    "gulp-util": "",
+    "gulp-coffee": "",
+    "gulp-concat": "",
+    "gulp-uglify": "",
+    "gulp-header": "",
+    "gulp-rename": "",
+    "coffeegulp": ""
+  },
   "engine": {
     "node": ">= 0.10"
   },
-
   "scripts": {
     "test": "./node_modules/grunt-cli/bin/grunt karma:ci"
   },
-
   "license": "MIT",
-
-  "repository" : {
-    "type" : "git",
-    "url" : "http://github.com/npm/npm.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/npm/npm.git"
   }
 }
