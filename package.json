@@ -25,13 +25,14 @@
     "gulp-uglify": "",
     "gulp-header": "",
     "gulp-rename": "",
+    "gulp-karma": "",
     "coffeegulp": ""
   },
   "engine": {
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "./node_modules/grunt-cli/bin/grunt karma:ci"
+    "test": "gulp --require coffee-script/register karma:ci"
   },
   "license": "MIT",
   "repository": {
