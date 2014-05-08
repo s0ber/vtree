@@ -25,7 +25,7 @@
     "gulp-uglify": "",
     "gulp-header": "",
     "gulp-rename": "",
-    "gulp-karma": "",
+    "gulp-karma": "git://github.com/s0ber/gulp-karma.git#ignore_gulp_src_files",
     "coffeegulp": ""
   },
   "engine": {

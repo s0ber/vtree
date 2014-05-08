@@ -12,15 +12,6 @@ projectHeader = '/*! Vtree (v0.1.2),\n
                 by Sergey Shishkalov <sergeyshishkalov@gmail.com>\n
                 <%= new Date().toDateString() %> */\n'
 
-fixtureFiles = [
-  'spec/fixtures/**/*.html'
-]
-
-vendorFiles = [
-  'bower_components/jquery/dist/jquery.js'
-  'bower_components/underscore/underscore.js'
-]
-
 sourceFiles = [
   'src/modula.coffee'
   'src/configuration.coffee'
@@ -34,11 +25,6 @@ sourceFiles = [
   'src/vtree_src/launcher.coffee'
   'src/vtree_src/dom.coffee'
 ]
-
-specFiles = fixtureFiles
-  .concat(vendorFiles)
-  .concat(sourceFiles)
-  .concat(['spec/**/*_spec.coffee'])
 
 gulp.task 'build', ->
   gulp.src(sourceFiles)
@@ -57,20 +43,20 @@ gulp.task 'minify', ['build'], ->
 gulp.task 'prepare', ['minify']
 
 gulp.task 'karma:release', ->
-  gulp.src(specFiles)
+  gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
     ))
 
 gulp.task 'karma:ci', ->
-  gulp.src(specFiles)
+  gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
       browsers: ['PhantomJS']
     ))
 
 gulp.task 'karma:dev', ->
-  gulp.src(specFiles)
+  gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
       reporters: ['dots']
