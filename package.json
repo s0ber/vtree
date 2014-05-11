@@ -2,7 +2,7 @@
   "name": "vtree",
   "version": "0.1.2-alpha",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
-  "description": "Library for automated initialization of backbone views",
+  "description": "Simple library for creating complicated architectures",
   "devDependencies": {
     "coffee-script": "",
     "mocha": "",
