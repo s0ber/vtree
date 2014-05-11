@@ -46,6 +46,7 @@ gulp.task 'karma:release', ->
   gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
+      sourceFiles: sourceFiles
     ))
 
 gulp.task 'karma:ci', ->
@@ -53,6 +54,7 @@ gulp.task 'karma:ci', ->
     .pipe(karma(
       configFile: 'karma.conf.coffee'
       browsers: ['PhantomJS']
+      sourceFiles: sourceFiles
     ))
 
 gulp.task 'karma:dev', ->
@@ -61,4 +63,5 @@ gulp.task 'karma:dev', ->
       configFile: 'karma.conf.coffee'
       reporters: ['dots']
       action: 'watch'
+      sourceFiles: sourceFiles
     ))

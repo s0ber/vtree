@@ -1,3 +1,5 @@
+karmaCliData = JSON.parse(process.argv[2])
+
 fixtureFiles = [
   'spec/fixtures/**/*.html'
 ]
@@ -7,19 +9,7 @@ vendorFiles = [
   'bower_components/underscore/underscore.js'
 ]
 
-sourceFiles = [
-  'src/modula.coffee'
-  'src/configuration.coffee'
-  'src/vtree.coffee'
-  'src/vtree_src/hooks.coffee'
-  'src/vtree_src/vtree_nodes_cache.coffee'
-  'src/vtree_src/node.coffee'
-  'src/vtree_src/node_data.coffee'
-  'src/vtree_src/node_wrapper.coffee'
-  'src/vtree_src/tree_manager.coffee'
-  'src/vtree_src/launcher.coffee'
-  'src/vtree_src/dom.coffee'
-]
+sourceFiles = karmaCliData.sourceFiles
 
 specFiles = fixtureFiles
   .concat(vendorFiles)
