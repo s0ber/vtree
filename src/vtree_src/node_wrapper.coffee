@@ -47,7 +47,8 @@ class NodeWrapper
       isApplicationLayout: @isLayout()
       isApplicationPart: not @hasComponent()
       isComponentPart: @hasComponent()
-      applicationId: if not @hasComponent() then @layoutId else null
+      applicationId: if @hasComponent() then null else @layoutId
+      applicationNode: @applicationNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
@@ -68,12 +69,19 @@ class NodeWrapper
   layout: ->
     @_layout ||=
       if @isLayout()
-        {name: @layoutUnderscoredName(), id: layoutId}
+        {name: @layoutUnderscoredName(), id: layoutId, node: @node}
       else if @node.parent?
         @node.parent.nodeWrapper.layout()
       else
         {name: SECRET_KEY, id: 0}
 
+
+  applicationNode: ->
+    @_applicationNode ?=
+      if @hasComponent() or @isLayout()
+        null
+      else
+        @layout().node
 
   # private
 
