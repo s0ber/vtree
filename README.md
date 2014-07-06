@@ -104,7 +104,7 @@ So, views, which we haved described above, are not parts of applications, but pa
 ### applicationId
 **[Integer]**
 
-If our current node is **isApplicationPart**, than, nodes, located under different layouts, will have different applicationIds. Let's say we have such html:
+If current node is an application part, then, nodes, located under different layouts, will have different **applicationIds**. Let's say we have such html:
 
 ````html
 <div data-app="my_simple_app">
@@ -121,6 +121,10 @@ If our current node is **isApplicationPart**, than, nodes, located under differe
 As you see, we have two layout views, which point to the same namespace. It's a problem, because, for example, we want to bind all views from one namespace with some BB-models. **applicationId** will help us, because views from different layouts will have different **applicationId**.
 
 Component views will have **applicationId** equal to **null**.
+
+### applicationNode
+
+If current node is an application part, then, reference to application's node will be returned. In all other cases (i.e. if node is an application layout or a component part), **null** will be returned.
 
 ### nodeName
 **[String]**
