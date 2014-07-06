@@ -123,6 +123,7 @@ As you see, we have two layout views, which point to the same namespace. It's a 
 Component views will have **applicationId** equal to **null**.
 
 ### applicationNode
+**[NodeData]**
 
 If current node is an application part, then, reference to application's node will be returned. In all other cases (i.e. if node is an application layout or a component part), **null** will be returned.
 
