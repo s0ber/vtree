@@ -1,26 +1,28 @@
 /*! Vtree (v0.1.2),
  simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Sun Jul 06 2014 */
+ Thu Jul 17 2014 */
 (function() {
   var modules;
 
   modules = {};
 
-  window.modula = {
-    "export": function(name, exports) {
-      return modules[name] = exports;
-    },
-    require: function(name) {
-      var Module;
-      Module = modules[name];
-      if (Module) {
-        return Module;
-      } else {
-        throw "Module '" + name + "' not found.";
+  if (window.modula == null) {
+    window.modula = {
+      "export": function(name, exports) {
+        return modules[name] = exports;
+      },
+      require: function(name) {
+        var Module;
+        Module = modules[name];
+        if (Module) {
+          return Module;
+        } else {
+          throw "Module '" + name + "' not found.";
+        }
       }
-    }
-  };
+    };
+  }
 
 }).call(this);
 
@@ -448,7 +450,7 @@
     };
 
     NodeWrapper.prototype.initNodeData = function() {
-      var applicationName, applicationNameUnderscored, componentName, componentNameUnderscored;
+      var applicationName, applicationNameUnderscored, componentName, componentNameUnderscored, _ref, _ref1;
       if (this.hasComponent()) {
         componentNameUnderscored = this.componentName;
         componentName = this._camelize(this.componentName);
@@ -466,7 +468,8 @@
         isApplicationLayout: this.isLayout(),
         isApplicationPart: !this.hasComponent(),
         isComponentPart: this.hasComponent(),
-        applicationId: !this.hasComponent() ? this.layoutId : null,
+        applicationId: this.hasComponent() ? null : this.layoutId,
+        applicationNode: ((_ref = this.applicationNode()) != null ? (_ref1 = _ref.nodeWrapper) != null ? _ref1.nodeData : void 0 : void 0) || null,
         nodeName: this._camelize(this.nodeName),
         nodeNameUnderscored: this.nodeName,
         applicationName: applicationName,
@@ -494,11 +497,16 @@
     NodeWrapper.prototype.layout = function() {
       return this._layout || (this._layout = this.isLayout() ? {
         name: this.layoutUnderscoredName(),
-        id: layoutId
+        id: layoutId,
+        node: this.node
       } : this.node.parent != null ? this.node.parent.nodeWrapper.layout() : {
         name: SECRET_KEY,
         id: 0
       });
+    };
+
+    NodeWrapper.prototype.applicationNode = function() {
+      return this._applicationNode != null ? this._applicationNode : this._applicationNode = this.hasComponent() || this.isLayout() ? null : this.layout().node;
     };
 
     NodeWrapper.prototype.isLayout = function() {
