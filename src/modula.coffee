@@ -1,6 +1,6 @@
 modules = {}
 
-window.modula =
+window.modula ?=
 
   export: (name, exports) ->
     modules[name] = exports
