@@ -20,13 +20,11 @@ class Node
     @parent = node
 
   setChildren: (nodes) ->
-    @children = _.filter(nodes, (node) =>
-      node.parent and node.parent.el is @el
-    )
+    @children = _.filter(nodes, (node) => node.parent is @)
 
   removeChild: (node) ->
-    return if _.indexOf(@children, node) is -1
-    @children = _.reject(@children, (childNode) -> childNode is node)
+    return if (nodeIndex = _.indexOf(@children, node)) is -1
+    @children.splice(nodeIndex, 1)
 
   init: ->
     @hooks.init(@)
