@@ -93,3 +93,39 @@ describe 'DOM', ->
       $el = @$els.find('#view3')
       DOM.remove($el)
       expect(@$els.find('#view3').length).to.be.equal 0
+
+  describe 'Async DOM modifying', ->
+
+    before ->
+      $els = $render('nodes_with_data_view')
+      $newEls = $render('nodes_for_refresh')
+
+      $('body').empty().append($els)
+
+      @dfd = new $.Deferred()
+      @firstTestFn = sinon.spy()
+      @secondTestFn = sinon.spy()
+
+      @Vtree = modula.require('vtree')
+      @Vtree.hooks()._reset()
+
+      @Vtree.onNodeInit (node) =>
+        # update DOM when first view is initializing
+        if node.isApplicationLayout and node.applicationName is 'TestApp'
+          @Vtree.DOM.appendAsync($('#app1'), $newEls)
+        else if node.nodeName is 'TestView3'
+          @firstTestFn()
+        else if node.nodeName is 'TestView9'
+          @secondTestFn()
+          @dfd.resolve()
+
+    after ->
+      Vtree.hooks()._reset()
+
+    it 'modifies DOM asynchrounously', ->
+      @Vtree.initNodesAsync()
+      @dfd.done =>
+        expect(@firstTestFn).to.be.calledOnce
+        expect(@secondTestFn).to.be.calledOnce
+        expect(@firstTestFn).to.be.calledBefore @secondTestFn
+

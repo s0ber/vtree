@@ -8,7 +8,11 @@ Launcher =
 describe 'Vtree', ->
 
   before ->
+    @initialLauncher = Vtree._launcher
     Vtree._launcher = (-> Launcher)
+
+  after ->
+    Vtree._launcher = @initialLauncher
 
   describe '.initNodes', ->
     it "calls Launcher's launch and createViewsTree functions", ->

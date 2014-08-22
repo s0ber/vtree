@@ -29,4 +29,9 @@ class Hooks
   unload: (args...) ->
     callback(args...) for callback in @onUnloadCallbacks()
 
+  _reset: ->
+    @_onInitCallbacks = []
+    @_onActivationCallbacks = []
+    @_onUnloadCallbacks = []
+
 modula.export('vtree/hooks', Hooks)

@@ -1,3 +1,5 @@
+AsyncFn = modula.require('vtree/async_fn')
+
 class DOM
 
   @html: ($el, html) ->
@@ -13,17 +15,60 @@ class DOM
     $parentEl.trigger('refresh')
 
   @before: ($el, $inserterdEl) ->
-    return if $el[0] is document.body
     $el.before($inserterdEl)
     $el.parent().trigger('refresh')
 
   @after: ($el, $inserterdEl) ->
-    return if $el[0] is document.body
     $el.after($inserterdEl)
     $el.parent().trigger('refresh')
 
   @remove: ($el) ->
     $el.remove()
+
+  @htmlAsync: ($el, html) ->
+    AsyncFn.addToCallQueue ->
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate ->
+        $el.html(html)
+        $el.trigger('refresh')
+        dfd.resolve()
+      dfd.promise()
+
+  @appendAsync: ($parentEl, $el) ->
+    AsyncFn.addToCallQueue ->
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate ->
+        $parentEl.append($el)
+        $parentEl.trigger('refresh')
+        dfd.resolve()
+      dfd.promise()
+
+  @prependAsync: ($parentEl, $el) ->
+    AsyncFn.addToCallQueue ->
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate ->
+        $parentEl.prepend($el)
+        $parentEl.trigger('refresh')
+        dfd.resolve()
+      dfd.promise()
+
+  @beforeAsync: ($el, $inserterdEl) ->
+    AsyncFn.addToCallQueue ->
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate ->
+        $el.before($inserterdEl)
+        $el.parent().trigger('refresh')
+        dfd.resolve()
+      dfd.promise()
+
+  @afterAsync: ($el, $inserterdEl) ->
+    AsyncFn.addToCallQueue ->
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate ->
+        $el.after($inserterdEl)
+        $el.parent().trigger('refresh')
+        dfd.resolve()
+      dfd.promise()
 
 modula.export('vtree/dom', DOM)
 window.Vtree.DOM = DOM

@@ -6,6 +6,16 @@ class Vtree
     @_launcher().launch()
     @_launcher().createViewsTree()
 
+  @initNodesAsync: ->
+    AsyncFn = modula.require('vtree/async_fn')
+
+    AsyncFn.addToCallQueue =>
+      dfd = new $.Deferred()
+      AsyncFn.setImmediate =>
+        @initNodes()
+        dfd.resolve()
+      dfd.promise()
+
   @onNodeInit: (callback) ->
     @hooks().onInit(callback)
 
