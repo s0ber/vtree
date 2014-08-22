@@ -1,7 +1,7 @@
 /*! Vtree (v0.1.2),
  simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Thu Jul 17 2014 */
+ Sat Aug 23 2014 */
 (function() {
   var modules;
 
@@ -87,6 +87,22 @@
       return this._launcher().createViewsTree();
     };
 
+    Vtree.initNodesAsync = function() {
+      var AsyncFn;
+      AsyncFn = modula.require('vtree/async_fn');
+      return AsyncFn.addToCallQueue((function(_this) {
+        return function() {
+          var dfd;
+          dfd = new $.Deferred();
+          AsyncFn.setImmediate(function() {
+            _this.initNodes();
+            return dfd.resolve();
+          });
+          return dfd.promise();
+        };
+      })(this));
+    };
+
     Vtree.onNodeInit = function(callback) {
       return this.hooks().onInit(callback);
     };
@@ -131,6 +147,92 @@
   modula["export"]('vtree', Vtree);
 
   window.Vtree = Vtree;
+
+}).call(this);
+
+(function() {
+  var AsyncFn;
+
+  AsyncFn = (function() {
+    function AsyncFn(asyncFn) {
+      this.fn = asyncFn;
+    }
+
+    AsyncFn.prototype.done = function(callback) {
+      this.callback = callback;
+      if (this.isCalled) {
+        return this.callback();
+      }
+    };
+
+    AsyncFn.prototype.call = function() {
+      if (this.isCalled) {
+        return;
+      }
+      return this.fn().always((function(_this) {
+        return function() {
+          _this.isCalled = true;
+          if (_this.callback) {
+            return _this.callback();
+          }
+        };
+      })(this));
+    };
+
+    AsyncFn.addToCallQueue = function(fn) {
+      var asyncFn;
+      asyncFn = new AsyncFn(fn);
+      if (this.currentFn != null) {
+        this.currentFn.done((function(_this) {
+          return function() {
+            return asyncFn.call();
+          };
+        })(this));
+      } else {
+        asyncFn.call();
+      }
+      return this.currentFn = asyncFn;
+    };
+
+    AsyncFn.setImmediate = (function() {
+      var ID, head, onmessage, tail;
+      head = {};
+      tail = head;
+      ID = Math.random();
+      onmessage = function(e) {
+        var func;
+        if (e.data !== ID) {
+          return;
+        }
+        head = head.next;
+        func = head.func;
+        delete head.func;
+        return func();
+      };
+      if (window.addEventListener) {
+        window.addEventListener("message", onmessage, false);
+      } else {
+        window.attachEvent("onmessage", onmessage);
+      }
+      if (window.postMessage) {
+        return function(func) {
+          tail = tail.next = {
+            func: func
+          };
+          return window.postMessage(ID, "*");
+        };
+      } else {
+        return function(func) {
+          return setTimeout(func, 0);
+        };
+      }
+    })();
+
+    return AsyncFn;
+
+  })();
+
+  modula["export"]('vtree/async_fn', AsyncFn);
 
 }).call(this);
 
@@ -199,6 +301,12 @@
         _results.push(callback.apply(null, args));
       }
       return _results;
+    };
+
+    Hooks.prototype._reset = function() {
+      this._onInitCallbacks = [];
+      this._onActivationCallbacks = [];
+      return this._onUnloadCallbacks = [];
     };
 
     return Hooks;
@@ -286,18 +394,17 @@
     Node.prototype.setChildren = function(nodes) {
       return this.children = _.filter(nodes, (function(_this) {
         return function(node) {
-          return node.parent && node.parent.el === _this.el;
+          return node.parent === _this;
         };
       })(this));
     };
 
     Node.prototype.removeChild = function(node) {
-      if (_.indexOf(this.children, node) === -1) {
+      var nodeIndex;
+      if ((nodeIndex = _.indexOf(this.children, node)) === -1) {
         return;
       }
-      return this.children = _.reject(this.children, function(childNode) {
-        return childNode === node;
-      });
+      return this.children.splice(nodeIndex, 1);
     };
 
     Node.prototype.init = function() {
@@ -834,7 +941,9 @@
 }).call(this);
 
 (function() {
-  var DOM;
+  var AsyncFn, DOM;
+
+  AsyncFn = modula.require('vtree/async_fn');
 
   DOM = (function() {
     function DOM() {}
@@ -855,23 +964,82 @@
     };
 
     DOM.before = function($el, $inserterdEl) {
-      if ($el[0] === document.body) {
-        return;
-      }
       $el.before($inserterdEl);
       return $el.parent().trigger('refresh');
     };
 
     DOM.after = function($el, $inserterdEl) {
-      if ($el[0] === document.body) {
-        return;
-      }
       $el.after($inserterdEl);
       return $el.parent().trigger('refresh');
     };
 
     DOM.remove = function($el) {
       return $el.remove();
+    };
+
+    DOM.htmlAsync = function($el, html) {
+      return AsyncFn.addToCallQueue(function() {
+        var dfd;
+        dfd = new $.Deferred();
+        AsyncFn.setImmediate(function() {
+          $el.html(html);
+          $el.trigger('refresh');
+          return dfd.resolve();
+        });
+        return dfd.promise();
+      });
+    };
+
+    DOM.appendAsync = function($parentEl, $el) {
+      return AsyncFn.addToCallQueue(function() {
+        var dfd;
+        dfd = new $.Deferred();
+        AsyncFn.setImmediate(function() {
+          $parentEl.append($el);
+          $parentEl.trigger('refresh');
+          return dfd.resolve();
+        });
+        return dfd.promise();
+      });
+    };
+
+    DOM.prependAsync = function($parentEl, $el) {
+      return AsyncFn.addToCallQueue(function() {
+        var dfd;
+        dfd = new $.Deferred();
+        AsyncFn.setImmediate(function() {
+          $parentEl.prepend($el);
+          $parentEl.trigger('refresh');
+          return dfd.resolve();
+        });
+        return dfd.promise();
+      });
+    };
+
+    DOM.beforeAsync = function($el, $inserterdEl) {
+      return AsyncFn.addToCallQueue(function() {
+        var dfd;
+        dfd = new $.Deferred();
+        AsyncFn.setImmediate(function() {
+          $el.before($inserterdEl);
+          $el.parent().trigger('refresh');
+          return dfd.resolve();
+        });
+        return dfd.promise();
+      });
+    };
+
+    DOM.afterAsync = function($el, $inserterdEl) {
+      return AsyncFn.addToCallQueue(function() {
+        var dfd;
+        dfd = new $.Deferred();
+        AsyncFn.setImmediate(function() {
+          $el.after($inserterdEl);
+          $el.parent().trigger('refresh');
+          return dfd.resolve();
+        });
+        return dfd.promise();
+      });
     };
 
     return DOM;
