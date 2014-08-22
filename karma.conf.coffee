@@ -7,6 +7,7 @@ fixtureFiles = [
 vendorFiles = [
   'bower_components/jquery/dist/jquery.js'
   'bower_components/underscore/underscore.js'
+  'bower_components/async_fn/build/async_fn.js'
 ]
 
 sourceFiles = karmaCliData.sourceFiles

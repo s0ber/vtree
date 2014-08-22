@@ -7,8 +7,6 @@ class Vtree
     @_launcher().createViewsTree()
 
   @initNodesAsync: ->
-    AsyncFn = modula.require('vtree/async_fn')
-
     AsyncFn.addToCallQueue =>
       dfd = new $.Deferred()
       AsyncFn.setImmediate =>

@@ -16,7 +16,6 @@ sourceFiles = [
   'src/modula.coffee'
   'src/configuration.coffee'
   'src/vtree.coffee'
-  'src/vtree_src/async_fn.coffee'
   'src/vtree_src/hooks.coffee'
   'src/vtree_src/vtree_nodes_cache.coffee'
   'src/vtree_src/node.coffee'

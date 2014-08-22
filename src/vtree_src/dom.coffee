@@ -1,5 +1,3 @@
-AsyncFn = modula.require('vtree/async_fn')
-
 class DOM
 
   @html: ($el, html) ->
