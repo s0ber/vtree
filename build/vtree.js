@@ -88,8 +88,6 @@
     };
 
     Vtree.initNodesAsync = function() {
-      var AsyncFn;
-      AsyncFn = modula.require('vtree/async_fn');
       return AsyncFn.addToCallQueue((function(_this) {
         return function() {
           var dfd;
@@ -147,92 +145,6 @@
   modula["export"]('vtree', Vtree);
 
   window.Vtree = Vtree;
-
-}).call(this);
-
-(function() {
-  var AsyncFn;
-
-  AsyncFn = (function() {
-    function AsyncFn(asyncFn) {
-      this.fn = asyncFn;
-    }
-
-    AsyncFn.prototype.done = function(callback) {
-      this.callback = callback;
-      if (this.isCalled) {
-        return this.callback();
-      }
-    };
-
-    AsyncFn.prototype.call = function() {
-      if (this.isCalled) {
-        return;
-      }
-      return this.fn().always((function(_this) {
-        return function() {
-          _this.isCalled = true;
-          if (_this.callback) {
-            return _this.callback();
-          }
-        };
-      })(this));
-    };
-
-    AsyncFn.addToCallQueue = function(fn) {
-      var asyncFn;
-      asyncFn = new AsyncFn(fn);
-      if (this.currentFn != null) {
-        this.currentFn.done((function(_this) {
-          return function() {
-            return asyncFn.call();
-          };
-        })(this));
-      } else {
-        asyncFn.call();
-      }
-      return this.currentFn = asyncFn;
-    };
-
-    AsyncFn.setImmediate = (function() {
-      var ID, head, onmessage, tail;
-      head = {};
-      tail = head;
-      ID = Math.random();
-      onmessage = function(e) {
-        var func;
-        if (e.data !== ID) {
-          return;
-        }
-        head = head.next;
-        func = head.func;
-        delete head.func;
-        return func();
-      };
-      if (window.addEventListener) {
-        window.addEventListener("message", onmessage, false);
-      } else {
-        window.attachEvent("onmessage", onmessage);
-      }
-      if (window.postMessage) {
-        return function(func) {
-          tail = tail.next = {
-            func: func
-          };
-          return window.postMessage(ID, "*");
-        };
-      } else {
-        return function(func) {
-          return setTimeout(func, 0);
-        };
-      }
-    })();
-
-    return AsyncFn;
-
-  })();
-
-  modula["export"]('vtree/async_fn', AsyncFn);
 
 }).call(this);
 
@@ -941,9 +853,7 @@
 }).call(this);
 
 (function() {
-  var AsyncFn, DOM;
-
-  AsyncFn = modula.require('vtree/async_fn');
+  var DOM;
 
   DOM = (function() {
     function DOM() {}

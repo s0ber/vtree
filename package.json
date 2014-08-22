@@ -1,6 +1,6 @@
 {
   "name": "vtree",
-  "version": "0.1.6-alpha",
+  "version": "0.1.7-alpha",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views",
   "devDependencies": {
