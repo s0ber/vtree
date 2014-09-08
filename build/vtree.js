@@ -38,32 +38,34 @@
 
     Configuration.prototype.selector = '[data-component], [data-view]';
 
-    Configuration.prototype.standAlonePattern = /(.+)#(.+)/;
+    Configuration.prototype.namespacePattern = /(.+)#(.+)/;
 
     Configuration.prototype.isComponentIndex = function($el) {
       return $el.data('component') != null;
     };
 
-    Configuration.prototype.componentUnderscoredName = function($el) {
-      return $el.data('component');
-    };
-
     Configuration.prototype.nodeUnderscoredName = function($el) {
       if (this.isComponentIndex($el)) {
-        return 'index';
+        return $el.data('component');
       } else {
         return $el.data('view') || '';
       }
     };
 
     Configuration.prototype.isStandAlone = function($el) {
-      return this.standAlonePattern.test(this.nodeUnderscoredName($el));
+      return !this.isComponentIndex($el) && this.namespacePattern.test(this.nodeUnderscoredName($el));
     };
 
-    Configuration.prototype.extractComponentData = function($el) {
-      var componentName, viewName, __, _ref;
-      _ref = this.nodeUnderscoredName($el).match(this.standAlonePattern), __ = _ref[0], componentName = _ref[1], viewName = _ref[2];
-      return [componentName, viewName];
+    Configuration.prototype.extractStandAloneNodeData = function($el) {
+      var namespaceName, nodeName, __, _ref;
+      _ref = this.nodeUnderscoredName($el).match(this.namespacePattern), __ = _ref[0], namespaceName = _ref[1], nodeName = _ref[2];
+      return [namespaceName, nodeName];
+    };
+
+    Configuration.prototype.extractComponentIndexNodeData = function($el) {
+      var componentName, namespaceName, __, _ref;
+      _ref = this.nodeUnderscoredName($el).match(this.namespacePattern), __ = _ref[0], namespaceName = _ref[1], componentName = _ref[2];
+      return [namespaceName, componentName];
     };
 
     return Configuration;
@@ -390,6 +392,8 @@
 
     NodeData.prototype.componentId = null;
 
+    NodeData.prototype.componentIndexNode = null;
+
     NodeData.prototype.nodeName = null;
 
     NodeData.prototype.componentName = null;
@@ -400,7 +404,7 @@
 
     NodeData.prototype.componentNameUnderscored = null;
 
-    NodeData.prototype.componentNameUnderscored = null;
+    NodeData.prototype.namespaceNameUnderscored = null;
 
     function NodeData(options) {
       _.extend(this, options);
@@ -451,10 +455,10 @@
     NodeWrapper.prototype.identifyNodeAttributes = function() {
       var _ref;
       if (this.isStandAlone()) {
-        return _ref = Vtree.config().extractComponentData(this.$el), this.namespaceName = _ref[0], this.nodeName = _ref[1], _ref;
+        return _ref = Vtree.config().extractStandAloneNodeData(this.$el), this.namespaceName = _ref[0], this.nodeName = _ref[1], _ref;
       } else {
-        this.namespaceName = this.component().name;
-        return this.nodeName = this.nodeUnderscoredName();
+        this.namespaceName = this.component().namespace;
+        return this.nodeName = this.isComponentIndex() ? 'index' : this.nodeUnderscoredName();
       }
     };
 
@@ -466,23 +470,21 @@
 
     NodeWrapper.prototype.initNodeData = function() {
       var componentName, componentNameUnderscored, namespaceName, namespaceNameUnderscored, _ref, _ref1;
+      namespaceNameUnderscored = this.namespaceName;
+      namespaceName = this._camelize(this.namespaceName);
       if (this.isStandAlone()) {
-        namespaceNameUnderscored = this.namespaceName;
-        namespaceName = this._camelize(this.namespaceName);
         componentNameUnderscored = null;
         componentName = null;
       } else {
-        componentNameUnderscored = this.namespaceName;
-        componentName = this._camelize(this.namespaceName);
-        namespaceNameUnderscored = null;
-        namespaceName = null;
+        componentNameUnderscored = this.component().name;
+        componentName = this._camelize(componentNameUnderscored);
       }
       return new NodeData({
         el: this.el,
         $el: this.$el,
+        isStandAlone: this.isStandAlone(),
         isComponentIndex: this.isComponentIndex(),
         isComponentPart: !this.isStandAlone(),
-        isStandAlone: this.isStandAlone(),
         componentId: this.isStandAlone() ? null : this.component().id,
         componentIndexNode: ((_ref = this.componentIndexNode()) != null ? (_ref1 = _ref.nodeWrapper) != null ? _ref1.nodeData : void 0 : void 0) || null,
         nodeName: this._camelize(this.nodeName),
@@ -510,13 +512,17 @@
     };
 
     NodeWrapper.prototype.component = function() {
-      return this._component || (this._component = this.isComponentIndex() ? {
-        name: this.componentUnderscoredName(),
+      var componentName, namespaceName, _ref;
+      return this._component || (this._component = this.isComponentIndex() ? ((_ref = Vtree.config().extractComponentIndexNodeData(this.$el), namespaceName = _ref[0], componentName = _ref[1], _ref), {
+        namespace: namespaceName,
+        name: componentName,
         id: componentId,
         node: this.node
-      } : this.node.parent != null ? this.node.parent.nodeWrapper.component() : {
+      }) : this.node.parent != null ? this.node.parent.nodeWrapper.component() : {
+        namespace: SECRET_KEY,
         name: SECRET_KEY,
-        id: 0
+        id: 0,
+        node: this.node
       });
     };
 
@@ -526,10 +532,6 @@
 
     NodeWrapper.prototype.isComponentIndex = function() {
       return this._isComponentIndex != null ? this._isComponentIndex : this._isComponentIndex = Vtree.config().isComponentIndex(this.$el);
-    };
-
-    NodeWrapper.prototype.componentUnderscoredName = function() {
-      return this._componentUnderscoredName != null ? this._componentUnderscoredName : this._componentUnderscoredName = Vtree.config().componentUnderscoredName(this.$el);
     };
 
     NodeWrapper.prototype.nodeUnderscoredName = function() {

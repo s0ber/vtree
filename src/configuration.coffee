@@ -1,6 +1,6 @@
 class Configuration
 
-  standAloneSelector: '[data-view]'
+  viewSelector: '[data-view]'
   componentSelector: '[data-component]'
   selector: '[data-component], [data-view]'
   namespacePattern: /(.+)#(.+)/
