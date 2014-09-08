@@ -26,7 +26,7 @@ sourceFiles = [
   'src/vtree_src/dom.coffee'
 ]
 
-gulp.task 'build', ->
+gulp.task 'build', ['karma:ci'], ->
   gulp.src(sourceFiles)
     .pipe(coffee(bare: false).on('error', gutil.log))
     .pipe(concat('vtree.js'))
@@ -40,20 +40,10 @@ gulp.task 'minify', ['build'], ->
     .pipe(header(projectHeader))
     .pipe(gulp.dest('build/'))
 
-gulp.task 'prepare', ['minify']
-
-gulp.task 'karma:release', ->
-  gulp.src('')
-    .pipe(karma(
-      configFile: 'karma.conf.coffee'
-      sourceFiles: sourceFiles
-    ))
-
 gulp.task 'karma:ci', ->
   gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
-      browsers: ['PhantomJS']
       sourceFiles: sourceFiles
     ))
 
@@ -65,3 +55,5 @@ gulp.task 'karma:dev', ->
       action: 'watch'
       sourceFiles: sourceFiles
     ))
+
+gulp.task 'release', ['karma:ci', 'build', 'minify']
