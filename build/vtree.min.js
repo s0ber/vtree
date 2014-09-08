@@ -1,4 +1,4 @@
-/*! vtree (v0.2.0),
+/*! vtree (v0.2.1),
  Simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
  Tue Sep 09 2014 */
