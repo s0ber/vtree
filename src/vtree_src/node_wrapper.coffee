@@ -3,26 +3,25 @@ NodeData = modula.require('vtree/node_data')
 
 class NodeWrapper
 
-  layoutId = 0
-  COMPONENT_PATTERN = /(.+)#(.+)/
+  componentId = 0
   SECRET_KEY = 'semarf'
 
   constructor: (@node) ->
     @$el = @node.$el
     @el = @node.el
 
-    layoutId++ if @isLayout()
+    componentId++ if @isComponentIndex()
     @identifyNodeAttributes()
     @initNodeDataObject()
 
   identifyNodeAttributes: ->
-    @layoutName = @layout().name
-    @layoutId = @layout().id
+    @componentName = @layout().name
+    @componentId = @layout().id
 
-    if @hasComponent()
+    if @isStandAlone()
       [@namespaceName, @nodeName] = Vtree.config().extractComponentData(@$el)
     else
-      @namespaceName = @layoutName
+      @namespaceName = @componentName
       @nodeName = @nodeUnderscoredName()
 
   initNodeDataObject: ->
@@ -30,7 +29,7 @@ class NodeWrapper
     @_hooks()?.init?(@nodeData)
 
   initNodeData: ->
-    if @hasComponent()
+    if @isStandAlone()
       namespaceNameUnderscored = @namespaceName
       namespaceName = @_camelize(@namespaceName)
       applicationNameUnderscored = null
@@ -44,10 +43,10 @@ class NodeWrapper
     new NodeData({
       el: @el
       $el: @$el
-      isApplicationLayout: @isLayout()
-      isApplicationPart: not @hasComponent()
-      isComponentPart: @hasComponent()
-      applicationId: if @hasComponent() then null else @layoutId
+      isComponentIndex: @isComponentIndex()
+      isComponentPart: not @isStandAlone()
+      isStandAlone: @isStandAlone()
+      componentId: if @isStandAlone() then null else @componentId
       applicationNode: @applicationNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
@@ -63,13 +62,13 @@ class NodeWrapper
     delete @nodeData
     delete @node
 
-  hasComponent: ->
-    @_hasComponent ||= Vtree.config().hasComponent(@$el)
+  isStandAlone: ->
+    @_isStandAlone ||= Vtree.config().isStandAlone(@$el)
 
   layout: ->
     @_layout ||=
-      if @isLayout()
-        {name: @layoutUnderscoredName(), id: layoutId, node: @node}
+      if @isComponentIndex()
+        {name: @layoutUnderscoredName(), id: componentId, node: @node}
       else if @node.parent?
         @node.parent.nodeWrapper.layout()
       else
@@ -78,15 +77,15 @@ class NodeWrapper
 
   applicationNode: ->
     @_applicationNode ?=
-      if @hasComponent() or @isLayout()
+      if @isStandAlone() or @isComponentIndex()
         null
       else
         @layout().node
 
   # private
 
-  isLayout: ->
-    @_isLayout ?= Vtree.config().isLayout(@$el)
+  isComponentIndex: ->
+    @_isComponentIndex ?= Vtree.config().isComponentIndex(@$el)
 
   layoutUnderscoredName: ->
     @_layoutUnderscoredName ?= Vtree.config().layoutUnderscoredName(@$el)

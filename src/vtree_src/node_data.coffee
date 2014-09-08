@@ -3,10 +3,10 @@ class NodeData
   el: null
   $el: null
 
-  isApplicationLayout: null
-  isApplicationPart: null
+  isComponentIndex: null
   isComponentPart: null
-  applicationId: null
+  isStandAlone: null
+  componentId: null
 
   nodeName: null
   applicationName: null
