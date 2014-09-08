@@ -29,11 +29,11 @@ class NodeWrapper
     if @isStandAlone()
       namespaceNameUnderscored = @namespaceName
       namespaceName = @_camelize(@namespaceName)
-      applicationNameUnderscored = null
-      applicationName = null
+      componentNameUnderscored = null
+      componentName = null
     else
-      applicationNameUnderscored = @namespaceName
-      applicationName = @_camelize(@namespaceName)
+      componentNameUnderscored = @namespaceName
+      componentName = @_camelize(@namespaceName)
       namespaceNameUnderscored = null
       namespaceName = null
 
@@ -48,8 +48,8 @@ class NodeWrapper
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
-      applicationName,
-      applicationNameUnderscored,
+      componentName,
+      componentNameUnderscored,
       namespaceName,
       namespaceNameUnderscored
     })

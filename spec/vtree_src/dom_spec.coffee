@@ -111,7 +111,7 @@ describe 'DOM', ->
 
       @Vtree.onNodeInit (node) =>
         # update DOM when first view is initializing
-        if node.isComponentIndex and node.applicationName is 'TestComponent'
+        if node.isComponentIndex and node.componentName is 'TestComponent'
           @Vtree.DOM.appendAsync($('#component1'), $newEls)
         else if node.nodeName is 'TestView3'
           @firstTestFn()

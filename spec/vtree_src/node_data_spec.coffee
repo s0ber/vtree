@@ -4,10 +4,10 @@ describe 'NodeData', ->
 
   beforeEach ->
     @options =
-      isApplicationLayout: true
-      isApplicationPart: false
-      isComponentPart: false
-      applicationId: 1
+      isComponentIndex: true
+      isComponentPart: true
+      isStandAlone: false
+      componentId: 1
 
       nodeName: 'TestView'
       applicationName: 'TestApp'

@@ -9,11 +9,11 @@ class NodeData
   componentId: null
 
   nodeName: null
-  applicationName: null
+  componentName: null
   namespaceName: null
 
   nodeNameUnderscored: null
-  applicationNameUnderscored: null
+  componentNameUnderscored: null
   componentNameUnderscored: null
 
   constructor: (options) ->
