@@ -44,7 +44,7 @@ class NodeWrapper
       isComponentPart: not @isStandAlone()
       isStandAlone: @isStandAlone()
       componentId: if @isStandAlone() then null else @component().id
-      applicationNode: @applicationNode()?.nodeWrapper?.nodeData || null
+      componentIndexNode: @componentIndexNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
@@ -72,8 +72,8 @@ class NodeWrapper
         {name: SECRET_KEY, id: 0}
 
 
-  applicationNode: ->
-    @_applicationNode ?=
+  componentIndexNode: ->
+    @_componentIndexNode ?=
       if @isStandAlone() or @isComponentIndex()
         null
       else
