@@ -7,10 +7,12 @@ uglify = require('gulp-uglify')
 rename = require('gulp-rename')
 karma = require('gulp-karma')
 
-projectHeader = '/*! Vtree (v0.1.2),\n
-                simple library for creating complicated architectures,\n
-                by Sergey Shishkalov <sergeyshishkalov@gmail.com>\n
-                <%= new Date().toDateString() %> */\n'
+p = require('./package.json')
+
+projectHeader = "/*! #{p.name} (v#{p.version}),\n
+                Simple library for creating complicated architectures,\n
+                by #{p.author}\n
+                #{new Date().toDateString()} */\n"
 
 sourceFiles = [
   'src/modula.coffee'
