@@ -15,7 +15,7 @@ describe 'NodeData', ->
 
       nodeNameUnderscored: 'test_view'
       componentNameUnderscored: 'test_component'
-      componentNameUnderscored: null
+      namespaceNameUnderscored: null
 
     @nodeData = new NodeData(@options)
 
