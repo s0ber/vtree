@@ -1,11 +1,11 @@
 {
   "name": "vtree",
-  "version": "0.1.8",
+  "version": "0.2.1",
   "homepage": "https://github.com/s0ber/vtree",
   "authors": [
     "Sergey Shishkalov <sergeyshishkalov@gmail.com>"
   ],
-  "description": "Library for automated initialization of backbone views",
+  "description": "Library for automated initialization of backbone views (or whatever)",
 
   "dependencies": {
     "jquery": "",

@@ -64,13 +64,13 @@ describe 'Launcher', ->
 
       it "calls tree manager's refresh event", ->
         initCallCount = @treeManager.refresh.callCount
-        $el = $('body').find('#app1')
+        $el = $('body').find('#component1')
         $el.trigger('refresh')
         expect(@treeManager.refresh.callCount).to.be.eql(initCallCount + 1)
 
       it 'looks for closest element with initialized node', ->
         $elWithoutView = $('body').find('#no_view')
-        $closestWithView = $('body').find('#app1')
+        $closestWithView = $('body').find('#component1')
         $elWithoutView.trigger('refresh')
 
         node = @treeManager.refresh.lastCall.args[0]

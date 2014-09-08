@@ -45,12 +45,12 @@ describe 'TreeManager', ->
         node.activate()
         expect(@treeManager.addNodeWrapper).to.be.calledOnce
 
-      it 'adds @unloadView unload hook', ->
-        sinon.spy(TreeManager::, 'unloadView')
+      it 'adds @unloadNode unload hook', ->
+        sinon.spy(TreeManager::, 'unloadNode')
         @treeManager = new TreeManager
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
-        expect(@treeManager.unloadView).to.be.calledOnce
+        expect(@treeManager.unloadNode).to.be.calledOnce
 
       it 'adds @deleteNodeWrapper unload hook', ->
         sinon.spy(TreeManager::, 'deleteNodeWrapper')
@@ -83,11 +83,11 @@ describe 'TreeManager', ->
 
         expect(node.nodeWrapper.constructor).to.match(/NodeWrapper/)
 
-    describe '.unloadView', ->
+    describe '.unloadNode', ->
       it 'unloads NodeWrapper instance', ->
         node = {}
         node.nodeWrapper = {unload: sinon.spy()}
-        @treeManager.unloadView(node)
+        @treeManager.unloadNode(node)
         expect(node.nodeWrapper.unload).to.be.calledOnce
 
     describe '.deleteNodeWrapper', ->
@@ -187,17 +187,17 @@ describe 'TreeManager', ->
           @treeManager.setInitialNodes()
           @nodes = @treeManager.initialNodes
 
-          $app = $('#app1')
+          $component = $('#component1')
           $view1 = $('#view1')
           $view2 = $('#view2')
           $view3 = $('#view3')
 
-          appNodeId = $app.data('vtree-node-id')
+          componentNodeId = $component.data('vtree-node-id')
           view1NodeId = $view1.data('vtree-node-id')
           view2NodeId = $view2.data('vtree-node-id')
           view3NodeId = $view3.data('vtree-node-id')
 
-          @appNode = @treeManager.nodesCache.getById(appNodeId)
+          @appNode = @treeManager.nodesCache.getById(componentNodeId)
           @view1Node = @treeManager.nodesCache.getById(view1NodeId)
           @view2Node = @treeManager.nodesCache.getById(view2NodeId)
           @view3Node = @treeManager.nodesCache.getById(view3NodeId)
@@ -312,7 +312,7 @@ describe 'TreeManager', ->
           describe 'OnRemove event handling behavior', ->
             it 'being called whenever dom element with node being removed from DOM', ->
               sinon.spy(@treeManager, 'removeNode')
-              $('#app1').remove()
+              $('#component1').remove()
               expect(@treeManager.removeNode.callCount).to.be.eql 4
 
             it 'being called in proper order', ->
@@ -320,7 +320,7 @@ describe 'TreeManager', ->
               for node in nodes
                 sinon.spy(node, 'remove')
 
-              $('#app1').remove()
+              $('#component1').remove()
 
               for node in nodes
                 expect(node.remove).to.be.calledOnce
@@ -359,30 +359,30 @@ describe 'TreeManager', ->
       describe 'Node refreshing behavior', ->
         beforeEach ->
           @treeManager.createTree()
-          @$app = $('#app1')
+          @$component = $('#component1')
           $view1 = $('#view1')
           $view2 = $('#view2')
           $view3 = $('#view3')
 
           @$newEls = $render('nodes_for_refresh')
 
-          appNodeId = @$app.data('vtree-node-id')
+          componentNodeId = @$component.data('vtree-node-id')
           view1NodeId = $view1.data('vtree-node-id')
           view2NodeId = $view2.data('vtree-node-id')
           view3NodeId = $view3.data('vtree-node-id')
 
-          @appNode   = @treeManager.nodesCache.getById(appNodeId)
+          @appNode   = @treeManager.nodesCache.getById(componentNodeId)
           @view1Node = @treeManager.nodesCache.getById(view1NodeId)
           @view2Node = @treeManager.nodesCache.getById(view2NodeId)
           @view3Node = @treeManager.nodesCache.getById(view3NodeId)
 
         describe '.refresh', ->
           beforeEach ->
-            @$app.append(@$newEls)
+            @$component.append(@$newEls)
             @newNodesList = []
             @treeManager.refresh(@appNode)
 
-            for el in 'app2 view4 view5 view6 view7 view8 view9'.split(' ')
+            for el in 'component2 view4 view5 view6 view7 view8 view9'.split(' ')
               id = $('#' + el).data('vtree-node-id')
               @[el + 'Node'] = @treeManager.nodesCache.getById(id)
               @newNodesList.push(@[el + 'Node'])
@@ -405,20 +405,20 @@ describe 'TreeManager', ->
             expect(@view5Node.parent).to.be.equal @view4Node
             expect(@view6Node.parent).to.be.equal @view5Node
             expect(@view7Node.parent).to.be.equal @view4Node
-            expect(@app2Node.parent).to.be.equal @view4Node
-            expect(@view8Node.parent).to.be.equal @app2Node
-            expect(@view9Node.parent).to.be.equal @app2Node
+            expect(@component2Node.parent).to.be.equal @view4Node
+            expect(@view8Node.parent).to.be.equal @component2Node
+            expect(@view9Node.parent).to.be.equal @component2Node
 
           it 'sets correct children for new nodes', ->
             expect(@appNode.children).to.be.eql [@view1Node, @view2Node, @view4Node]
             expect(@view1Node.children).to.be.eql []
             expect(@view2Node.children).to.be.eql [@view3Node]
             expect(@view3Node.children).to.be.eql []
-            expect(@view4Node.children).to.be.eql [@view5Node, @view7Node, @app2Node]
+            expect(@view4Node.children).to.be.eql [@view5Node, @view7Node, @component2Node]
             expect(@view5Node.children).to.be.eql [@view6Node]
             expect(@view6Node.children).to.be.eql []
             expect(@view7Node.children).to.be.eql []
-            expect(@app2Node.children).to.be.eql [@view8Node, @view9Node]
+            expect(@component2Node.children).to.be.eql [@view8Node, @view9Node]
             expect(@view8Node.children).to.be.eql []
             expect(@view9Node.children).to.be.eql []
 

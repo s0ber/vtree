@@ -4,18 +4,18 @@ describe 'NodeData', ->
 
   beforeEach ->
     @options =
-      isApplicationLayout: true
-      isApplicationPart: false
-      isComponentPart: false
-      applicationId: 1
+      isComponentIndex: true
+      isComponentPart: true
+      isStandAlone: false
+      componentId: 1
 
       nodeName: 'TestView'
-      applicationName: 'TestApp'
-      componentName: null
+      componentName: 'TestComponent'
+      namespaceName: null
 
       nodeNameUnderscored: 'test_view'
-      applicationNameUnderscored: 'test_app'
-      componentNameUnderscored: null
+      componentNameUnderscored: 'test_component'
+      namespaceNameUnderscored: null
 
     @nodeData = new NodeData(@options)
 

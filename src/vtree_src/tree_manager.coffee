@@ -18,7 +18,7 @@ class TreeManager
     @hooks.onInit _.bind(@addNodeIdToElData, @)
     @hooks.onInit _.bind(@addRemoveEventHandlerToEl, @)
     @hooks.onActivation _.bind(@addNodeWrapper, @)
-    @hooks.onUnload _.bind(@unloadView, @)
+    @hooks.onUnload _.bind(@unloadNode, @)
     @hooks.onUnload _.bind(@deleteNodeWrapper, @)
 
   createTree: ->
@@ -131,7 +131,7 @@ class TreeManager
   addNodeWrapper: (node) ->
     node.nodeWrapper = new NodeWrapper(node)
 
-  unloadView: (node) ->
+  unloadNode: (node) ->
     node.nodeWrapper?.unload?()
 
   deleteNodeWrapper: (node) ->

@@ -3,18 +3,20 @@ class NodeData
   el: null
   $el: null
 
-  isApplicationLayout: null
-  isApplicationPart: null
+  isComponentIndex: null
   isComponentPart: null
-  applicationId: null
+  isStandAlone: null
+  componentId: null
+
+  componentIndexNode: null
 
   nodeName: null
-  applicationName: null
   componentName: null
+  namespaceName: null
 
   nodeNameUnderscored: null
-  applicationNameUnderscored: null
   componentNameUnderscored: null
+  namespaceNameUnderscored: null
 
   constructor: (options) ->
     _.extend(@, options)

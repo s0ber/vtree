@@ -1,24 +1,28 @@
 class Configuration
 
   viewSelector: '[data-view]'
-  appPelector: '[data-app]'
-  selector: '[data-app], [data-view]'
-  componentPattern: /(.+)#(.+)/
+  componentSelector: '[data-component]'
+  selector: '[data-component], [data-view]'
+  namespacePattern: /(.+)#(.+)/
 
-  isLayout: ($el) ->
-    $el.data('app')?
-
-  layoutUnderscoredName: ($el) ->
-    $el.data('app')
+  isComponentIndex: ($el) ->
+    $el.data('component')?
 
   nodeUnderscoredName: ($el) ->
-    if @isLayout($el) then 'layout' else $el.data('view') || ''
+    if @isComponentIndex($el)
+      $el.data('component')
+    else
+      $el.data('view') or ''
 
-  hasComponent: ($el) ->
-    @componentPattern.test @nodeUnderscoredName($el)
+  isStandAlone: ($el) ->
+    not @isComponentIndex($el) and @namespacePattern.test @nodeUnderscoredName($el)
 
-  extractComponentData: ($el) ->
-    [__, componentName, viewName] = @nodeUnderscoredName($el).match @componentPattern
-    [componentName, viewName]
+  extractStandAloneNodeData: ($el) ->
+    [__, namespaceName, nodeName] = @nodeUnderscoredName($el).match @namespacePattern
+    [namespaceName, nodeName]
+
+  extractComponentIndexNodeData: ($el) ->
+    [__, namespaceName, componentName] = @nodeUnderscoredName($el).match @namespacePattern
+    [namespaceName, componentName]
 
 modula.export('vtree/configuration', Configuration)

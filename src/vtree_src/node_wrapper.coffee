@@ -3,59 +3,59 @@ NodeData = modula.require('vtree/node_data')
 
 class NodeWrapper
 
-  layoutId = 0
-  COMPONENT_PATTERN = /(.+)#(.+)/
+  componentId = 0
   SECRET_KEY = 'semarf'
 
   constructor: (@node) ->
     @$el = @node.$el
     @el = @node.el
 
-    layoutId++ if @isLayout()
+    componentId++ if @isComponentIndex()
     @identifyNodeAttributes()
     @initNodeDataObject()
 
   identifyNodeAttributes: ->
-    @layoutName = @layout().name
-    @layoutId = @layout().id
-
-    if @hasComponent()
-      [@componentName, @nodeName] = Vtree.config().extractComponentData(@$el)
+    if @isStandAlone()
+      [@namespaceName, @nodeName] = Vtree.config().extractStandAloneNodeData(@$el)
     else
-      @componentName = @layoutName
-      @nodeName = @nodeUnderscoredName()
+      @namespaceName = @component().namespace
+      @nodeName =
+        if @isComponentIndex()
+          'index'
+        else
+          @nodeUnderscoredName()
 
   initNodeDataObject: ->
     @nodeData = @initNodeData()
     @_hooks()?.init?(@nodeData)
 
   initNodeData: ->
-    if @hasComponent()
-      componentNameUnderscored = @componentName
-      componentName = @_camelize(@componentName)
-      applicationNameUnderscored = null
-      applicationName = null
-    else
-      applicationNameUnderscored = @componentName
-      applicationName = @_camelize(@componentName)
+    namespaceNameUnderscored = @namespaceName
+    namespaceName = @_camelize(@namespaceName)
+
+    if @isStandAlone()
       componentNameUnderscored = null
       componentName = null
+    else
+      componentNameUnderscored = @component().name
+      componentName = @_camelize(componentNameUnderscored)
 
     new NodeData({
       el: @el
       $el: @$el
-      isApplicationLayout: @isLayout()
-      isApplicationPart: not @hasComponent()
-      isComponentPart: @hasComponent()
-      applicationId: if @hasComponent() then null else @layoutId
-      applicationNode: @applicationNode()?.nodeWrapper?.nodeData || null
+      isStandAlone: @isStandAlone()
+      isComponentIndex: @isComponentIndex()
+      isComponentPart: not @isStandAlone()
+      componentId: if @isStandAlone() then null else @component().id
+      componentIndexNode: @componentIndexNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
-      applicationName,
-      applicationNameUnderscored,
+
       componentName,
-      componentNameUnderscored
+      componentNameUnderscored,
+      namespaceName,
+      namespaceNameUnderscored
     })
 
   unload: ->
@@ -63,33 +63,31 @@ class NodeWrapper
     delete @nodeData
     delete @node
 
-  hasComponent: ->
-    @_hasComponent ||= Vtree.config().hasComponent(@$el)
+  isStandAlone: ->
+    @_isStandAlone ||= Vtree.config().isStandAlone(@$el)
 
-  layout: ->
-    @_layout ||=
-      if @isLayout()
-        {name: @layoutUnderscoredName(), id: layoutId, node: @node}
+  component: ->
+    @_component ||=
+      if @isComponentIndex()
+        [namespaceName, componentName] = Vtree.config().extractComponentIndexNodeData(@$el)
+        {namespace: namespaceName, name: componentName, id: componentId, node: @node}
       else if @node.parent?
-        @node.parent.nodeWrapper.layout()
+        @node.parent.nodeWrapper.component()
       else
-        {name: SECRET_KEY, id: 0}
+        {namespace: SECRET_KEY, name: SECRET_KEY, id: 0, node: @node}
 
 
-  applicationNode: ->
-    @_applicationNode ?=
-      if @hasComponent() or @isLayout()
+  componentIndexNode: ->
+    @_componentIndexNode ?=
+      if @isStandAlone() or @isComponentIndex()
         null
       else
-        @layout().node
+        @component().node
 
   # private
 
-  isLayout: ->
-    @_isLayout ?= Vtree.config().isLayout(@$el)
-
-  layoutUnderscoredName: ->
-    @_layoutUnderscoredName ?= Vtree.config().layoutUnderscoredName(@$el)
+  isComponentIndex: ->
+    @_isComponentIndex ?= Vtree.config().isComponentIndex(@$el)
 
   nodeUnderscoredName: ->
     @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)

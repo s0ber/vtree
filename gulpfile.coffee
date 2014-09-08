@@ -7,10 +7,12 @@ uglify = require('gulp-uglify')
 rename = require('gulp-rename')
 karma = require('gulp-karma')
 
-projectHeader = '/*! Vtree (v0.1.2),\n
-                simple library for creating complicated architectures,\n
-                by Sergey Shishkalov <sergeyshishkalov@gmail.com>\n
-                <%= new Date().toDateString() %> */\n'
+p = require('./package.json')
+
+projectHeader = "/*! #{p.name} (v#{p.version}),\n
+                Simple library for creating complicated architectures,\n
+                by #{p.author}\n
+                #{new Date().toDateString()} */\n"
 
 sourceFiles = [
   'src/modula.coffee'
@@ -26,7 +28,7 @@ sourceFiles = [
   'src/vtree_src/dom.coffee'
 ]
 
-gulp.task 'build', ->
+gulp.task 'build', ['karma:ci'], ->
   gulp.src(sourceFiles)
     .pipe(coffee(bare: false).on('error', gutil.log))
     .pipe(concat('vtree.js'))
@@ -40,20 +42,10 @@ gulp.task 'minify', ['build'], ->
     .pipe(header(projectHeader))
     .pipe(gulp.dest('build/'))
 
-gulp.task 'prepare', ['minify']
-
-gulp.task 'karma:release', ->
-  gulp.src('')
-    .pipe(karma(
-      configFile: 'karma.conf.coffee'
-      sourceFiles: sourceFiles
-    ))
-
 gulp.task 'karma:ci', ->
   gulp.src('')
     .pipe(karma(
       configFile: 'karma.conf.coffee'
-      browsers: ['PhantomJS']
       sourceFiles: sourceFiles
     ))
 
@@ -65,3 +57,5 @@ gulp.task 'karma:dev', ->
       action: 'watch'
       sourceFiles: sourceFiles
     ))
+
+gulp.task 'release', ['karma:ci', 'build', 'minify']

@@ -52,7 +52,7 @@ describe 'Vtree', ->
       Vtree.config = -> config
       Vtree.configure
         viewSelector: '.test_view_selector'
-        appSelector: '.test_app_selector'
+        componentSelector: '.test_component_selector'
 
       expect(Vtree.config().viewSelector).to.be.equal '.test_view_selector'
-      expect(Vtree.config().appSelector).to.be.equal '.test_app_selector'
+      expect(Vtree.config().componentSelector).to.be.equal '.test_component_selector'
