@@ -11,7 +11,7 @@ describe 'NodeData', ->
 
       nodeName: 'TestView'
       applicationName: 'TestApp'
-      componentName: null
+      namespaceName: null
 
       nodeNameUnderscored: 'test_view'
       applicationNameUnderscored: 'test_app'

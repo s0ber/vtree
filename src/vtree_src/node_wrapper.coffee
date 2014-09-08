@@ -20,9 +20,9 @@ class NodeWrapper
     @layoutId = @layout().id
 
     if @hasComponent()
-      [@componentName, @nodeName] = Vtree.config().extractComponentData(@$el)
+      [@namespaceName, @nodeName] = Vtree.config().extractComponentData(@$el)
     else
-      @componentName = @layoutName
+      @namespaceName = @layoutName
       @nodeName = @nodeUnderscoredName()
 
   initNodeDataObject: ->
@@ -31,15 +31,15 @@ class NodeWrapper
 
   initNodeData: ->
     if @hasComponent()
-      componentNameUnderscored = @componentName
-      componentName = @_camelize(@componentName)
+      namespaceNameUnderscored = @namespaceName
+      namespaceName = @_camelize(@namespaceName)
       applicationNameUnderscored = null
       applicationName = null
     else
-      applicationNameUnderscored = @componentName
-      applicationName = @_camelize(@componentName)
-      componentNameUnderscored = null
-      componentName = null
+      applicationNameUnderscored = @namespaceName
+      applicationName = @_camelize(@namespaceName)
+      namespaceNameUnderscored = null
+      namespaceName = null
 
     new NodeData({
       el: @el
@@ -54,8 +54,8 @@ class NodeWrapper
       nodeNameUnderscored: @nodeName
       applicationName,
       applicationNameUnderscored,
-      componentName,
-      componentNameUnderscored
+      namespaceName,
+      namespaceNameUnderscored
     })
 
   unload: ->

@@ -45,12 +45,12 @@ describe 'TreeManager', ->
         node.activate()
         expect(@treeManager.addNodeWrapper).to.be.calledOnce
 
-      it 'adds @unloadView unload hook', ->
-        sinon.spy(TreeManager::, 'unloadView')
+      it 'adds @unloadNode unload hook', ->
+        sinon.spy(TreeManager::, 'unloadNode')
         @treeManager = new TreeManager
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
-        expect(@treeManager.unloadView).to.be.calledOnce
+        expect(@treeManager.unloadNode).to.be.calledOnce
 
       it 'adds @deleteNodeWrapper unload hook', ->
         sinon.spy(TreeManager::, 'deleteNodeWrapper')
@@ -83,11 +83,11 @@ describe 'TreeManager', ->
 
         expect(node.nodeWrapper.constructor).to.match(/NodeWrapper/)
 
-    describe '.unloadView', ->
+    describe '.unloadNode', ->
       it 'unloads NodeWrapper instance', ->
         node = {}
         node.nodeWrapper = {unload: sinon.spy()}
-        @treeManager.unloadView(node)
+        @treeManager.unloadNode(node)
         expect(node.nodeWrapper.unload).to.be.calledOnce
 
     describe '.deleteNodeWrapper', ->

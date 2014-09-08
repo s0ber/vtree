@@ -160,18 +160,18 @@ describe 'NodeWrapper', ->
         expect(@view8Node.nodeWrapper.layoutId).to.be.eql app2LayoutId
         expect(@view9Node.nodeWrapper.layoutId).to.be.eql app2LayoutId
 
-      it 'identifies current node component name', ->
-        expect(@appNode.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view1Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view2Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view3Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view4Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view5Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view6Node.nodeWrapper.componentName).to.be.eql 'test_app'
-        expect(@view7Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@app2Node.nodeWrapper.componentName).to.be.eql 'test_app2'
-        expect(@view8Node.nodeWrapper.componentName).to.be.eql 'test_app2'
-        expect(@view9Node.nodeWrapper.componentName).to.be.eql 'test_component'
+      it 'identifies current node namespace name', ->
+        expect(@appNode.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view1Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view2Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view3Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view4Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view5Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view6Node.nodeWrapper.namespaceName).to.be.eql 'test_app'
+        expect(@view7Node.nodeWrapper.namespaceName).to.be.eql 'test_namespace'
+        expect(@app2Node.nodeWrapper.namespaceName).to.be.eql 'test_app2'
+        expect(@view8Node.nodeWrapper.namespaceName).to.be.eql 'test_app2'
+        expect(@view9Node.nodeWrapper.namespaceName).to.be.eql 'test_namespace'
 
       it 'identifies current node view name', ->
         expect(@appNode.nodeWrapper.nodeName).to.be.eql 'layout'
@@ -268,8 +268,8 @@ describe 'NodeWrapper', ->
         expect(@appNodeData).to.have.property('nodeNameUnderscored', 'layout')
         expect(@appNodeData).to.have.property('applicationName', 'TestApp')
         expect(@appNodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@appNodeData).to.have.property('componentName', null)
-        expect(@appNodeData).to.have.property('componentNameUnderscored', null)
+        expect(@appNodeData).to.have.property('namespaceName', null)
+        expect(@appNodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view1NodeData).to.have.property('el', @view1Node.el)
         expect(@view1NodeData).to.have.property('$el', @view1Node.$el)
@@ -282,8 +282,8 @@ describe 'NodeWrapper', ->
         expect(@view1NodeData).to.have.property('nodeNameUnderscored', 'test_view1')
         expect(@view1NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view1NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view1NodeData).to.have.property('componentName', null)
-        expect(@view1NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view1NodeData).to.have.property('namespaceName', null)
+        expect(@view1NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view2NodeData).to.have.property('el', @view2Node.el)
         expect(@view2NodeData).to.have.property('$el', @view2Node.$el)
@@ -296,8 +296,8 @@ describe 'NodeWrapper', ->
         expect(@view2NodeData).to.have.property('nodeNameUnderscored', 'test_view2')
         expect(@view2NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view2NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view2NodeData).to.have.property('componentName', null)
-        expect(@view2NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view2NodeData).to.have.property('namespaceName', null)
+        expect(@view2NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view3NodeData).to.have.property('el', @view3Node.el)
         expect(@view3NodeData).to.have.property('$el', @view3Node.$el)
@@ -310,8 +310,8 @@ describe 'NodeWrapper', ->
         expect(@view3NodeData).to.have.property('nodeNameUnderscored', 'test_view3')
         expect(@view3NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view3NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view3NodeData).to.have.property('componentName', null)
-        expect(@view3NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view3NodeData).to.have.property('namespaceName', null)
+        expect(@view3NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view4NodeData).to.have.property('el', @view4Node.el)
         expect(@view4NodeData).to.have.property('$el', @view4Node.$el)
@@ -324,8 +324,8 @@ describe 'NodeWrapper', ->
         expect(@view4NodeData).to.have.property('nodeNameUnderscored', 'test_view4')
         expect(@view4NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view4NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view4NodeData).to.have.property('componentName', null)
-        expect(@view4NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view4NodeData).to.have.property('namespaceName', null)
+        expect(@view4NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view5NodeData).to.have.property('el', @view5Node.el)
         expect(@view5NodeData).to.have.property('$el', @view5Node.$el)
@@ -338,8 +338,8 @@ describe 'NodeWrapper', ->
         expect(@view5NodeData).to.have.property('nodeNameUnderscored', 'test_view5')
         expect(@view5NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view5NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view5NodeData).to.have.property('componentName', null)
-        expect(@view5NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view5NodeData).to.have.property('namespaceName', null)
+        expect(@view5NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view6NodeData).to.have.property('el', @view6Node.el)
         expect(@view6NodeData).to.have.property('$el', @view6Node.$el)
@@ -352,8 +352,8 @@ describe 'NodeWrapper', ->
         expect(@view6NodeData).to.have.property('nodeNameUnderscored', 'test_view6')
         expect(@view6NodeData).to.have.property('applicationName', 'TestApp')
         expect(@view6NodeData).to.have.property('applicationNameUnderscored', 'test_app')
-        expect(@view6NodeData).to.have.property('componentName', null)
-        expect(@view6NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view6NodeData).to.have.property('namespaceName', null)
+        expect(@view6NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view7NodeData).to.have.property('el', @view7Node.el)
         expect(@view7NodeData).to.have.property('$el', @view7Node.$el)
@@ -366,8 +366,8 @@ describe 'NodeWrapper', ->
         expect(@view7NodeData).to.have.property('nodeNameUnderscored', 'test_view7')
         expect(@view7NodeData).to.have.property('applicationName', null)
         expect(@view7NodeData).to.have.property('applicationNameUnderscored', null)
-        expect(@view7NodeData).to.have.property('componentName', 'TestComponent')
-        expect(@view7NodeData).to.have.property('componentNameUnderscored', 'test_component')
+        expect(@view7NodeData).to.have.property('namespaceName', 'TestNamespace')
+        expect(@view7NodeData).to.have.property('namespaceNameUnderscored', 'test_namespace')
 
         expect(@app2NodeData).to.have.property('el', @app2Node.el)
         expect(@app2NodeData).to.have.property('$el', @app2Node.$el)
@@ -380,8 +380,8 @@ describe 'NodeWrapper', ->
         expect(@app2NodeData).to.have.property('nodeNameUnderscored', 'layout')
         expect(@app2NodeData).to.have.property('applicationName', 'TestApp2')
         expect(@app2NodeData).to.have.property('applicationNameUnderscored', 'test_app2')
-        expect(@app2NodeData).to.have.property('componentName', null)
-        expect(@app2NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@app2NodeData).to.have.property('namespaceName', null)
+        expect(@app2NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view8NodeData).to.have.property('el', @view8Node.el)
         expect(@view8NodeData).to.have.property('$el', @view8Node.$el)
@@ -394,8 +394,8 @@ describe 'NodeWrapper', ->
         expect(@view8NodeData).to.have.property('nodeNameUnderscored', 'test_view8')
         expect(@view8NodeData).to.have.property('applicationName', 'TestApp2')
         expect(@view8NodeData).to.have.property('applicationNameUnderscored', 'test_app2')
-        expect(@view8NodeData).to.have.property('componentName', null)
-        expect(@view8NodeData).to.have.property('componentNameUnderscored', null)
+        expect(@view8NodeData).to.have.property('namespaceName', null)
+        expect(@view8NodeData).to.have.property('namespaceNameUnderscored', null)
 
         expect(@view9NodeData).to.have.property('el', @view9Node.el)
         expect(@view9NodeData).to.have.property('$el', @view9Node.$el)
@@ -408,5 +408,5 @@ describe 'NodeWrapper', ->
         expect(@view9NodeData).to.have.property('nodeNameUnderscored', 'test_view9')
         expect(@view9NodeData).to.have.property('applicationName', null)
         expect(@view9NodeData).to.have.property('applicationNameUnderscored', null)
-        expect(@view9NodeData).to.have.property('componentName', 'TestComponent')
-        expect(@view9NodeData).to.have.property('componentNameUnderscored', 'test_component')
+        expect(@view9NodeData).to.have.property('namespaceName', 'TestNamespace')
+        expect(@view9NodeData).to.have.property('namespaceNameUnderscored', 'test_namespace')

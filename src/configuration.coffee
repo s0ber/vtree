@@ -1,15 +1,15 @@
 class Configuration
 
   viewSelector: '[data-view]'
-  appPelector: '[data-app]'
-  selector: '[data-app], [data-view]'
+  compoentnSelector: '[data-component]'
+  selector: '[data-component], [data-view]'
   componentPattern: /(.+)#(.+)/
 
   isLayout: ($el) ->
-    $el.data('app')?
+    $el.data('component')?
 
   layoutUnderscoredName: ($el) ->
-    $el.data('app')
+    $el.data('component')
 
   nodeUnderscoredName: ($el) ->
     if @isLayout($el) then 'layout' else $el.data('view') || ''

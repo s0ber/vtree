@@ -10,7 +10,7 @@ class NodeData
 
   nodeName: null
   applicationName: null
-  componentName: null
+  namespaceName: null
 
   nodeNameUnderscored: null
   applicationNameUnderscored: null
