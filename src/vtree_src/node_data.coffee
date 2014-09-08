@@ -8,13 +8,15 @@ class NodeData
   isStandAlone: null
   componentId: null
 
+  componentIndexNode: null
+
   nodeName: null
   componentName: null
   namespaceName: null
 
   nodeNameUnderscored: null
   componentNameUnderscored: null
-  componentNameUnderscored: null
+  namespaceNameUnderscored: null
 
   constructor: (options) ->
     _.extend(@, options)

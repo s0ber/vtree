@@ -23,7 +23,6 @@ describe 'NodeWrapper', ->
       @nodeWrapper = new NodeWrapper(@node)
 
     describe '.constructor', ->
-
       it 'saves reference to provided view node in @node', ->
         expect(@nodeWrapper.node).to.be.equal @node
 
@@ -132,16 +131,16 @@ describe 'NodeWrapper', ->
 
     describe '.identifyNodeAttributes', ->
       it 'identifies current node namespace name', ->
-        expect(@component1Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view1Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view2Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view3Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view4Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view5Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
-        expect(@view6Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
+        expect(@component1Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view1Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view2Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view3Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view4Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view5Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view6Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
         expect(@view7Node.nodeWrapper.namespaceName).to.be.eql 'test_namespace'
-        expect(@component2Node.nodeWrapper.namespaceName).to.be.eql 'test_component2'
-        expect(@view8Node.nodeWrapper.namespaceName).to.be.eql 'test_component2'
+        expect(@component2Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
+        expect(@view8Node.nodeWrapper.namespaceName).to.be.eql 'component_namespace'
         expect(@view9Node.nodeWrapper.namespaceName).to.be.eql 'test_namespace'
 
       it 'identifies current node view name', ->
@@ -173,7 +172,7 @@ describe 'NodeWrapper', ->
 
     describe '.componentIndexNode', ->
       context 'node is a component index node', ->
-        it 'returns null', ->
+        it 'returns itself', ->
           expect(@component1Node.nodeWrapper.componentIndexNode()).to.be.null
           expect(@component2Node.nodeWrapper.componentIndexNode()).to.be.null
 
@@ -239,8 +238,8 @@ describe 'NodeWrapper', ->
         expect(@component1NodeData).to.have.property('nodeNameUnderscored', 'index')
         expect(@component1NodeData).to.have.property('componentName', 'TestComponent')
         expect(@component1NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@component1NodeData).to.have.property('namespaceName', null)
-        expect(@component1NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@component1NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@component1NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view1NodeData).to.have.property('el', @view1Node.el)
         expect(@view1NodeData).to.have.property('$el', @view1Node.$el)
@@ -253,8 +252,8 @@ describe 'NodeWrapper', ->
         expect(@view1NodeData).to.have.property('nodeNameUnderscored', 'test_view1')
         expect(@view1NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view1NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view1NodeData).to.have.property('namespaceName', null)
-        expect(@view1NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view1NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view1NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view2NodeData).to.have.property('el', @view2Node.el)
         expect(@view2NodeData).to.have.property('$el', @view2Node.$el)
@@ -267,8 +266,8 @@ describe 'NodeWrapper', ->
         expect(@view2NodeData).to.have.property('nodeNameUnderscored', 'test_view2')
         expect(@view2NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view2NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view2NodeData).to.have.property('namespaceName', null)
-        expect(@view2NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view2NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view2NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view3NodeData).to.have.property('el', @view3Node.el)
         expect(@view3NodeData).to.have.property('$el', @view3Node.$el)
@@ -281,8 +280,8 @@ describe 'NodeWrapper', ->
         expect(@view3NodeData).to.have.property('nodeNameUnderscored', 'test_view3')
         expect(@view3NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view3NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view3NodeData).to.have.property('namespaceName', null)
-        expect(@view3NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view3NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view3NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view4NodeData).to.have.property('el', @view4Node.el)
         expect(@view4NodeData).to.have.property('$el', @view4Node.$el)
@@ -295,8 +294,8 @@ describe 'NodeWrapper', ->
         expect(@view4NodeData).to.have.property('nodeNameUnderscored', 'test_view4')
         expect(@view4NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view4NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view4NodeData).to.have.property('namespaceName', null)
-        expect(@view4NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view4NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view4NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view5NodeData).to.have.property('el', @view5Node.el)
         expect(@view5NodeData).to.have.property('$el', @view5Node.$el)
@@ -309,8 +308,8 @@ describe 'NodeWrapper', ->
         expect(@view5NodeData).to.have.property('nodeNameUnderscored', 'test_view5')
         expect(@view5NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view5NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view5NodeData).to.have.property('namespaceName', null)
-        expect(@view5NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view5NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view5NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view6NodeData).to.have.property('el', @view6Node.el)
         expect(@view6NodeData).to.have.property('$el', @view6Node.$el)
@@ -323,8 +322,8 @@ describe 'NodeWrapper', ->
         expect(@view6NodeData).to.have.property('nodeNameUnderscored', 'test_view6')
         expect(@view6NodeData).to.have.property('componentName', 'TestComponent')
         expect(@view6NodeData).to.have.property('componentNameUnderscored', 'test_component')
-        expect(@view6NodeData).to.have.property('namespaceName', null)
-        expect(@view6NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view6NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view6NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view7NodeData).to.have.property('el', @view7Node.el)
         expect(@view7NodeData).to.have.property('$el', @view7Node.$el)
@@ -351,8 +350,8 @@ describe 'NodeWrapper', ->
         expect(@component2NodeData).to.have.property('nodeNameUnderscored', 'index')
         expect(@component2NodeData).to.have.property('componentName', 'TestComponent2')
         expect(@component2NodeData).to.have.property('componentNameUnderscored', 'test_component2')
-        expect(@component2NodeData).to.have.property('namespaceName', null)
-        expect(@component2NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@component2NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@component2NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view8NodeData).to.have.property('el', @view8Node.el)
         expect(@view8NodeData).to.have.property('$el', @view8Node.$el)
@@ -365,8 +364,8 @@ describe 'NodeWrapper', ->
         expect(@view8NodeData).to.have.property('nodeNameUnderscored', 'test_view8')
         expect(@view8NodeData).to.have.property('componentName', 'TestComponent2')
         expect(@view8NodeData).to.have.property('componentNameUnderscored', 'test_component2')
-        expect(@view8NodeData).to.have.property('namespaceName', null)
-        expect(@view8NodeData).to.have.property('namespaceNameUnderscored', null)
+        expect(@view8NodeData).to.have.property('namespaceName', 'ComponentNamespace')
+        expect(@view8NodeData).to.have.property('namespaceNameUnderscored', 'component_namespace')
 
         expect(@view9NodeData).to.have.property('el', @view9Node.el)
         expect(@view9NodeData).to.have.property('$el', @view9Node.$el)

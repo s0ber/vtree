@@ -10,11 +10,11 @@ describe 'NodeData', ->
       componentId: 1
 
       nodeName: 'TestView'
-      applicationName: 'TestApp'
+      componentName: 'TestComponent'
       namespaceName: null
 
       nodeNameUnderscored: 'test_view'
-      applicationNameUnderscored: 'test_app'
+      componentNameUnderscored: 'test_component'
       componentNameUnderscored: null
 
     @nodeData = new NodeData(@options)

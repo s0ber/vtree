@@ -16,38 +16,42 @@ class NodeWrapper
 
   identifyNodeAttributes: ->
     if @isStandAlone()
-      [@namespaceName, @nodeName] = Vtree.config().extractComponentData(@$el)
+      [@namespaceName, @nodeName] = Vtree.config().extractStandAloneNodeData(@$el)
     else
-      @namespaceName = @component().name
-      @nodeName = @nodeUnderscoredName()
+      @namespaceName = @component().namespace
+      @nodeName =
+        if @isComponentIndex()
+          'index'
+        else
+          @nodeUnderscoredName()
 
   initNodeDataObject: ->
     @nodeData = @initNodeData()
     @_hooks()?.init?(@nodeData)
 
   initNodeData: ->
+    namespaceNameUnderscored = @namespaceName
+    namespaceName = @_camelize(@namespaceName)
+
     if @isStandAlone()
-      namespaceNameUnderscored = @namespaceName
-      namespaceName = @_camelize(@namespaceName)
       componentNameUnderscored = null
       componentName = null
     else
-      componentNameUnderscored = @namespaceName
-      componentName = @_camelize(@namespaceName)
-      namespaceNameUnderscored = null
-      namespaceName = null
+      componentNameUnderscored = @component().name
+      componentName = @_camelize(componentNameUnderscored)
 
     new NodeData({
       el: @el
       $el: @$el
+      isStandAlone: @isStandAlone()
       isComponentIndex: @isComponentIndex()
       isComponentPart: not @isStandAlone()
-      isStandAlone: @isStandAlone()
       componentId: if @isStandAlone() then null else @component().id
       componentIndexNode: @componentIndexNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
+
       componentName,
       componentNameUnderscored,
       namespaceName,
@@ -65,11 +69,12 @@ class NodeWrapper
   component: ->
     @_component ||=
       if @isComponentIndex()
-        {name: @componentUnderscoredName(), id: componentId, node: @node}
+        [namespaceName, componentName] = Vtree.config().extractComponentIndexNodeData(@$el)
+        {namespace: namespaceName, name: componentName, id: componentId, node: @node}
       else if @node.parent?
         @node.parent.nodeWrapper.component()
       else
-        {name: SECRET_KEY, id: 0}
+        {namespace: SECRET_KEY, name: SECRET_KEY, id: 0, node: @node}
 
 
   componentIndexNode: ->
@@ -83,9 +88,6 @@ class NodeWrapper
 
   isComponentIndex: ->
     @_isComponentIndex ?= Vtree.config().isComponentIndex(@$el)
-
-  componentUnderscoredName: ->
-    @_componentUnderscoredName ?= Vtree.config().componentUnderscoredName(@$el)
 
   nodeUnderscoredName: ->
     @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)
