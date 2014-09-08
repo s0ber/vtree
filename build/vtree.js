@@ -34,35 +34,35 @@
 
     Configuration.prototype.viewSelector = '[data-view]';
 
-    Configuration.prototype.appPelector = '[data-app]';
+    Configuration.prototype.componentSelector = '[data-component]';
 
-    Configuration.prototype.selector = '[data-app], [data-view]';
+    Configuration.prototype.selector = '[data-component], [data-view]';
 
-    Configuration.prototype.componentPattern = /(.+)#(.+)/;
+    Configuration.prototype.standAlonePattern = /(.+)#(.+)/;
 
-    Configuration.prototype.isLayout = function($el) {
-      return $el.data('app') != null;
+    Configuration.prototype.isComponentIndex = function($el) {
+      return $el.data('component') != null;
     };
 
-    Configuration.prototype.layoutUnderscoredName = function($el) {
-      return $el.data('app');
+    Configuration.prototype.componentUnderscoredName = function($el) {
+      return $el.data('component');
     };
 
     Configuration.prototype.nodeUnderscoredName = function($el) {
-      if (this.isLayout($el)) {
-        return 'layout';
+      if (this.isComponentIndex($el)) {
+        return 'index';
       } else {
         return $el.data('view') || '';
       }
     };
 
-    Configuration.prototype.hasComponent = function($el) {
-      return this.componentPattern.test(this.nodeUnderscoredName($el));
+    Configuration.prototype.isStandAlone = function($el) {
+      return this.standAlonePattern.test(this.nodeUnderscoredName($el));
     };
 
     Configuration.prototype.extractComponentData = function($el) {
       var componentName, viewName, __, _ref;
-      _ref = this.nodeUnderscoredName($el).match(this.componentPattern), __ = _ref[0], componentName = _ref[1], viewName = _ref[2];
+      _ref = this.nodeUnderscoredName($el).match(this.standAlonePattern), __ = _ref[0], componentName = _ref[1], viewName = _ref[2];
       return [componentName, viewName];
     };
 
@@ -382,23 +382,23 @@
 
     NodeData.prototype.$el = null;
 
-    NodeData.prototype.isApplicationLayout = null;
-
-    NodeData.prototype.isApplicationPart = null;
+    NodeData.prototype.isComponentIndex = null;
 
     NodeData.prototype.isComponentPart = null;
 
-    NodeData.prototype.applicationId = null;
+    NodeData.prototype.isStandAlone = null;
+
+    NodeData.prototype.componentId = null;
 
     NodeData.prototype.nodeName = null;
 
-    NodeData.prototype.applicationName = null;
-
     NodeData.prototype.componentName = null;
+
+    NodeData.prototype.namespaceName = null;
 
     NodeData.prototype.nodeNameUnderscored = null;
 
-    NodeData.prototype.applicationNameUnderscored = null;
+    NodeData.prototype.componentNameUnderscored = null;
 
     NodeData.prototype.componentNameUnderscored = null;
 
@@ -431,11 +431,9 @@
   NodeData = modula.require('vtree/node_data');
 
   NodeWrapper = (function() {
-    var COMPONENT_PATTERN, SECRET_KEY, layoutId;
+    var SECRET_KEY, componentId;
 
-    layoutId = 0;
-
-    COMPONENT_PATTERN = /(.+)#(.+)/;
+    componentId = 0;
 
     SECRET_KEY = 'semarf';
 
@@ -443,8 +441,8 @@
       this.node = node;
       this.$el = this.node.$el;
       this.el = this.node.el;
-      if (this.isLayout()) {
-        layoutId++;
+      if (this.isComponentIndex()) {
+        componentId++;
       }
       this.identifyNodeAttributes();
       this.initNodeDataObject();
@@ -452,12 +450,10 @@
 
     NodeWrapper.prototype.identifyNodeAttributes = function() {
       var _ref;
-      this.layoutName = this.layout().name;
-      this.layoutId = this.layout().id;
-      if (this.hasComponent()) {
-        return _ref = Vtree.config().extractComponentData(this.$el), this.componentName = _ref[0], this.nodeName = _ref[1], _ref;
+      if (this.isStandAlone()) {
+        return _ref = Vtree.config().extractComponentData(this.$el), this.namespaceName = _ref[0], this.nodeName = _ref[1], _ref;
       } else {
-        this.componentName = this.layoutName;
+        this.namespaceName = this.component().name;
         return this.nodeName = this.nodeUnderscoredName();
       }
     };
@@ -469,32 +465,32 @@
     };
 
     NodeWrapper.prototype.initNodeData = function() {
-      var applicationName, applicationNameUnderscored, componentName, componentNameUnderscored, _ref, _ref1;
-      if (this.hasComponent()) {
-        componentNameUnderscored = this.componentName;
-        componentName = this._camelize(this.componentName);
-        applicationNameUnderscored = null;
-        applicationName = null;
-      } else {
-        applicationNameUnderscored = this.componentName;
-        applicationName = this._camelize(this.componentName);
+      var componentName, componentNameUnderscored, namespaceName, namespaceNameUnderscored, _ref, _ref1;
+      if (this.isStandAlone()) {
+        namespaceNameUnderscored = this.namespaceName;
+        namespaceName = this._camelize(this.namespaceName);
         componentNameUnderscored = null;
         componentName = null;
+      } else {
+        componentNameUnderscored = this.namespaceName;
+        componentName = this._camelize(this.namespaceName);
+        namespaceNameUnderscored = null;
+        namespaceName = null;
       }
       return new NodeData({
         el: this.el,
         $el: this.$el,
-        isApplicationLayout: this.isLayout(),
-        isApplicationPart: !this.hasComponent(),
-        isComponentPart: this.hasComponent(),
-        applicationId: this.hasComponent() ? null : this.layoutId,
-        applicationNode: ((_ref = this.applicationNode()) != null ? (_ref1 = _ref.nodeWrapper) != null ? _ref1.nodeData : void 0 : void 0) || null,
+        isComponentIndex: this.isComponentIndex(),
+        isComponentPart: !this.isStandAlone(),
+        isStandAlone: this.isStandAlone(),
+        componentId: this.isStandAlone() ? null : this.component().id,
+        componentIndexNode: ((_ref = this.componentIndexNode()) != null ? (_ref1 = _ref.nodeWrapper) != null ? _ref1.nodeData : void 0 : void 0) || null,
         nodeName: this._camelize(this.nodeName),
         nodeNameUnderscored: this.nodeName,
-        applicationName: applicationName,
-        applicationNameUnderscored: applicationNameUnderscored,
         componentName: componentName,
-        componentNameUnderscored: componentNameUnderscored
+        componentNameUnderscored: componentNameUnderscored,
+        namespaceName: namespaceName,
+        namespaceNameUnderscored: namespaceNameUnderscored
       });
     };
 
@@ -509,31 +505,31 @@
       return delete this.node;
     };
 
-    NodeWrapper.prototype.hasComponent = function() {
-      return this._hasComponent || (this._hasComponent = Vtree.config().hasComponent(this.$el));
+    NodeWrapper.prototype.isStandAlone = function() {
+      return this._isStandAlone || (this._isStandAlone = Vtree.config().isStandAlone(this.$el));
     };
 
-    NodeWrapper.prototype.layout = function() {
-      return this._layout || (this._layout = this.isLayout() ? {
-        name: this.layoutUnderscoredName(),
-        id: layoutId,
+    NodeWrapper.prototype.component = function() {
+      return this._component || (this._component = this.isComponentIndex() ? {
+        name: this.componentUnderscoredName(),
+        id: componentId,
         node: this.node
-      } : this.node.parent != null ? this.node.parent.nodeWrapper.layout() : {
+      } : this.node.parent != null ? this.node.parent.nodeWrapper.component() : {
         name: SECRET_KEY,
         id: 0
       });
     };
 
-    NodeWrapper.prototype.applicationNode = function() {
-      return this._applicationNode != null ? this._applicationNode : this._applicationNode = this.hasComponent() || this.isLayout() ? null : this.layout().node;
+    NodeWrapper.prototype.componentIndexNode = function() {
+      return this._componentIndexNode != null ? this._componentIndexNode : this._componentIndexNode = this.isStandAlone() || this.isComponentIndex() ? null : this.component().node;
     };
 
-    NodeWrapper.prototype.isLayout = function() {
-      return this._isLayout != null ? this._isLayout : this._isLayout = Vtree.config().isLayout(this.$el);
+    NodeWrapper.prototype.isComponentIndex = function() {
+      return this._isComponentIndex != null ? this._isComponentIndex : this._isComponentIndex = Vtree.config().isComponentIndex(this.$el);
     };
 
-    NodeWrapper.prototype.layoutUnderscoredName = function() {
-      return this._layoutUnderscoredName != null ? this._layoutUnderscoredName : this._layoutUnderscoredName = Vtree.config().layoutUnderscoredName(this.$el);
+    NodeWrapper.prototype.componentUnderscoredName = function() {
+      return this._componentUnderscoredName != null ? this._componentUnderscoredName : this._componentUnderscoredName = Vtree.config().componentUnderscoredName(this.$el);
     };
 
     NodeWrapper.prototype.nodeUnderscoredName = function() {
@@ -587,7 +583,7 @@
       this.hooks.onInit(_.bind(this.addNodeIdToElData, this));
       this.hooks.onInit(_.bind(this.addRemoveEventHandlerToEl, this));
       this.hooks.onActivation(_.bind(this.addNodeWrapper, this));
-      this.hooks.onUnload(_.bind(this.unloadView, this));
+      this.hooks.onUnload(_.bind(this.unloadNode, this));
       return this.hooks.onUnload(_.bind(this.deleteNodeWrapper, this));
     };
 
@@ -732,7 +728,7 @@
       return node.nodeWrapper = new NodeWrapper(node);
     };
 
-    TreeManager.prototype.unloadView = function(node) {
+    TreeManager.prototype.unloadNode = function(node) {
       var _ref;
       return (_ref = node.nodeWrapper) != null ? typeof _ref.unload === "function" ? _ref.unload() : void 0 : void 0;
     };
