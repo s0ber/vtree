@@ -15,13 +15,10 @@ class NodeWrapper
     @initNodeDataObject()
 
   identifyNodeAttributes: ->
-    @componentName = @layout().name
-    @componentId = @layout().id
-
     if @isStandAlone()
       [@namespaceName, @nodeName] = Vtree.config().extractComponentData(@$el)
     else
-      @namespaceName = @componentName
+      @namespaceName = @component().name
       @nodeName = @nodeUnderscoredName()
 
   initNodeDataObject: ->
@@ -46,7 +43,7 @@ class NodeWrapper
       isComponentIndex: @isComponentIndex()
       isComponentPart: not @isStandAlone()
       isStandAlone: @isStandAlone()
-      componentId: if @isStandAlone() then null else @componentId
+      componentId: if @isStandAlone() then null else @component().id
       applicationNode: @applicationNode()?.nodeWrapper?.nodeData || null
 
       nodeName: @_camelize(@nodeName)
@@ -65,12 +62,12 @@ class NodeWrapper
   isStandAlone: ->
     @_isStandAlone ||= Vtree.config().isStandAlone(@$el)
 
-  layout: ->
-    @_layout ||=
+  component: ->
+    @_component ||=
       if @isComponentIndex()
-        {name: @layoutUnderscoredName(), id: componentId, node: @node}
+        {name: @componentUnderscoredName(), id: componentId, node: @node}
       else if @node.parent?
-        @node.parent.nodeWrapper.layout()
+        @node.parent.nodeWrapper.component()
       else
         {name: SECRET_KEY, id: 0}
 
@@ -80,15 +77,15 @@ class NodeWrapper
       if @isStandAlone() or @isComponentIndex()
         null
       else
-        @layout().node
+        @component().node
 
   # private
 
   isComponentIndex: ->
     @_isComponentIndex ?= Vtree.config().isComponentIndex(@$el)
 
-  layoutUnderscoredName: ->
-    @_layoutUnderscoredName ?= Vtree.config().layoutUnderscoredName(@$el)
+  componentUnderscoredName: ->
+    @_componentUnderscoredName ?= Vtree.config().componentUnderscoredName(@$el)
 
   nodeUnderscoredName: ->
     @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)

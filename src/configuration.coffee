@@ -8,11 +8,11 @@ class Configuration
   isComponentIndex: ($el) ->
     $el.data('component')?
 
-  layoutUnderscoredName: ($el) ->
+  componentUnderscoredName: ($el) ->
     $el.data('component')
 
   nodeUnderscoredName: ($el) ->
-    if @isComponentIndex($el) then 'layout' else $el.data('view') || ''
+    if @isComponentIndex($el) then 'index' else $el.data('view') || ''
 
   isStandAlone: ($el) ->
     @standAlonePattern.test @nodeUnderscoredName($el)

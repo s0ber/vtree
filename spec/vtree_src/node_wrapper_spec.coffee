@@ -131,35 +131,6 @@ describe 'NodeWrapper', ->
         expect(@view9Node.nodeWrapper.isStandAlone()).to.be.true
 
     describe '.identifyNodeAttributes', ->
-      it 'identifies current node component name', ->
-        expect(@componentNode.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view1Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view2Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view3Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view4Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view5Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view6Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@view7Node.nodeWrapper.componentName).to.be.eql 'test_component'
-        expect(@component2Node.nodeWrapper.componentName).to.be.eql 'test_component2'
-        expect(@view8Node.nodeWrapper.componentName).to.be.eql 'test_component2'
-        expect(@view9Node.nodeWrapper.componentName).to.be.eql 'test_component2'
-
-      it 'identifies current node layout id', ->
-        app1LayoutId = @componentNode.nodeWrapper.layoutId
-        expect(@componentNode.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view1Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view2Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view3Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view4Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view5Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view6Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-        expect(@view7Node.nodeWrapper.layoutId).to.be.eql app1LayoutId
-
-        app2LayoutId = @component2Node.nodeWrapper.layoutId
-        expect(@component2Node.nodeWrapper.layoutId).to.be.eql app2LayoutId
-        expect(@view8Node.nodeWrapper.layoutId).to.be.eql app2LayoutId
-        expect(@view9Node.nodeWrapper.layoutId).to.be.eql app2LayoutId
-
       it 'identifies current node namespace name', ->
         expect(@componentNode.nodeWrapper.namespaceName).to.be.eql 'test_component'
         expect(@view1Node.nodeWrapper.namespaceName).to.be.eql 'test_component'
@@ -174,7 +145,7 @@ describe 'NodeWrapper', ->
         expect(@view9Node.nodeWrapper.namespaceName).to.be.eql 'test_namespace'
 
       it 'identifies current node view name', ->
-        expect(@componentNode.nodeWrapper.nodeName).to.be.eql 'layout'
+        expect(@componentNode.nodeWrapper.nodeName).to.be.eql 'index'
         expect(@view1Node.nodeWrapper.nodeName).to.be.eql 'test_view1'
         expect(@view2Node.nodeWrapper.nodeName).to.be.eql 'test_view2'
         expect(@view3Node.nodeWrapper.nodeName).to.be.eql 'test_view3'
@@ -182,7 +153,7 @@ describe 'NodeWrapper', ->
         expect(@view5Node.nodeWrapper.nodeName).to.be.eql 'test_view5'
         expect(@view6Node.nodeWrapper.nodeName).to.be.eql 'test_view6'
         expect(@view7Node.nodeWrapper.nodeName).to.be.eql 'test_view7'
-        expect(@component2Node.nodeWrapper.nodeName).to.be.eql 'layout'
+        expect(@component2Node.nodeWrapper.nodeName).to.be.eql 'index'
         expect(@view8Node.nodeWrapper.nodeName).to.be.eql 'test_view8'
         expect(@view9Node.nodeWrapper.nodeName).to.be.eql 'test_view9'
 
@@ -237,8 +208,8 @@ describe 'NodeWrapper', ->
 
     describe '.initNodeData', ->
       beforeEach ->
-        @app1LayoutId = @componentNode.nodeWrapper.layoutId
-        @app2LayoutId = @component2Node.nodeWrapper.layoutId
+        @app1ComponentId = @componentNode.nodeWrapper.componentId
+        @app2ComponentId = @component2Node.nodeWrapper.componentId
 
         @componentNodeData = @componentNode.nodeWrapper.nodeData
         @view1NodeData = @view1Node.nodeWrapper.nodeData
@@ -262,10 +233,10 @@ describe 'NodeWrapper', ->
         expect(@componentNodeData).to.have.property('isComponentIndex', true)
         expect(@componentNodeData).to.have.property('isComponentPart', true)
         expect(@componentNodeData).to.have.property('isStandAlone', false)
-        expect(@componentNodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@componentNodeData).to.have.property('componentId', @app1ComponentId)
         expect(@componentNodeData).to.have.property('applicationNode', null)
-        expect(@componentNodeData).to.have.property('nodeName', 'Layout')
-        expect(@componentNodeData).to.have.property('nodeNameUnderscored', 'layout')
+        expect(@componentNodeData).to.have.property('nodeName', 'Index')
+        expect(@componentNodeData).to.have.property('nodeNameUnderscored', 'index')
         expect(@componentNodeData).to.have.property('applicationName', 'TestComponent')
         expect(@componentNodeData).to.have.property('applicationNameUnderscored', 'test_component')
         expect(@componentNodeData).to.have.property('namespaceName', null)
@@ -276,7 +247,7 @@ describe 'NodeWrapper', ->
         expect(@view1NodeData).to.have.property('isComponentIndex', false)
         expect(@view1NodeData).to.have.property('isComponentPart', true)
         expect(@view1NodeData).to.have.property('isStandAlone', false)
-        expect(@view1NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view1NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view1NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view1NodeData).to.have.property('nodeName', 'TestView1')
         expect(@view1NodeData).to.have.property('nodeNameUnderscored', 'test_view1')
@@ -290,7 +261,7 @@ describe 'NodeWrapper', ->
         expect(@view2NodeData).to.have.property('isComponentIndex', false)
         expect(@view2NodeData).to.have.property('isComponentPart', true)
         expect(@view2NodeData).to.have.property('isStandAlone', false)
-        expect(@view2NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view2NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view2NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view2NodeData).to.have.property('nodeName', 'TestView2')
         expect(@view2NodeData).to.have.property('nodeNameUnderscored', 'test_view2')
@@ -304,7 +275,7 @@ describe 'NodeWrapper', ->
         expect(@view3NodeData).to.have.property('isComponentIndex', false)
         expect(@view3NodeData).to.have.property('isComponentPart', true)
         expect(@view3NodeData).to.have.property('isStandAlone', false)
-        expect(@view3NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view3NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view3NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view3NodeData).to.have.property('nodeName', 'TestView3')
         expect(@view3NodeData).to.have.property('nodeNameUnderscored', 'test_view3')
@@ -318,7 +289,7 @@ describe 'NodeWrapper', ->
         expect(@view4NodeData).to.have.property('isComponentIndex', false)
         expect(@view4NodeData).to.have.property('isComponentPart', true)
         expect(@view4NodeData).to.have.property('isStandAlone', false)
-        expect(@view4NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view4NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view4NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view4NodeData).to.have.property('nodeName', 'TestView4')
         expect(@view4NodeData).to.have.property('nodeNameUnderscored', 'test_view4')
@@ -332,7 +303,7 @@ describe 'NodeWrapper', ->
         expect(@view5NodeData).to.have.property('isComponentIndex', false)
         expect(@view5NodeData).to.have.property('isComponentPart', true)
         expect(@view5NodeData).to.have.property('isStandAlone', false)
-        expect(@view5NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view5NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view5NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view5NodeData).to.have.property('nodeName', 'TestView5')
         expect(@view5NodeData).to.have.property('nodeNameUnderscored', 'test_view5')
@@ -346,7 +317,7 @@ describe 'NodeWrapper', ->
         expect(@view6NodeData).to.have.property('isComponentIndex', false)
         expect(@view6NodeData).to.have.property('isComponentPart', true)
         expect(@view6NodeData).to.have.property('isStandAlone', false)
-        expect(@view6NodeData).to.have.property('componentId', @app1LayoutId)
+        expect(@view6NodeData).to.have.property('componentId', @app1ComponentId)
         expect(@view6NodeData).to.have.property('applicationNode', @componentNodeData)
         expect(@view6NodeData).to.have.property('nodeName', 'TestView6')
         expect(@view6NodeData).to.have.property('nodeNameUnderscored', 'test_view6')
@@ -374,10 +345,10 @@ describe 'NodeWrapper', ->
         expect(@component2NodeData).to.have.property('isComponentIndex', true)
         expect(@component2NodeData).to.have.property('isComponentPart', true)
         expect(@component2NodeData).to.have.property('isStandAlone', false)
-        expect(@component2NodeData).to.have.property('componentId', @app2LayoutId)
+        expect(@component2NodeData).to.have.property('componentId', @app2ComponentId)
         expect(@component2NodeData).to.have.property('applicationNode', null)
-        expect(@component2NodeData).to.have.property('nodeName', 'Layout')
-        expect(@component2NodeData).to.have.property('nodeNameUnderscored', 'layout')
+        expect(@component2NodeData).to.have.property('nodeName', 'Index')
+        expect(@component2NodeData).to.have.property('nodeNameUnderscored', 'index')
         expect(@component2NodeData).to.have.property('applicationName', 'TestComponent2')
         expect(@component2NodeData).to.have.property('applicationNameUnderscored', 'test_component2')
         expect(@component2NodeData).to.have.property('namespaceName', null)
@@ -388,7 +359,7 @@ describe 'NodeWrapper', ->
         expect(@view8NodeData).to.have.property('isComponentIndex', false)
         expect(@view8NodeData).to.have.property('isComponentPart', true)
         expect(@view8NodeData).to.have.property('isStandAlone', false)
-        expect(@view8NodeData).to.have.property('componentId', @app2LayoutId)
+        expect(@view8NodeData).to.have.property('componentId', @app2ComponentId)
         expect(@view8NodeData).to.have.property('applicationNode', @component2NodeData)
         expect(@view8NodeData).to.have.property('nodeName', 'TestView8')
         expect(@view8NodeData).to.have.property('nodeNameUnderscored', 'test_view8')
