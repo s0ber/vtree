@@ -1,7 +1,7 @@
-/*! vtree (v0.2.1),
+/*! vtree (v0.2.2),
  Simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Tue Sep 09 2014 */
+ Thu Nov 20 2014 */
 (function() {
   var modules;
 
@@ -162,7 +162,7 @@
     };
 
     Hooks.prototype.onInitCallbacks = function() {
-      return this._onInitCallbacks || (this._onInitCallbacks = []);
+      return this._onInitCallbacks != null ? this._onInitCallbacks : this._onInitCallbacks = [];
     };
 
     Hooks.prototype.init = function() {
@@ -182,7 +182,7 @@
     };
 
     Hooks.prototype.onActivationCallbacks = function() {
-      return this._onActivationCallbacks || (this._onActivationCallbacks = []);
+      return this._onActivationCallbacks != null ? this._onActivationCallbacks : this._onActivationCallbacks = [];
     };
 
     Hooks.prototype.activate = function() {
@@ -202,7 +202,7 @@
     };
 
     Hooks.prototype.onUnloadCallbacks = function() {
-      return this._onUnloadCallbacks || (this._onUnloadCallbacks = []);
+      return this._onUnloadCallbacks != null ? this._onUnloadCallbacks : this._onUnloadCallbacks = [];
     };
 
     Hooks.prototype.unload = function() {
@@ -253,6 +253,9 @@
     };
 
     VtreeNodesCache.prototype.addAsRoot = function(node) {
+      if (this.nodes[node.id] == null) {
+        throw new Error('Trying to add node as root, but node is not cached previously');
+      }
       return this.rootNodes.push(node);
     };
 
@@ -261,10 +264,11 @@
     };
 
     VtreeNodesCache.prototype.removeById = function(id) {
-      delete this.nodes[id];
-      return this.rootNodes = _.reject(this.rootNodes, function(node) {
-        return node.id === id;
-      });
+      var nodeIndex;
+      if ((nodeIndex = _.indexOf(this.rootNodes, this.nodes[id])) !== -1) {
+        this.rootNodes.splice(nodeIndex, 1);
+      }
+      return delete this.nodes[id];
     };
 
     VtreeNodesCache.prototype.clear = function() {
@@ -305,12 +309,12 @@
       return this.parent = node;
     };
 
-    Node.prototype.setChildren = function(nodes) {
-      return this.children = _.filter(nodes, (function(_this) {
-        return function(node) {
-          return node.parent === _this;
-        };
-      })(this));
+    Node.prototype.prependChild = function(node) {
+      return this.children.unshift(node);
+    };
+
+    Node.prototype.appendChild = function(node) {
+      return this.children.push(node);
     };
 
     Node.prototype.removeChild = function(node) {
@@ -357,7 +361,7 @@
     };
 
     Node.prototype.isActivated = function() {
-      return this._isActivated || (this._isActivated = false);
+      return this._isActivated != null ? this._isActivated : this._isActivated = false;
     };
 
     Node.prototype.setAsRemoved = function() {
@@ -365,7 +369,7 @@
     };
 
     Node.prototype.isRemoved = function() {
-      return this._isRemoved || (this._isRemoved = false);
+      return this._isRemoved != null ? this._isRemoved : this._isRemoved = false;
     };
 
     return Node;
@@ -508,12 +512,12 @@
     };
 
     NodeWrapper.prototype.isStandAlone = function() {
-      return this._isStandAlone || (this._isStandAlone = Vtree.config().isStandAlone(this.$el));
+      return this._isStandAlone != null ? this._isStandAlone : this._isStandAlone = Vtree.config().isStandAlone(this.$el);
     };
 
     NodeWrapper.prototype.component = function() {
       var componentName, namespaceName, _ref;
-      return this._component || (this._component = this.isComponentIndex() ? ((_ref = Vtree.config().extractComponentIndexNodeData(this.$el), namespaceName = _ref[0], componentName = _ref[1], _ref), {
+      return this._component != null ? this._component : this._component = this.isComponentIndex() ? ((_ref = Vtree.config().extractComponentIndexNodeData(this.$el), namespaceName = _ref[0], componentName = _ref[1], _ref), {
         namespace: namespaceName,
         name: componentName,
         id: componentId,
@@ -523,7 +527,7 @@
         name: SECRET_KEY,
         id: 0,
         node: this.node
-      });
+      };
     };
 
     NodeWrapper.prototype.componentIndexNode = function() {
@@ -634,13 +638,16 @@
     };
 
     TreeManager.prototype.setChildrenForNodes = function(nodes) {
-      var node;
+      var i, node, _i, _ref, _ref1, _results;
       if (!nodes.length) {
         return;
       }
-      node = nodes.shift();
-      node.setChildren(nodes);
-      return this.setChildrenForNodes(nodes);
+      _results = [];
+      for (i = _i = _ref = nodes.length - 1; _ref <= 0 ? _i <= 0 : _i >= 0; i = _ref <= 0 ? ++_i : --_i) {
+        node = nodes[i];
+        _results.push((_ref1 = node.parent) != null ? _ref1.prependChild(node) : void 0);
+      }
+      return _results;
     };
 
     TreeManager.prototype.activateInitialNodes = function() {
@@ -683,11 +690,11 @@
     };
 
     TreeManager.prototype.removeChildNodes = function(node) {
-      var childNode, tempChildren, _i, _len, _results;
-      tempChildren = _.clone(node.children);
+      var childNode, _i, _len, _ref, _results;
+      _ref = node.children;
       _results = [];
-      for (_i = 0, _len = tempChildren.length; _i < _len; _i++) {
-        childNode = tempChildren[_i];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        childNode = _ref[_i];
         this.removeChildNodes(childNode);
         childNode.remove();
         _results.push(this.nodesCache.removeById(childNode.id));
@@ -696,7 +703,7 @@
     };
 
     TreeManager.prototype.refresh = function(refreshedNode) {
-      var $el, $els, i, newNodes, node, nodeId, _i, _ref;
+      var $el, $els, i, newNodes, node, nodeId, _i, _j, _len, _ref;
       $els = refreshedNode.$el.find(Vtree.config().selector);
       newNodes = [refreshedNode];
       for (i = _i = 0, _ref = $els.length; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -704,10 +711,14 @@
         if (nodeId = $el.data('vtree-node-id')) {
           node = this.nodesCache.getById(nodeId);
         } else {
-          node = new Node($els.eq(i), this.hooks);
+          node = new Node($el, this.hooks);
           this.nodesCache.add(node);
         }
         newNodes.push(node);
+      }
+      for (_j = 0, _len = newNodes.length; _j < _len; _j++) {
+        node = newNodes[_j];
+        node.children.length = 0;
       }
       this.setParentsForNodes(newNodes);
       this.setChildrenForNodes(newNodes);
@@ -819,7 +830,7 @@
     };
 
     Launcher.isTreeManagerInitialized = function() {
-      return this._isTreeManagerInitialized || (this._isTreeManagerInitialized = false);
+      return this._isTreeManagerInitialized != null ? this._isTreeManagerInitialized : this._isTreeManagerInitialized = false;
     };
 
     Launcher.setTreeManagerAsInitialized = function() {
@@ -827,7 +838,7 @@
     };
 
     Launcher.isRemoveEventInitialized = function() {
-      return this._isRemoveEventInitialized || (this._isRemoveEventInitialized = false);
+      return this._isRemoveEventInitialized != null ? this._isRemoveEventInitialized : this._isRemoveEventInitialized = false;
     };
 
     Launcher.setRemoveEventAsInitialized = function() {
@@ -835,7 +846,7 @@
     };
 
     Launcher.isRefreshEventInitialized = function() {
-      return this._isRefreshEventInitialized || (this._isRefreshEventInitialized = false);
+      return this._isRefreshEventInitialized != null ? this._isRefreshEventInitialized : this._isRefreshEventInitialized = false;
     };
 
     Launcher.setRefreshEventAsInitialized = function() {
