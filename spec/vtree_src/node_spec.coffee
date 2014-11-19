@@ -57,12 +57,18 @@ describe 'Node', ->
       @node.setParent(@secondNode)
       expect(@node.parent).to.be.equal @secondNode
 
-  describe '.setChildren', ->
-    it 'creates list of provided nodes array, which parent is current node and saves them as @children', ->
-      @secondNode.setParent(@node)
-      @fourthNode.setParent(@node)
+  describe '.prependChild', ->
+    it 'prepends provided Node instance to @children array', ->
+      @node.prependChild(@secondNode)
+      expect(@node.children).to.be.eql [@secondNode]
+      @node.prependChild(@fourthNode)
+      expect(@node.children).to.be.eql [@fourthNode, @secondNode]
 
-      @node.setChildren([@secondNode, @thirdNode, @fourthNode])
+  describe '.appendChild', ->
+    it 'appends provided Node instance to @children array', ->
+      @node.appendChild(@secondNode)
+      expect(@node.children).to.be.eql [@secondNode]
+      @node.appendChild(@fourthNode)
       expect(@node.children).to.be.eql [@secondNode, @fourthNode]
 
   describe '.removeChild', ->
@@ -70,7 +76,9 @@ describe 'Node', ->
       @secondNode.setParent(@node)
       @fourthNode.setParent(@node)
 
-      @node.setChildren([@secondNode, @fourthNode])
+      @node.appendChild(@secondNode)
+      @node.appendChild(@fourthNode)
+
       @node.removeChild(@secondNode)
       expect(@node.children).to.be.eql [@fourthNode]
 
@@ -78,7 +86,9 @@ describe 'Node', ->
       @secondNode.setParent(@node)
       @fourthNode.setParent(@node)
 
-      @node.setChildren([@secondNode, @fourthNode])
+      @node.appendChild(@secondNode)
+      @node.appendChild(@fourthNode)
+
       @node.removeChild(@thirdNode)
       expect(@node.children).to.be.eql [@secondNode, @fourthNode]
 

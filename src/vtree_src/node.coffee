@@ -19,11 +19,11 @@ class Node
   setParent: (node) ->
     @parent = node
 
-  setChildren: (nodes) ->
-    @children = []
-    for node in nodes
-      @children.push(node) if node.parent is @
-    @children
+  prependChild: (node) ->
+    @children.unshift(node)
+
+  appendChild: (node) ->
+    @children.push(node)
 
   removeChild: (node) ->
     return if (nodeIndex = _.indexOf(@children, node)) is -1

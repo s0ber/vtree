@@ -57,13 +57,9 @@ class TreeManager
   setChildrenForNodes: (nodes) ->
     return unless nodes.length
 
-    node = nodes.shift()
-
-    # setting child nodes for first node in list
-    node.setChildren(nodes)
-
-    # setting child nodes for remaining nodes
-    @setChildrenForNodes(nodes)
+    for i in [(nodes.length - 1)..0]
+      node = nodes[i]
+      node.parent?.prependChild(node)
 
   activateInitialNodes: ->
     @activateRootNodes(@initialNodes)
@@ -113,6 +109,10 @@ class TreeManager
         @nodesCache.add(node)
 
       newNodes.push(node)
+
+    # destroy tree structure
+    for node in newNodes
+      node.children.length = 0
 
     @setParentsForNodes(newNodes)
     @setChildrenForNodes(newNodes)
