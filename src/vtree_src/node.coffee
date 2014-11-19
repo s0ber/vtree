@@ -20,7 +20,10 @@ class Node
     @parent = node
 
   setChildren: (nodes) ->
-    @children = _.filter(nodes, (node) => node.parent is @)
+    @children = []
+    for node in nodes
+      @children.push(node) if node.parent is @
+    @children
 
   removeChild: (node) ->
     return if (nodeIndex = _.indexOf(@children, node)) is -1

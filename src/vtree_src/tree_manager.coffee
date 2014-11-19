@@ -91,11 +91,7 @@ class TreeManager
     @nodesCache.removeById(node.id)
 
   removeChildNodes: (node) ->
-    # we cloning children array, because it has dynamic length
-    # and we need to iterate through every element
-    tempChildren = _.clone(node.children)
-
-    for childNode in tempChildren
+    for childNode in node.children
       @removeChildNodes(childNode)
       childNode.remove()
       @nodesCache.removeById(childNode.id)
@@ -113,7 +109,7 @@ class TreeManager
 
       # else we need to initialize new node
       else
-        node = new Node($els.eq(i), @hooks)
+        node = new Node($el, @hooks)
         @nodesCache.add(node)
 
       newNodes.push(node)

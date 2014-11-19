@@ -35,9 +35,11 @@ describe 'VtreeNodesCache', ->
 
     describe '.addAsRoot', ->
       it 'adds node to root nodes list', ->
+        @nodesCache.add(@node)
         @nodesCache.addAsRoot(@node)
         expect(@nodesCache.showRootNodes()).to.be.eql [@node]
 
+        @nodesCache.add(@secondNode)
         @nodesCache.addAsRoot(@secondNode)
         expect(@nodesCache.showRootNodes()).to.be.eql [@node, @secondNode]
 
@@ -58,6 +60,9 @@ describe 'VtreeNodesCache', ->
         expect(nodesHash).to.be.eql {1: @node}
 
       it 'removes node from root nodes list by provided id', ->
+        @nodesCache.add(@node)
+        @nodesCache.add(@secondNode)
+
         @nodesCache.addAsRoot(@node)
         @nodesCache.addAsRoot(@secondNode)
         @nodesCache.removeById(1)
@@ -76,8 +81,11 @@ describe 'VtreeNodesCache', ->
         expect(nodesHash).to.be.eql {}
 
       it 'clears root nodes list', ->
+        @nodesCache.add(@node)
+        @nodesCache.add(@secondNode)
         @nodesCache.addAsRoot(@node)
         @nodesCache.addAsRoot(@secondNode)
+
         @nodesCache.clear()
 
         rootNodesList = @nodesCache.showRootNodes()
