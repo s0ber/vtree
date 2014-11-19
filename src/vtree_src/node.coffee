@@ -59,12 +59,12 @@ class Node
     @_isActivated = false
 
   isActivated: ->
-    @_isActivated ||= false
+    @_isActivated ?= false
 
   setAsRemoved: ->
     @_isRemoved = true
 
   isRemoved: ->
-    @_isRemoved ||= false
+    @_isRemoved ?= false
 
 modula.export('vtree/node', Node)

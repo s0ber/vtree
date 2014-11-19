@@ -4,7 +4,7 @@ class Hooks
     @onInitCallbacks().push(callback)
 
   onInitCallbacks: ->
-    @_onInitCallbacks ||= []
+    @_onInitCallbacks ?= []
 
   init: (args...) ->
     callback(args...) for callback in @onInitCallbacks()
@@ -14,7 +14,7 @@ class Hooks
     @onActivationCallbacks().push(callback)
 
   onActivationCallbacks: ->
-    @_onActivationCallbacks ||= []
+    @_onActivationCallbacks ?= []
 
   activate: (args...) ->
     callback(args...) for callback in @onActivationCallbacks()
@@ -24,7 +24,7 @@ class Hooks
     @onUnloadCallbacks().push(callback)
 
   onUnloadCallbacks: ->
-    @_onUnloadCallbacks ||= []
+    @_onUnloadCallbacks ?= []
 
   unload: (args...) ->
     callback(args...) for callback in @onUnloadCallbacks()

@@ -56,19 +56,19 @@ class Launcher
   # private
 
   @isTreeManagerInitialized: ->
-    @_isTreeManagerInitialized ||= false
+    @_isTreeManagerInitialized ?= false
 
   @setTreeManagerAsInitialized: ->
     @_isTreeManagerInitialized = true
 
   @isRemoveEventInitialized: ->
-    @_isRemoveEventInitialized ||= false
+    @_isRemoveEventInitialized ?= false
 
   @setRemoveEventAsInitialized: ->
     @_isRemoveEventInitialized = true
 
   @isRefreshEventInitialized: ->
-    @_isRefreshEventInitialized ||= false
+    @_isRefreshEventInitialized ?= false
 
   @setRefreshEventAsInitialized: ->
     @_isRefreshEventInitialized = true

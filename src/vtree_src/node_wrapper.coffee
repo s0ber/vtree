@@ -64,10 +64,10 @@ class NodeWrapper
     delete @node
 
   isStandAlone: ->
-    @_isStandAlone ||= Vtree.config().isStandAlone(@$el)
+    @_isStandAlone ?= Vtree.config().isStandAlone(@$el)
 
   component: ->
-    @_component ||=
+    @_component ?=
       if @isComponentIndex()
         [namespaceName, componentName] = Vtree.config().extractComponentIndexNodeData(@$el)
         {namespace: namespaceName, name: componentName, id: componentId, node: @node}
