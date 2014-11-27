@@ -1,7 +1,7 @@
-/*! vtree (v0.2.2),
+/*! vtree (v0.2.3),
  Simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Thu Nov 20 2014 */
+ Fri Nov 28 2014 */
 (function() {
   var modules;
 
@@ -802,11 +802,12 @@
     };
 
     Launcher.initRefreshEvent = function() {
+      var refreshHandler;
       if (this.isRefreshEventInitialized()) {
         return;
       }
       this.setRefreshEventAsInitialized();
-      return $('body').on('refresh', '*', (function(_this) {
+      refreshHandler = (function(_this) {
         return function(e) {
           var $elWithNode, node, nodeId;
           e.stopPropagation();
@@ -822,7 +823,9 @@
           node = _this.treeManager.nodesCache.getById(nodeId);
           return _this.treeManager.refresh(node);
         };
-      })(this));
+      })(this);
+      $('body').on('refresh', refreshHandler);
+      return $('body').on('refresh', '*', refreshHandler);
     };
 
     Launcher.createViewsTree = function() {
