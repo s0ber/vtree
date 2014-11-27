@@ -32,7 +32,7 @@ class Launcher
     return if @isRefreshEventInitialized()
     @setRefreshEventAsInitialized()
 
-    $('body').on 'refresh', '*' , (e) =>
+    refreshHandler = (e) =>
       e.stopPropagation()
 
       # finding closest element with node (it can be actually e.currentTarget)
@@ -48,6 +48,9 @@ class Launcher
 
       node = @treeManager.nodesCache.getById(nodeId)
       @treeManager.refresh(node)
+
+    $('body').on 'refresh', refreshHandler
+    $('body').on 'refresh', '*' , refreshHandler
 
   @createViewsTree: ->
     @treeManager.createTree()
