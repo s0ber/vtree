@@ -1,7 +1,7 @@
-/*! vtree (v0.2.3),
+/*! v_tree (v0.2.4),
  Simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Fri Nov 28 2014 */
+ Wed Jun 08 2016 */
 (function() {
   var modules;
 
