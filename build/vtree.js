@@ -1,7 +1,7 @@
-/*! v_tree (v0.2.4),
+/*! v_tree (v0.2.5),
  Simple library for creating complicated architectures,
  by Sergey Shishkalov <sergeyshishkalov@gmail.com>
- Wed Jun 08 2016 */
+ Wed Jul 27 2016 */
 (function() {
   var modules;
 
@@ -871,6 +871,9 @@
     function DOM() {}
 
     DOM.html = function($el, html) {
+      $el.children().each(function(i, child) {
+        return $(child).remove();
+      });
       $el.html(html);
       return $el.trigger('refresh');
     };
@@ -904,6 +907,9 @@
         var dfd;
         dfd = new $.Deferred();
         AsyncFn.setImmediate(function() {
+          $el.children().each(function(i, child) {
+            return $(child).remove();
+          });
           $el.html(html);
           $el.trigger('refresh');
           return dfd.resolve();
