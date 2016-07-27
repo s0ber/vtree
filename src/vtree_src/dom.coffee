@@ -1,6 +1,7 @@
 class DOM
 
   @html: ($el, html) ->
+    $el.children().each (i, child) -> $(child).remove()
     $el.html(html)
     $el.trigger('refresh')
 
@@ -27,6 +28,7 @@ class DOM
     AsyncFn.addToCallQueue ->
       dfd = new $.Deferred()
       AsyncFn.setImmediate ->
+        $el.children().each (i, child) -> $(child).remove()
         $el.html(html)
         $el.trigger('refresh')
         dfd.resolve()
