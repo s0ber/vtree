@@ -1,3 +1,4 @@
+Vtree = require('src/vtree')
 DOM = require('src/vtree_src/dom')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
@@ -105,7 +106,7 @@ describe 'DOM', ->
       @firstTestFn = sinon.spy()
       @secondTestFn = sinon.spy()
 
-      @Vtree = modula.require('vtree')
+      @Vtree = Vtree
       @Vtree.hooks()._reset()
 
       @Vtree.onNodeInit (node) =>

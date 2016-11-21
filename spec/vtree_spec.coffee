@@ -1,5 +1,5 @@
 Configuration = require('src/configuration')
-Vtree = modula.require('vtree')
+Vtree = require('src/vtree')
 Hooks = require('src/vtree_src/hooks')
 
 Launcher =

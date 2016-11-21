@@ -2,7 +2,7 @@ Configuration = require('./configuration')
 DOM = require './vtree_src/dom'
 Launcher = require './vtree_src/launcher'
 
-class Vtree
+module.exports = class Vtree
   @DOM: DOM
 
   @initNodes: ->
@@ -44,5 +44,4 @@ class Vtree
   @_launcher: ->
     @__launcher ?= Launcher
 
-modula.export('vtree', Vtree)
 window.Vtree = Vtree

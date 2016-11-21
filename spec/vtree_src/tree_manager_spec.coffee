@@ -1,5 +1,4 @@
-Vtree = modula.require('vtree')
-Launcher = modula.require('vtree/launcher')
+Launcher = require('src/vtree_src/launcher')
 Node = require('src/vtree_src/node')
 TreeManager = require('src/vtree_src/tree_manager')
 Configuration = require('src/configuration')
@@ -150,7 +149,7 @@ describe 'TreeManager', ->
             expect(node.constructor).to.match /Node/
 
         it 'has nodes pointed to corresponding dom elements in @initialNodes list', ->
-          $els = $('body').find(Vtree.config().selector)
+          $els = $('body').find(@config.selector)
           expectedElsArray = _.toArray($els)
 
           @treeManager.setInitialNodes()
@@ -392,7 +391,7 @@ describe 'TreeManager', ->
               @newNodesList.push(@[el + 'Node'])
 
           it 'has nodes initialized for new view elements', ->
-            $els = @$newEls.wrap('<div />').parent().find(Vtree.config().selector)
+            $els = @$newEls.wrap('<div />').parent().find(@config.selector)
             expectedElsArray = $els.toArray()
             newElsArray = expectedElsArray.map((el) =>
               id = $(el).data('vtree-node-id')
