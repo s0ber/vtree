@@ -5,7 +5,8 @@ Hooks = require('./hooks')
 
 class TreeManager
 
-  constructor: (@config) ->
+  constructor: (@config, @launcherHooks) ->
+    throw new Error('Launcher hooks are required') unless @launcherHooks?
     @initNodeHooks()
 
     @initialNodes = []
@@ -123,7 +124,7 @@ class TreeManager
     node.$el.on('remove', => @removeNode(node))
 
   addNodeWrapper: (node) ->
-    node.nodeWrapper = new NodeWrapper(node, @config)
+    node.nodeWrapper = new NodeWrapper(node, @config, @launcherHooks)
 
   unloadNode: (node) ->
     node.nodeWrapper?.unload?()

@@ -11,7 +11,7 @@ class Launcher
   @initTreeManager: (config) ->
     return if @isTreeManagerInitialized()
     @setTreeManagerAsInitialized()
-    @treeManager = new TreeManager(config)
+    @treeManager = new TreeManager(config, @hooks())
 
   @initRemoveEvent: ->
     return if @isRemoveEventInitialized()

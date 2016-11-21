@@ -11,11 +11,12 @@ describe 'TreeManager', ->
   describe 'Node callbacks', ->
     before ->
       @config = new Configuration()
+      @launcherHooks = Launcher.hooks()
       Launcher.initRemoveEvent()
       sinon.spy(TreeManager::, 'initNodeHooks')
 
     it 'initializes hooks for view nodes when creating instance', ->
-      @treeManager = new TreeManager(@config)
+      @treeManager = new TreeManager(@config, @launcherHooks)
       expect(@treeManager.initNodeHooks).to.be.calledOnce
 
     beforeEach ->
@@ -23,38 +24,38 @@ describe 'TreeManager', ->
 
     describe '.initNodeHooks', ->
       it 'saves new Hooks object in @hooks', ->
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         expect(@treeManager.hooks.constructor).to.match(/Hooks/)
 
       it 'adds @addNodeIdToElData init hook', ->
         sinon.spy(TreeManager::, 'addNodeIdToElData')
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addNodeIdToElData).to.be.calledOnce
 
       it 'adds @addRemoveEventHandlerToEl init hook', ->
         sinon.spy(TreeManager::, 'addRemoveEventHandlerToEl')
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addRemoveEventHandlerToEl).to.be.calledOnce
 
       it 'adds @addNodeWrapper activation hook', ->
         sinon.spy(TreeManager::, 'addNodeWrapper')
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         node.activate()
         expect(@treeManager.addNodeWrapper).to.be.calledOnce
 
       it 'adds @unloadNode unload hook', ->
         sinon.spy(TreeManager::, 'unloadNode')
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
         expect(@treeManager.unloadNode).to.be.calledOnce
 
       it 'adds @deleteNodeWrapper unload hook', ->
         sinon.spy(TreeManager::, 'deleteNodeWrapper')
-        @treeManager = new TreeManager(@config)
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
         expect(@treeManager.deleteNodeWrapper).to.be.calledOnce
@@ -82,6 +83,7 @@ describe 'TreeManager', ->
         @treeManager.addNodeWrapper(node)
 
         expect(node.nodeWrapper.constructor).to.match(/NodeWrapper/)
+        expect(node.nodeWrapper.launcherHooks).to.eq @launcherHooks
 
     describe '.unloadNode', ->
       it 'unloads NodeWrapper instance', ->
@@ -99,7 +101,8 @@ describe 'TreeManager', ->
   describe 'Constructor and tree building behavior', ->
     beforeEach ->
       @config = new Configuration()
-      @treeManager = new TreeManager(@config)
+      @launcherHooks = Launcher.hooks()
+      @treeManager = new TreeManager(@config, @launcherHooks)
 
     describe '.constructor', ->
       it 'creates NodesCache instance in @nodesCache', ->

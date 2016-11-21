@@ -37,6 +37,7 @@ describe 'Launcher', ->
     it 'saves reference to new TreeManager instance in @treeManager', ->
       Launcher.initTreeManager()
       expect(Launcher.treeManager.constructor).to.match(/TreeManager/)
+      expect(Launcher.treeManager.launcherHooks).to.eq Launcher.hooks()
 
   describe '.createViewsTree', ->
     it 'creates view tree with help of @treeManager', ->

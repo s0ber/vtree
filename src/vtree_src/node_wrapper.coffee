@@ -1,4 +1,3 @@
-Vtree = modula.require('vtree')
 NodeData = require('./node_data')
 
 class NodeWrapper
@@ -6,7 +5,8 @@ class NodeWrapper
   componentId = 0
   SECRET_KEY = 'semarf'
 
-  constructor: (@node, @config) ->
+  constructor: (@node, @config, @launcherHooks) ->
+    throw new Error('Launcher hooks are required') unless @launcherHooks?
     @$el = @node.$el
     @el = @node.el
 
@@ -93,7 +93,7 @@ class NodeWrapper
     @_nodeUnderscoredName ?= @config.nodeUnderscoredName(@$el)
 
   _hooks: ->
-    Vtree.hooks()
+    @launcherHooks
 
   _camelize: (string) ->
     string.replace /(?:^|[-_])(\w)/g, (_, c) ->
