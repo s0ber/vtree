@@ -1,4 +1,4 @@
-Configuration = modula.require('vtree/configuration')
+Configuration = require('src/configuration')
 Vtree = modula.require('vtree')
 
 Launcher =

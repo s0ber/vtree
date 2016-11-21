@@ -1,6 +1,6 @@
 Vtree = modula.require('vtree')
 Launcher = modula.require('vtree/launcher')
-Node = modula.require('vtree/node')
+Node = require('src/vtree_src/node')
 TreeManager = modula.require('vtree/tree_manager')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')

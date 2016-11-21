@@ -1,6 +1,9 @@
-Configuration = modula.require('vtree/configuration')
+Configuration = require('./configuration')
+DOM = require './vtree_src/dom'
+Hooks = require('./vtree_src/hooks')
 
 class Vtree
+  @DOM: DOM
 
   @initNodes: ->
     @_launcher().launch()
@@ -34,7 +37,6 @@ class Vtree
 
   @hooks: ->
     return @_hooks if @_hooks?
-    Hooks = modula.require('vtree/hooks')
     @_hooks ?= new Hooks
 
 

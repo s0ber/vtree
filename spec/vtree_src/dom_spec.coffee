@@ -1,4 +1,4 @@
-DOM = modula.require('vtree/dom')
+DOM = require('src/vtree_src/dom')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
 

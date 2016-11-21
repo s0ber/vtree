@@ -1,4 +1,4 @@
-class Hooks
+module.exports = class Hooks
 
   onInit: (callback) ->
     @onInitCallbacks().push(callback)
@@ -33,5 +33,3 @@ class Hooks
     @_onInitCallbacks = []
     @_onActivationCallbacks = []
     @_onUnloadCallbacks = []
-
-modula.export('vtree/hooks', Hooks)

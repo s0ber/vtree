@@ -1,4 +1,4 @@
-class NodeData
+module.exports = class NodeData
 
   el: null
   $el: null
@@ -27,5 +27,3 @@ class NodeData
 
   getData: (name) ->
     @data[name]
-
-modula.export('vtree/node_data', NodeData)

@@ -1,4 +1,4 @@
-Node = modula.require('vtree/node')
+Node = require('src/vtree_src/node')
 Hooks = class
   init: ->
   activate: ->

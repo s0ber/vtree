@@ -1,6 +1,6 @@
-Hooks = modula.require('vtree/hooks')
+Hooks = require('./hooks')
 
-class Node
+module.exports = class Node
 
   nodeId = 1
 
@@ -66,5 +66,3 @@ class Node
 
   isRemoved: ->
     @_isRemoved ?= false
-
-modula.export('vtree/node', Node)
