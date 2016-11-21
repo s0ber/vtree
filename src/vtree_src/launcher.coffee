@@ -1,7 +1,7 @@
-TreeManager = modula.require('vtree/tree_manager')
+TreeManager = require('./tree_manager')
 Hooks = require('./hooks')
 
-class Launcher
+module.exports = class Launcher
 
   @launch: (config) ->
     @initTreeManager(config)

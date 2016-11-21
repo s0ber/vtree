@@ -1,9 +1,9 @@
 NodesCache = require('./vtree_nodes_cache')
 Node = require('./node')
-NodeWrapper = modula.require('vtree/node_wrapper')
+NodeWrapper = require('./node_wrapper')
 Hooks = require('./hooks')
 
-class TreeManager
+module.exports = class TreeManager
 
   constructor: (@config, @launcherHooks) ->
     throw new Error('Launcher hooks are required') unless @launcherHooks?
@@ -131,5 +131,3 @@ class TreeManager
 
   deleteNodeWrapper: (node) ->
     delete(node.nodeWrapper)
-
-modula.export('vtree/tree_manager', TreeManager)

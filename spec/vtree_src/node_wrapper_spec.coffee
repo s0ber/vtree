@@ -1,8 +1,10 @@
-NodeWrapper = modula.require('vtree/node_wrapper')
+NodeWrapper = require('src/vtree_src/node_wrapper')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
 Configuration = require('src/configuration')
 Hooks = require('src/vtree_src/hooks')
+TreeManager = require('src/vtree_src/tree_manager')
+
 Node = class
   $el: $('')
   el: ''
@@ -76,7 +78,6 @@ describe 'NodeWrapper', ->
   describe 'View initialization', ->
 
     prepareFixtureData = ->
-      TreeManager = modula.require('vtree/tree_manager')
       $els = $(nodesWithDataView())
       $newEls = $(nodesForRefresh())
 

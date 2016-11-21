@@ -1,4 +1,4 @@
-Launcher = modula.require('vtree/launcher')
+Launcher = require 'src/vtree_src/launcher'
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
 
 describe 'Launcher', ->

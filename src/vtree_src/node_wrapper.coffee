@@ -1,6 +1,6 @@
 NodeData = require('./node_data')
 
-class NodeWrapper
+module.exports = class NodeWrapper
 
   componentId = 0
   SECRET_KEY = 'semarf'
@@ -98,5 +98,3 @@ class NodeWrapper
   _camelize: (string) ->
     string.replace /(?:^|[-_])(\w)/g, (_, c) ->
       if c then c.toUpperCase() else ''
-
-modula.export('vtree/node_wrapper', NodeWrapper)

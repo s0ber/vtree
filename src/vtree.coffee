@@ -1,5 +1,6 @@
 Configuration = require('./configuration')
 DOM = require './vtree_src/dom'
+Launcher = require './vtree_src/launcher'
 
 class Vtree
   @DOM: DOM
@@ -41,7 +42,7 @@ class Vtree
   # private
 
   @_launcher: ->
-    @__launcher ?= modula.require('vtree/launcher')
+    @__launcher ?= Launcher
 
 modula.export('vtree', Vtree)
 window.Vtree = Vtree
