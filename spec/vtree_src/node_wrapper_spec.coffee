@@ -1,6 +1,7 @@
 NodeWrapper = modula.require('vtree/node_wrapper')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
+Configuration = require('src/configuration')
 Node = class
   $el: $('')
   el: ''
@@ -17,9 +18,10 @@ describe 'NodeWrapper', ->
 
   describe 'Basic methods', ->
     beforeEach ->
+      @config = new Configuration()
       @$el = $('<div />')
       @node = new Node(@$el)
-      @nodeWrapper = new NodeWrapper(@node)
+      @nodeWrapper = new NodeWrapper(@node, @config)
 
     describe '.constructor', ->
       it 'saves reference to provided view node in @node', ->
@@ -34,13 +36,13 @@ describe 'NodeWrapper', ->
       it 'identifies view', ->
         sinon.spy(NodeWrapper::, 'identifyNodeAttributes')
         node = new Node(@$el)
-        nodeWrapper = new NodeWrapper(node)
+        nodeWrapper = new NodeWrapper(node, @config)
         expect(nodeWrapper.identifyNodeAttributes).to.be.calledOnce
 
       it 'initializes new Vtree node', ->
         sinon.spy(NodeWrapper::, 'initNodeDataObject')
         node = new Node(@$el)
-        nodeWrapper = new NodeWrapper(node)
+        nodeWrapper = new NodeWrapper(node, @config)
         expect(nodeWrapper.initNodeDataObject).to.be.calledOnce
 
     describe '.initNodeDataObject', ->
@@ -82,7 +84,8 @@ describe 'NodeWrapper', ->
       $('body').empty().append($els)
       $('#component1').append($newEls)
 
-      treeManager = new TreeManager
+      config = new Configuration()
+      treeManager = new TreeManager(config)
       treeManager.setInitialNodes()
       treeManager.setParentsForInitialNodes()
       treeManager.setChildrenForInitialNodes()
@@ -224,7 +227,8 @@ describe 'NodeWrapper', ->
       it 'returns NodeData object based on current state of NodeWrapper', ->
         @$el = $('<div />')
         @node = new Node(@$el)
-        @nodeWrapper = new NodeWrapper(@node)
+        @config = new Configuration()
+        @nodeWrapper = new NodeWrapper(@node, @config)
         object = @nodeWrapper.initNodeData()
         expect(object.constructor).to.match(/NodeData/)
 

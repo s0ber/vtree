@@ -1,17 +1,17 @@
-Vtree = modula.require('vtree')
 TreeManager = modula.require('vtree/tree_manager')
+Hooks = require('./hooks')
 
 class Launcher
 
-  @launch: ->
-    @initTreeManager()
-    @initRemoveEvent()
-    @initRefreshEvent()
+  @launch: (config) ->
+    @initTreeManager(config)
+    @initRemoveEvent(config)
+    @initRefreshEvent(config)
 
-  @initTreeManager: ->
+  @initTreeManager: (config) ->
     return if @isTreeManagerInitialized()
     @setTreeManagerAsInitialized()
-    @treeManager = new TreeManager()
+    @treeManager = new TreeManager(config)
 
   @initRemoveEvent: ->
     return if @isRemoveEventInitialized()
@@ -28,7 +28,7 @@ class Launcher
 
         handleObj.handler(e)
 
-  @initRefreshEvent: ->
+  @initRefreshEvent: (config) ->
     return if @isRefreshEventInitialized()
     @setRefreshEventAsInitialized()
 
@@ -36,12 +36,12 @@ class Launcher
       e.stopPropagation()
 
       # finding closest element with node (it can be actually e.currentTarget)
-      $elWithNode = $(e.currentTarget).closest(Vtree.config().selector)
+      $elWithNode = $(e.currentTarget).closest(config.selector)
       nodeId = $elWithNode.data('vtree-node-id')
 
       # if current target don't have node, searching for it's parent
       while $elWithNode.length and not nodeId
-        $elWithNode = $elWithNode.parent().closest(Vtree.config().selector)
+        $elWithNode = $elWithNode.parent().closest(config.selector)
         nodeId = $elWithNode.data('vtree-node-id')
 
       return unless nodeId
@@ -54,6 +54,10 @@ class Launcher
 
   @createViewsTree: ->
     @treeManager.createTree()
+
+  @hooks: ->
+    return @_hooks if @_hooks?
+    @_hooks ?= new Hooks
 
 
   # private

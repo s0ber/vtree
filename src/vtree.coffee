@@ -1,12 +1,11 @@
 Configuration = require('./configuration')
 DOM = require './vtree_src/dom'
-Hooks = require('./vtree_src/hooks')
 
 class Vtree
   @DOM: DOM
 
   @initNodes: ->
-    @_launcher().launch()
+    @_launcher().launch(@config())
     @_launcher().createViewsTree()
 
   @initNodesAsync: ->
@@ -36,8 +35,7 @@ class Vtree
     @_config ?= new Configuration
 
   @hooks: ->
-    return @_hooks if @_hooks?
-    @_hooks ?= new Hooks
+    @_launcher().hooks()
 
 
   # private

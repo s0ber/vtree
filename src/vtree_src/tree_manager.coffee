@@ -1,5 +1,3 @@
-Vtree = modula.require('vtree')
-
 NodesCache = require('./vtree_nodes_cache')
 Node = require('./node')
 NodeWrapper = modula.require('vtree/node_wrapper')
@@ -7,7 +5,7 @@ Hooks = require('./hooks')
 
 class TreeManager
 
-  constructor: ->
+  constructor: (@config) ->
     @initNodeHooks()
 
     @initialNodes = []
@@ -28,7 +26,7 @@ class TreeManager
     @activateInitialNodes()
 
   setInitialNodes: ->
-    $els = $(Vtree.config().selector)
+    $els = $(@config.selector)
     @initialNodes = []
 
     for i in [0...$els.length]
@@ -44,7 +42,7 @@ class TreeManager
 
   setParentsForNodes: (nodes) ->
     for node in nodes
-      $parentEl = node.$el.parent().closest(Vtree.config().selector)
+      $parentEl = node.$el.parent().closest(@config.selector)
 
       # element has no parent if not found (i.e. it is root element)
       if $parentEl.length is 0
@@ -93,7 +91,7 @@ class TreeManager
       @nodesCache.removeById(childNode.id)
 
   refresh: (refreshedNode) ->
-    $els = refreshedNode.$el.find(Vtree.config().selector)
+    $els = refreshedNode.$el.find(@config.selector)
     newNodes = [refreshedNode]
 
     for i in [0...$els.length]
@@ -125,7 +123,7 @@ class TreeManager
     node.$el.on('remove', => @removeNode(node))
 
   addNodeWrapper: (node) ->
-    node.nodeWrapper = new NodeWrapper(node)
+    node.nodeWrapper = new NodeWrapper(node, @config)
 
   unloadNode: (node) ->
     node.nodeWrapper?.unload?()
