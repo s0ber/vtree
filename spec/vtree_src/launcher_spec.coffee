@@ -1,10 +1,7 @@
 Launcher = modula.require('vtree/launcher')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
 
 describe 'Launcher', ->
-
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
-
   describe '.initRemoveEvent', ->
     it 'creates custom jquery event, which being triggered when element being removed from DOM', ->
       Launcher.initRemoveEvent()
@@ -59,7 +56,7 @@ describe 'Launcher', ->
         sinon.spy(@treeManager, 'refresh')
 
       beforeEach ->
-        $('body').empty().append($render('nodes_with_data_view'))
+        $('body').empty().append($(nodesWithDataView()))
         @treeManager.createTree()
 
       it "calls tree manager's refresh event", ->

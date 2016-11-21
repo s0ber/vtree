@@ -2,12 +2,10 @@ Vtree = modula.require('vtree')
 Launcher = modula.require('vtree/launcher')
 Node = modula.require('vtree/node')
 TreeManager = modula.require('vtree/tree_manager')
+nodesForRefresh = require('../fixtures/nodes_for_refresh')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
 
 describe 'TreeManager', ->
-
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
-
 
   describe 'Node callbacks', ->
     before ->
@@ -132,7 +130,7 @@ describe 'TreeManager', ->
 
     describe 'Tree building behavior', ->
       beforeEach ->
-        @$els = $render('nodes_with_data_view')
+        @$els = $(nodesWithDataView())
 
         $('body').empty()
         $('body').append(@$els)
@@ -364,7 +362,7 @@ describe 'TreeManager', ->
           $view2 = $('#view2')
           $view3 = $('#view3')
 
-          @$newEls = $render('nodes_for_refresh')
+          @$newEls = $(nodesForRefresh())
 
           componentNodeId = @$component.data('vtree-node-id')
           view1NodeId = $view1.data('vtree-node-id')

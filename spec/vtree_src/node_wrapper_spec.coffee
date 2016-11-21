@@ -1,12 +1,11 @@
 NodeWrapper = modula.require('vtree/node_wrapper')
+nodesForRefresh = require('../fixtures/nodes_for_refresh')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
 Node = class
   $el: $('')
   el: ''
 
 describe 'NodeWrapper', ->
-
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
 
   before ->
     sinon.spy(NodeWrapper::_hooks(), 'init')
@@ -77,8 +76,8 @@ describe 'NodeWrapper', ->
 
     prepareFixtureData = ->
       TreeManager = modula.require('vtree/tree_manager')
-      $els = $render('nodes_with_data_view')
-      $newEls = $render('nodes_for_refresh')
+      $els = $(nodesWithDataView())
+      $newEls = $(nodesForRefresh())
 
       $('body').empty().append($els)
       $('#component1').append($newEls)
@@ -207,8 +206,8 @@ describe 'NodeWrapper', ->
 
     describe '.initNodeData', ->
       beforeEach ->
-        @component1Id = @component1Node.nodeWrapper.componentId
-        @component2Id = @component2Node.nodeWrapper.componentId
+        @component1Id = @component1Node.nodeWrapper.nodeData.componentId
+        @component2Id = @component2Node.nodeWrapper.nodeData.componentId
 
         @component1NodeData = @component1Node.nodeWrapper.nodeData
         @view1NodeData = @view1Node.nodeWrapper.nodeData
@@ -223,6 +222,9 @@ describe 'NodeWrapper', ->
         @view9NodeData = @view9Node.nodeWrapper.nodeData
 
       it 'returns NodeData object based on current state of NodeWrapper', ->
+        @$el = $('<div />')
+        @node = new Node(@$el)
+        @nodeWrapper = new NodeWrapper(@node)
         object = @nodeWrapper.initNodeData()
         expect(object.constructor).to.match(/NodeData/)
 

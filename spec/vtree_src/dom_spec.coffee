@@ -1,13 +1,12 @@
 DOM = modula.require('vtree/dom')
+nodesForRefresh = require('../fixtures/nodes_for_refresh')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
 
 describe 'DOM', ->
 
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
-
   beforeEach ->
-    @$els = $render('nodes_with_data_view')
-    @$newEls = $render('nodes_for_refresh')
+    @$els = $(nodesWithDataView())
+    @$newEls = $(nodesForRefresh())
 
   describe '.html', ->
     beforeEach ->
@@ -97,8 +96,8 @@ describe 'DOM', ->
   describe 'Async DOM modifying', ->
 
     before ->
-      $els = $render('nodes_with_data_view')
-      $newEls = $render('nodes_for_refresh')
+      $els = $(nodesWithDataView())
+      $newEls = $(nodesForRefresh())
 
       $('body').empty().append($els)
 
@@ -120,7 +119,7 @@ describe 'DOM', ->
           @dfd.resolve()
 
     after ->
-      Vtree.hooks()._reset()
+      @Vtree.hooks()._reset()
 
     it 'modifies DOM asynchrounously', ->
       @Vtree.initNodesAsync()
