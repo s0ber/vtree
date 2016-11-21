@@ -26,6 +26,7 @@
     "raw-loader": "^0.5.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
+    "unminified-webpack-plugin": "^1.1.1",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.10.0"
@@ -34,7 +35,8 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "env TEST_ENV=1 karma start"
+    "build": "webpack",
+    "test": "karma start"
   },
   "license": "MIT",
   "repository": {

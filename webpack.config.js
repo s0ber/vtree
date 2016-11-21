@@ -1,14 +1,15 @@
 const path = require('path')
 const webpack = require('webpack')
+const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: [
     './src/vtree'
   ],
   output: {
     path: path.resolve('./build'),
-    filename: 'vtree.js',
+    filename: 'vtree.min.js',
     library: 'Vtree',
     libraryTarget: 'this'
   },
@@ -29,6 +30,10 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    new UnminifiedWebpackPlugin()
+  ],
   devServer: {
     stats: 'errors-only'
   }
