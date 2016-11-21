@@ -1,6 +1,15 @@
 const path = require('path')
 const webpack = require('webpack')
 const UnminifiedWebpackPlugin = require('unminified-webpack-plugin')
+const isProduction = process.env.NODE_ENV === 'production'
+
+const plugins = []
+if (isProduction) {
+  plugins.push(
+    new webpack.optimize.UglifyJsPlugin({minimize: true}),
+    new UnminifiedWebpackPlugin()
+  )
+}
 
 module.exports = {
   devtool: 'source-map',
@@ -30,10 +39,7 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true}),
-    new UnminifiedWebpackPlugin()
-  ],
+  plugins: plugins,
   devServer: {
     stats: 'errors-only'
   }
