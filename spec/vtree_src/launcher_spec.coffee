@@ -1,5 +1,6 @@
 Launcher = require 'src/vtree_src/launcher'
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
+Configuration = require 'src/configuration'
 
 describe 'Launcher', ->
   describe '.initRemoveEvent', ->
@@ -18,26 +19,31 @@ describe 'Launcher', ->
       expect(fnSpy).to.be.calledTwice
 
   describe '.launch', ->
+    beforeEach ->
+      @config = new Configuration()
+
     it 'initializes TreeManager instance', ->
       sinon.spy(Launcher, 'initTreeManager')
-      Launcher.launch()
+      Launcher.launch(@config)
       expect(Launcher.initTreeManager).to.be.calledOnce
+      expect(Launcher.treeManager.config).to.eq @config
+      expect(Launcher.treeManager.launcherHooks).to.eq Launcher.hooks()
 
     it 'initializes custom jquery remove event', ->
       sinon.spy(Launcher, 'initRemoveEvent')
-      Launcher.launch()
+      Launcher.launch(@config)
       expect(Launcher.initRemoveEvent).to.be.calledOnce
 
     it 'initializes custom jquery refresh event', ->
       sinon.spy(Launcher, 'initRefreshEvent')
-      Launcher.launch()
+      Launcher.launch(@config)
       expect(Launcher.initRefreshEvent).to.be.calledOnce
 
   describe '.initTreeManager', ->
     it 'saves reference to new TreeManager instance in @treeManager', ->
-      Launcher.initTreeManager()
+      config = new Configuration()
+      Launcher.initTreeManager(config)
       expect(Launcher.treeManager.constructor).to.match(/TreeManager/)
-      expect(Launcher.treeManager.launcherHooks).to.eq Launcher.hooks()
 
   describe '.createViewsTree', ->
     it 'creates view tree with help of @treeManager', ->
@@ -48,7 +54,7 @@ describe 'Launcher', ->
   describe '.initRefreshEvent', ->
     it 'creates custom jquery refresh event', ->
       Launcher.initRefreshEvent()
-      expect(Launcher.isRefreshEventInitialized()).to.be.true
+      expect(Launcher.isRefreshEventInitialized).to.be.true
 
     describe 'Custom jquery refresh event', ->
       before ->

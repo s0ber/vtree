@@ -6,6 +6,7 @@ module.exports = class NodeWrapper
   SECRET_KEY = 'semarf'
 
   constructor: (@node, @config, @launcherHooks) ->
+    throw new Error('Config is required') unless @config?
     throw new Error('Launcher hooks are required') unless @launcherHooks?
     @$el = @node.$el
     @el = @node.el

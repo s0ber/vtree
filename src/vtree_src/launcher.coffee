@@ -5,20 +5,15 @@ module.exports = class Launcher
 
   @launch: (config) ->
     @initTreeManager(config)
-    @initRemoveEvent(config)
+    @initRemoveEvent()
     @initRefreshEvent(config)
 
   @initTreeManager: (config) ->
-    return if @isTreeManagerInitialized()
-    @setTreeManagerAsInitialized()
     @treeManager = new TreeManager(config, @hooks())
 
   @initRemoveEvent: ->
-    return if @isRemoveEventInitialized()
-    @setRemoveEventAsInitialized()
-
     # Special event definition
-    $.event.special.remove =
+    $.event.special.remove ?=
       remove: (handleObj) ->
         el = this
         e =
@@ -29,8 +24,8 @@ module.exports = class Launcher
         handleObj.handler(e)
 
   @initRefreshEvent: (config) ->
-    return if @isRefreshEventInitialized()
-    @setRefreshEventAsInitialized()
+    return if @isRefreshEventInitialized
+    @isRefreshEventInitialized = true
 
     refreshHandler = (e) =>
       e.stopPropagation()
@@ -58,26 +53,5 @@ module.exports = class Launcher
   @hooks: ->
     return @_hooks if @_hooks?
     @_hooks ?= new Hooks
-
-
-  # private
-
-  @isTreeManagerInitialized: ->
-    @_isTreeManagerInitialized ?= false
-
-  @setTreeManagerAsInitialized: ->
-    @_isTreeManagerInitialized = true
-
-  @isRemoveEventInitialized: ->
-    @_isRemoveEventInitialized ?= false
-
-  @setRemoveEventAsInitialized: ->
-    @_isRemoveEventInitialized = true
-
-  @isRefreshEventInitialized: ->
-    @_isRefreshEventInitialized ?= false
-
-  @setRefreshEventAsInitialized: ->
-    @_isRefreshEventInitialized = true
 
 modula.export('vtree/launcher', Launcher)

@@ -1,6 +1,8 @@
 module.exports = class VtreeNodesCache
 
-  constructor: (@nodes = {}, @rootNodes = []) ->
+  constructor: ->
+    @nodes = {}
+    @rootNodes = []
 
   show: ->
     @nodes

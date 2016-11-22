@@ -6,6 +6,7 @@ Hooks = require('./hooks')
 module.exports = class TreeManager
 
   constructor: (@config, @launcherHooks) ->
+    throw new Error('Config is required') unless @config?
     throw new Error('Launcher hooks are required') unless @launcherHooks?
     @initNodeHooks()
 
