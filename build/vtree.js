@@ -101,7 +101,13 @@ this["Vtree"] =
 	  };
 	
 	  Vtree.configure = function(options) {
-	    return _.extend(this.config(), options);
+	    var key, results, value;
+	    results = [];
+	    for (key in options) {
+	      value = options[key];
+	      results.push(this.config()[key] = value);
+	    }
+	    return results;
 	  };
 	
 	  Vtree.config = function() {
@@ -302,24 +308,17 @@ this["Vtree"] =
 	
 	  Launcher.launch = function(config) {
 	    this.initTreeManager(config);
-	    this.initRemoveEvent(config);
+	    this.initRemoveEvent();
 	    return this.initRefreshEvent(config);
 	  };
 	
 	  Launcher.initTreeManager = function(config) {
-	    if (this.isTreeManagerInitialized()) {
-	      return;
-	    }
-	    this.setTreeManagerAsInitialized();
 	    return this.treeManager = new TreeManager(config, this.hooks());
 	  };
 	
 	  Launcher.initRemoveEvent = function() {
-	    if (this.isRemoveEventInitialized()) {
-	      return;
-	    }
-	    this.setRemoveEventAsInitialized();
-	    return $.event.special.remove = {
+	    var base;
+	    return (base = $.event.special).remove != null ? base.remove : base.remove = {
 	      remove: function(handleObj) {
 	        var e, el;
 	        el = this;
@@ -335,10 +334,10 @@ this["Vtree"] =
 	
 	  Launcher.initRefreshEvent = function(config) {
 	    var refreshHandler;
-	    if (this.isRefreshEventInitialized()) {
+	    if (this.isRefreshEventInitialized) {
 	      return;
 	    }
-	    this.setRefreshEventAsInitialized();
+	    this.isRefreshEventInitialized = true;
 	    refreshHandler = (function(_this) {
 	      return function(e) {
 	        var $elWithNode, node, nodeId;
@@ -371,30 +370,6 @@ this["Vtree"] =
 	    return this._hooks != null ? this._hooks : this._hooks = new Hooks;
 	  };
 	
-	  Launcher.isTreeManagerInitialized = function() {
-	    return this._isTreeManagerInitialized != null ? this._isTreeManagerInitialized : this._isTreeManagerInitialized = false;
-	  };
-	
-	  Launcher.setTreeManagerAsInitialized = function() {
-	    return this._isTreeManagerInitialized = true;
-	  };
-	
-	  Launcher.isRemoveEventInitialized = function() {
-	    return this._isRemoveEventInitialized != null ? this._isRemoveEventInitialized : this._isRemoveEventInitialized = false;
-	  };
-	
-	  Launcher.setRemoveEventAsInitialized = function() {
-	    return this._isRemoveEventInitialized = true;
-	  };
-	
-	  Launcher.isRefreshEventInitialized = function() {
-	    return this._isRefreshEventInitialized != null ? this._isRefreshEventInitialized : this._isRefreshEventInitialized = false;
-	  };
-	
-	  Launcher.setRefreshEventAsInitialized = function() {
-	    return this._isRefreshEventInitialized = true;
-	  };
-	
 	  return Launcher;
 	
 	})();
@@ -420,6 +395,9 @@ this["Vtree"] =
 	  function TreeManager(config, launcherHooks) {
 	    this.config = config;
 	    this.launcherHooks = launcherHooks;
+	    if (this.config == null) {
+	      throw new Error('Config is required');
+	    }
 	    if (this.launcherHooks == null) {
 	      throw new Error('Launcher hooks are required');
 	    }
@@ -430,11 +408,19 @@ this["Vtree"] =
 	
 	  TreeManager.prototype.initNodeHooks = function() {
 	    this.hooks = new Hooks;
-	    this.hooks.onInit(_.bind(this.addNodeIdToElData, this));
-	    this.hooks.onInit(_.bind(this.addRemoveEventHandlerToEl, this));
-	    this.hooks.onActivation(_.bind(this.addNodeWrapper, this));
-	    this.hooks.onUnload(_.bind(this.unloadNode, this));
-	    return this.hooks.onUnload(_.bind(this.deleteNodeWrapper, this));
+	    this.hooks.onInit(this.addNodeIdToElData);
+	    this.hooks.onInit((function(_this) {
+	      return function(node) {
+	        return _this.addRemoveEventHandlerToEl(node);
+	      };
+	    })(this));
+	    this.hooks.onActivation((function(_this) {
+	      return function(node) {
+	        return _this.addNodeWrapper(node);
+	      };
+	    })(this));
+	    this.hooks.onUnload(this.unloadNode);
+	    return this.hooks.onUnload(this.deleteNodeWrapper);
 	  };
 	
 	  TreeManager.prototype.createTree = function() {
@@ -606,9 +592,9 @@ this["Vtree"] =
 	var VtreeNodesCache;
 	
 	module.exports = VtreeNodesCache = (function() {
-	  function VtreeNodesCache(nodes, rootNodes) {
-	    this.nodes = nodes != null ? nodes : {};
-	    this.rootNodes = rootNodes != null ? rootNodes : [];
+	  function VtreeNodesCache() {
+	    this.nodes = {};
+	    this.rootNodes = [];
 	  }
 	
 	  VtreeNodesCache.prototype.show = function() {
@@ -636,7 +622,7 @@ this["Vtree"] =
 	
 	  VtreeNodesCache.prototype.removeById = function(id) {
 	    var nodeIndex;
-	    if ((nodeIndex = _.indexOf(this.rootNodes, this.nodes[id])) !== -1) {
+	    if ((nodeIndex = this.rootNodes.indexOf(this.nodes[id])) !== -1) {
 	      this.rootNodes.splice(nodeIndex, 1);
 	    }
 	    return delete this.nodes[id];
@@ -690,7 +676,7 @@ this["Vtree"] =
 	
 	  Node.prototype.removeChild = function(node) {
 	    var nodeIndex;
-	    if ((nodeIndex = _.indexOf(this.children, node)) === -1) {
+	    if ((nodeIndex = this.children.indexOf(node)) === -1) {
 	      return;
 	    }
 	    return this.children.splice(nodeIndex, 1);
@@ -848,6 +834,9 @@ this["Vtree"] =
 	    this.node = node;
 	    this.config = config;
 	    this.launcherHooks = launcherHooks;
+	    if (this.config == null) {
+	      throw new Error('Config is required');
+	    }
 	    if (this.launcherHooks == null) {
 	      throw new Error('Launcher hooks are required');
 	    }
@@ -999,7 +988,11 @@ this["Vtree"] =
 	  NodeData.prototype.namespaceNameUnderscored = null;
 	
 	  function NodeData(options) {
-	    _.extend(this, options);
+	    var key, value;
+	    for (key in options) {
+	      value = options[key];
+	      this[key] = value;
+	    }
 	    this.data = {};
 	  }
 	
