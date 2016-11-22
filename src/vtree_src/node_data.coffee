@@ -1,4 +1,4 @@
-class NodeData
+module.exports = class NodeData
 
   el: null
   $el: null
@@ -19,7 +19,8 @@ class NodeData
   namespaceNameUnderscored: null
 
   constructor: (options) ->
-    _.extend(@, options)
+    for key, value of options
+      @[key] = value
     @data = {}
 
   setData: (name, value) ->
@@ -27,5 +28,3 @@ class NodeData
 
   getData: (name) ->
     @data[name]
-
-modula.export('vtree/node_data', NodeData)

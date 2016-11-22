@@ -1,4 +1,4 @@
-class DOM
+module.exports = class DOM
 
   @html: ($el, html) ->
     $el.children().each (i, child) -> $(child).remove()
@@ -69,6 +69,3 @@ class DOM
         $el.parent().trigger('refresh')
         dfd.resolve()
       dfd.promise()
-
-modula.export('vtree/dom', DOM)
-window.Vtree.DOM = DOM

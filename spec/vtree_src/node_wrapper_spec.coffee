@@ -1,26 +1,28 @@
-NodeWrapper = modula.require('vtree/node_wrapper')
+NodeWrapper = require('src/vtree_src/node_wrapper')
+nodesForRefresh = require('../fixtures/nodes_for_refresh')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
+Configuration = require('src/configuration')
+Hooks = require('src/vtree_src/hooks')
+TreeManager = require('src/vtree_src/tree_manager')
+
 Node = class
   $el: $('')
   el: ''
 
 describe 'NodeWrapper', ->
 
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
-
   before ->
-    sinon.spy(NodeWrapper::_hooks(), 'init')
-    sinon.spy(NodeWrapper::_hooks(), 'unload')
-
-  after ->
-    NodeWrapper::_hooks().init.restore()
-    NodeWrapper::_hooks().unload.restore()
+    @launcherHooks = new Hooks()
+    sinon.spy(@launcherHooks, 'init')
+    sinon.spy(@launcherHooks, 'unload')
 
   describe 'Basic methods', ->
     beforeEach ->
+      @config = new Configuration()
       @$el = $('<div />')
+      @hooks = new Hooks()
       @node = new Node(@$el)
-      @nodeWrapper = new NodeWrapper(@node)
+      @nodeWrapper = new NodeWrapper(@node, @config, @launcherHooks)
 
     describe '.constructor', ->
       it 'saves reference to provided view node in @node', ->
@@ -35,34 +37,34 @@ describe 'NodeWrapper', ->
       it 'identifies view', ->
         sinon.spy(NodeWrapper::, 'identifyNodeAttributes')
         node = new Node(@$el)
-        nodeWrapper = new NodeWrapper(node)
+        nodeWrapper = new NodeWrapper(node, @config, @launcherHooks)
         expect(nodeWrapper.identifyNodeAttributes).to.be.calledOnce
 
       it 'initializes new Vtree node', ->
         sinon.spy(NodeWrapper::, 'initNodeDataObject')
         node = new Node(@$el)
-        nodeWrapper = new NodeWrapper(node)
+        nodeWrapper = new NodeWrapper(node, @config, @launcherHooks)
         expect(nodeWrapper.initNodeDataObject).to.be.calledOnce
 
     describe '.initNodeDataObject', ->
       it 'calls Hooks init hooks', ->
-        initialCallCount = @nodeWrapper._hooks().init.callCount
+        initialCallCount = @launcherHooks.init.callCount
         @nodeWrapper.initNodeDataObject()
-        expect(@nodeWrapper._hooks().init.callCount).to.be.eql(initialCallCount + 1)
+        expect(@launcherHooks.init.callCount).to.be.eql(initialCallCount + 1)
 
       it 'provides nodeData object to init call', ->
-        object = @nodeWrapper._hooks().init.lastCall.args[0]
+        object = @launcherHooks.init.lastCall.args[0]
         expect(object.constructor).to.match(/NodeData/)
 
     describe '.unload', ->
       it 'calls Hooks unload hooks', ->
-        initialCallCount = @nodeWrapper._hooks().unload.callCount
+        initialCallCount = @launcherHooks.unload.callCount
         @nodeWrapper.unload()
-        expect(@nodeWrapper._hooks().unload.callCount).to.be.eql(initialCallCount + 1)
+        expect(@launcherHooks.unload.callCount).to.be.eql(initialCallCount + 1)
 
       it 'provides nodeData object to init call', ->
         @nodeWrapper.unload()
-        object = @nodeWrapper._hooks().unload.lastCall.args[0]
+        object = @launcherHooks.unload.lastCall.args[0]
         expect(object.constructor).to.match(/NodeData/)
 
       it 'deletes reference to nodeData object', ->
@@ -76,14 +78,14 @@ describe 'NodeWrapper', ->
   describe 'View initialization', ->
 
     prepareFixtureData = ->
-      TreeManager = modula.require('vtree/tree_manager')
-      $els = $render('nodes_with_data_view')
-      $newEls = $render('nodes_for_refresh')
+      $els = $(nodesWithDataView())
+      $newEls = $(nodesForRefresh())
 
       $('body').empty().append($els)
       $('#component1').append($newEls)
 
-      treeManager = new TreeManager
+      config = new Configuration()
+      treeManager = new TreeManager(config, new Hooks())
       treeManager.setInitialNodes()
       treeManager.setParentsForInitialNodes()
       treeManager.setChildrenForInitialNodes()
@@ -207,8 +209,8 @@ describe 'NodeWrapper', ->
 
     describe '.initNodeData', ->
       beforeEach ->
-        @component1Id = @component1Node.nodeWrapper.componentId
-        @component2Id = @component2Node.nodeWrapper.componentId
+        @component1Id = @component1Node.nodeWrapper.nodeData.componentId
+        @component2Id = @component2Node.nodeWrapper.nodeData.componentId
 
         @component1NodeData = @component1Node.nodeWrapper.nodeData
         @view1NodeData = @view1Node.nodeWrapper.nodeData
@@ -223,6 +225,10 @@ describe 'NodeWrapper', ->
         @view9NodeData = @view9Node.nodeWrapper.nodeData
 
       it 'returns NodeData object based on current state of NodeWrapper', ->
+        @$el = $('<div />')
+        @node = new Node(@$el)
+        @config = new Configuration()
+        @nodeWrapper = new NodeWrapper(@node, @config, @launcherHooks)
         object = @nodeWrapper.initNodeData()
         expect(object.constructor).to.match(/NodeData/)
 

@@ -1,9 +1,11 @@
-Configuration = modula.require('vtree/configuration')
-Vtree = modula.require('vtree')
+Configuration = require('src/configuration')
+Vtree = require('src/vtree')
+Hooks = require('src/vtree_src/hooks')
 
 Launcher =
   launch: sinon.spy()
   createViewsTree: sinon.spy()
+  hooks: -> @_hooks ?= new Hooks()
 
 describe 'Vtree', ->
 

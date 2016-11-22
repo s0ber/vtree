@@ -1,12 +1,13 @@
-Vtree = modula.require('vtree')
-NodeData = modula.require('vtree/node_data')
+NodeData = require('./node_data')
 
-class NodeWrapper
+module.exports = class NodeWrapper
 
   componentId = 0
   SECRET_KEY = 'semarf'
 
-  constructor: (@node) ->
+  constructor: (@node, @config, @launcherHooks) ->
+    throw new Error('Config is required') unless @config?
+    throw new Error('Launcher hooks are required') unless @launcherHooks?
     @$el = @node.$el
     @el = @node.el
 
@@ -16,7 +17,7 @@ class NodeWrapper
 
   identifyNodeAttributes: ->
     if @isStandAlone()
-      [@namespaceName, @nodeName] = Vtree.config().extractStandAloneNodeData(@$el)
+      [@namespaceName, @nodeName] = @config.extractStandAloneNodeData(@$el)
     else
       @namespaceName = @component().namespace
       @nodeName =
@@ -64,12 +65,12 @@ class NodeWrapper
     delete @node
 
   isStandAlone: ->
-    @_isStandAlone ?= Vtree.config().isStandAlone(@$el)
+    @_isStandAlone ?= @config.isStandAlone(@$el)
 
   component: ->
     @_component ?=
       if @isComponentIndex()
-        [namespaceName, componentName] = Vtree.config().extractComponentIndexNodeData(@$el)
+        [namespaceName, componentName] = @config.extractComponentIndexNodeData(@$el)
         {namespace: namespaceName, name: componentName, id: componentId, node: @node}
       else if @node.parent?
         @node.parent.nodeWrapper.component()
@@ -87,16 +88,14 @@ class NodeWrapper
   # private
 
   isComponentIndex: ->
-    @_isComponentIndex ?= Vtree.config().isComponentIndex(@$el)
+    @_isComponentIndex ?= @config.isComponentIndex(@$el)
 
   nodeUnderscoredName: ->
-    @_nodeUnderscoredName ?= Vtree.config().nodeUnderscoredName(@$el)
+    @_nodeUnderscoredName ?= @config.nodeUnderscoredName(@$el)
 
   _hooks: ->
-    Vtree.hooks()
+    @launcherHooks
 
   _camelize: (string) ->
     string.replace /(?:^|[-_])(\w)/g, (_, c) ->
       if c then c.toUpperCase() else ''
-
-modula.export('vtree/node_wrapper', NodeWrapper)

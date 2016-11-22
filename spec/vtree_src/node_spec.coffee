@@ -1,11 +1,11 @@
-Node = modula.require('vtree/node')
+_ = require('underscore')
+Node = require('src/vtree_src/node')
 Hooks = class
   init: ->
   activate: ->
   unload: ->
 
 describe 'Node', ->
-
   before ->
     sinon.spy(Node::, 'init')
     sinon.spy(Node::, 'activate')
@@ -155,7 +155,6 @@ describe 'Node', ->
         expect(@node.isActivated()).to.be.false
 
   describe 'Remove behavior', ->
-
     describe '.remove', ->
       it 'sets node as removed', ->
         @node.remove()

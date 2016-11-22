@@ -1,24 +1,19 @@
-Vtree = modula.require('vtree')
-TreeManager = modula.require('vtree/tree_manager')
+TreeManager = require('./tree_manager')
+Hooks = require('./hooks')
 
-class Launcher
+module.exports = class Launcher
 
-  @launch: ->
-    @initTreeManager()
+  @launch: (config) ->
+    @initTreeManager(config)
     @initRemoveEvent()
-    @initRefreshEvent()
+    @initRefreshEvent(config)
 
-  @initTreeManager: ->
-    return if @isTreeManagerInitialized()
-    @setTreeManagerAsInitialized()
-    @treeManager = new TreeManager()
+  @initTreeManager: (config) ->
+    @treeManager = new TreeManager(config, @hooks())
 
   @initRemoveEvent: ->
-    return if @isRemoveEventInitialized()
-    @setRemoveEventAsInitialized()
-
     # Special event definition
-    $.event.special.remove =
+    $.event.special.remove ?=
       remove: (handleObj) ->
         el = this
         e =
@@ -28,20 +23,20 @@ class Launcher
 
         handleObj.handler(e)
 
-  @initRefreshEvent: ->
-    return if @isRefreshEventInitialized()
-    @setRefreshEventAsInitialized()
+  @initRefreshEvent: (config) ->
+    return if @isRefreshEventInitialized
+    @isRefreshEventInitialized = true
 
     refreshHandler = (e) =>
       e.stopPropagation()
 
       # finding closest element with node (it can be actually e.currentTarget)
-      $elWithNode = $(e.currentTarget).closest(Vtree.config().selector)
+      $elWithNode = $(e.currentTarget).closest(config.selector)
       nodeId = $elWithNode.data('vtree-node-id')
 
       # if current target don't have node, searching for it's parent
       while $elWithNode.length and not nodeId
-        $elWithNode = $elWithNode.parent().closest(Vtree.config().selector)
+        $elWithNode = $elWithNode.parent().closest(config.selector)
         nodeId = $elWithNode.data('vtree-node-id')
 
       return unless nodeId
@@ -55,25 +50,8 @@ class Launcher
   @createViewsTree: ->
     @treeManager.createTree()
 
-
-  # private
-
-  @isTreeManagerInitialized: ->
-    @_isTreeManagerInitialized ?= false
-
-  @setTreeManagerAsInitialized: ->
-    @_isTreeManagerInitialized = true
-
-  @isRemoveEventInitialized: ->
-    @_isRemoveEventInitialized ?= false
-
-  @setRemoveEventAsInitialized: ->
-    @_isRemoveEventInitialized = true
-
-  @isRefreshEventInitialized: ->
-    @_isRefreshEventInitialized ?= false
-
-  @setRefreshEventAsInitialized: ->
-    @_isRefreshEventInitialized = true
+  @hooks: ->
+    return @_hooks if @_hooks?
+    @_hooks ?= new Hooks
 
 modula.export('vtree/launcher', Launcher)

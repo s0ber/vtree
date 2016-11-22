@@ -1,4 +1,4 @@
-VtreeNodesCache = modula.require('vtree/vtree_nodes_cache')
+VtreeNodesCache = require('src/vtree_src/vtree_nodes_cache')
 
 describe 'VtreeNodesCache', ->
 

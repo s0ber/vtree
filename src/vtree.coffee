@@ -1,9 +1,12 @@
-Configuration = modula.require('vtree/configuration')
+Configuration = require('./configuration')
+DOM = require './vtree_src/dom'
+Launcher = require './vtree_src/launcher'
 
-class Vtree
+module.exports = class Vtree
+  @DOM: DOM
 
   @initNodes: ->
-    @_launcher().launch()
+    @_launcher().launch(@config())
     @_launcher().createViewsTree()
 
   @initNodesAsync: ->
@@ -27,21 +30,19 @@ class Vtree
     @hooks().onUnloadCallbacks()
 
   @configure: (options) ->
-    _.extend(@config(), options)
+    for key, value of options
+      @config()[key] = value
 
   @config: ->
     @_config ?= new Configuration
 
   @hooks: ->
-    return @_hooks if @_hooks?
-    Hooks = modula.require('vtree/hooks')
-    @_hooks ?= new Hooks
+    @_launcher().hooks()
 
 
   # private
 
   @_launcher: ->
-    @__launcher ?= modula.require('vtree/launcher')
+    @__launcher ?= Launcher
 
-modula.export('vtree', Vtree)
 window.Vtree = Vtree

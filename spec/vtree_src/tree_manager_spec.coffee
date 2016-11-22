@@ -1,21 +1,22 @@
-Vtree = modula.require('vtree')
-Launcher = modula.require('vtree/launcher')
-Node = modula.require('vtree/node')
-TreeManager = modula.require('vtree/tree_manager')
+_ = require('underscore')
+Launcher = require('src/vtree_src/launcher')
+Node = require('src/vtree_src/node')
+TreeManager = require('src/vtree_src/tree_manager')
+Configuration = require('src/configuration')
+nodesForRefresh = require('../fixtures/nodes_for_refresh')
+nodesWithDataView = require('../fixtures/nodes_with_data_view')
 
 describe 'TreeManager', ->
 
-  $render = (name) ->
-    $(window.__html__["spec/fixtures/#{name}.html"])
-
-
   describe 'Node callbacks', ->
     before ->
+      @config = new Configuration()
+      @launcherHooks = Launcher.hooks()
       Launcher.initRemoveEvent()
       sinon.spy(TreeManager::, 'initNodeHooks')
 
     it 'initializes hooks for view nodes when creating instance', ->
-      @treeManager = new TreeManager
+      @treeManager = new TreeManager(@config, @launcherHooks)
       expect(@treeManager.initNodeHooks).to.be.calledOnce
 
     beforeEach ->
@@ -23,38 +24,38 @@ describe 'TreeManager', ->
 
     describe '.initNodeHooks', ->
       it 'saves new Hooks object in @hooks', ->
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
         expect(@treeManager.hooks.constructor).to.match(/Hooks/)
 
       it 'adds @addNodeIdToElData init hook', ->
         sinon.spy(TreeManager::, 'addNodeIdToElData')
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addNodeIdToElData).to.be.calledOnce
 
       it 'adds @addRemoveEventHandlerToEl init hook', ->
-        sinon.spy(TreeManager::, 'addRemoveEventHandlerToEl')
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
+        sinon.spy(@treeManager, 'addRemoveEventHandlerToEl')
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addRemoveEventHandlerToEl).to.be.calledOnce
 
       it 'adds @addNodeWrapper activation hook', ->
-        sinon.spy(TreeManager::, 'addNodeWrapper')
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
+        sinon.spy(@treeManager, 'addNodeWrapper')
         node = new Node(@$el, @treeManager.hooks)
         node.activate()
         expect(@treeManager.addNodeWrapper).to.be.calledOnce
 
       it 'adds @unloadNode unload hook', ->
         sinon.spy(TreeManager::, 'unloadNode')
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
         expect(@treeManager.unloadNode).to.be.calledOnce
 
       it 'adds @deleteNodeWrapper unload hook', ->
         sinon.spy(TreeManager::, 'deleteNodeWrapper')
-        @treeManager = new TreeManager
+        @treeManager = new TreeManager(@config, @launcherHooks)
         node = new Node(@$el, @treeManager.hooks)
         node.unload()
         expect(@treeManager.deleteNodeWrapper).to.be.calledOnce
@@ -82,6 +83,7 @@ describe 'TreeManager', ->
         @treeManager.addNodeWrapper(node)
 
         expect(node.nodeWrapper.constructor).to.match(/NodeWrapper/)
+        expect(node.nodeWrapper.launcherHooks).to.eq @launcherHooks
 
     describe '.unloadNode', ->
       it 'unloads NodeWrapper instance', ->
@@ -98,7 +100,9 @@ describe 'TreeManager', ->
 
   describe 'Constructor and tree building behavior', ->
     beforeEach ->
-      @treeManager = new TreeManager()
+      @config = new Configuration()
+      @launcherHooks = Launcher.hooks()
+      @treeManager = new TreeManager(@config, @launcherHooks)
 
     describe '.constructor', ->
       it 'creates NodesCache instance in @nodesCache', ->
@@ -132,7 +136,7 @@ describe 'TreeManager', ->
 
     describe 'Tree building behavior', ->
       beforeEach ->
-        @$els = $render('nodes_with_data_view')
+        @$els = $(nodesWithDataView())
 
         $('body').empty()
         $('body').append(@$els)
@@ -146,7 +150,7 @@ describe 'TreeManager', ->
             expect(node.constructor).to.match /Node/
 
         it 'has nodes pointed to corresponding dom elements in @initialNodes list', ->
-          $els = $('body').find(Vtree.config().selector)
+          $els = $('body').find(@config.selector)
           expectedElsArray = _.toArray($els)
 
           @treeManager.setInitialNodes()
@@ -364,7 +368,7 @@ describe 'TreeManager', ->
           $view2 = $('#view2')
           $view3 = $('#view3')
 
-          @$newEls = $render('nodes_for_refresh')
+          @$newEls = $(nodesForRefresh())
 
           componentNodeId = @$component.data('vtree-node-id')
           view1NodeId = $view1.data('vtree-node-id')
@@ -388,7 +392,7 @@ describe 'TreeManager', ->
               @newNodesList.push(@[el + 'Node'])
 
           it 'has nodes initialized for new view elements', ->
-            $els = @$newEls.wrap('<div />').parent().find(Vtree.config().selector)
+            $els = @$newEls.wrap('<div />').parent().find(@config.selector)
             expectedElsArray = $els.toArray()
             newElsArray = expectedElsArray.map((el) =>
               id = $(el).data('vtree-node-id')

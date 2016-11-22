@@ -1,4 +1,4 @@
-class Configuration
+module.exports = class Configuration
 
   viewSelector: '[data-view]'
   componentSelector: '[data-component]'
@@ -24,5 +24,3 @@ class Configuration
   extractComponentIndexNodeData: ($el) ->
     [__, namespaceName, componentName] = @nodeUnderscoredName($el).match @namespacePattern
     [namespaceName, componentName]
-
-modula.export('vtree/configuration', Configuration)
