@@ -26,6 +26,7 @@
     "raw-loader": "^0.5.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
+    "underscore": "^1.8.3",
     "unminified-webpack-plugin": "^1.1.1",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
@@ -45,7 +46,6 @@
   },
   "dependencies": {
     "async_fn": "^0.1.6",
-    "jquery": "^2.2.0",
-    "underscore": "^1.8.3"
+    "jquery": "^2.2.0"
   }
 }

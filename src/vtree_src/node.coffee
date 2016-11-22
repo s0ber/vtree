@@ -26,7 +26,7 @@ module.exports = class Node
     @children.push(node)
 
   removeChild: (node) ->
-    return if (nodeIndex = _.indexOf(@children, node)) is -1
+    return if (nodeIndex = @children.indexOf(node)) is -1
     @children.splice(nodeIndex, 1)
 
   init: ->

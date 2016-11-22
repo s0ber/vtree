@@ -1,3 +1,4 @@
+_ = require('underscore')
 Node = require('src/vtree_src/node')
 Hooks = class
   init: ->

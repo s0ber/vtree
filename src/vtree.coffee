@@ -30,7 +30,8 @@ module.exports = class Vtree
     @hooks().onUnloadCallbacks()
 
   @configure: (options) ->
-    _.extend(@config(), options)
+    for key, value of options
+      @config()[key] = value
 
   @config: ->
     @_config ?= new Configuration

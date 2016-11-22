@@ -20,7 +20,7 @@ module.exports = class VtreeNodesCache
     @nodes[id]
 
   removeById: (id) ->
-    if (nodeIndex = _.indexOf(@rootNodes, @nodes[id])) isnt -1
+    if (nodeIndex = @rootNodes.indexOf(@nodes[id])) isnt -1
       @rootNodes.splice(nodeIndex, 1)
     delete @nodes[id]
 

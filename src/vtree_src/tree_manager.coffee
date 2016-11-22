@@ -14,11 +14,11 @@ module.exports = class TreeManager
 
   initNodeHooks: ->
     @hooks = new Hooks
-    @hooks.onInit _.bind(@addNodeIdToElData, @)
-    @hooks.onInit _.bind(@addRemoveEventHandlerToEl, @)
-    @hooks.onActivation _.bind(@addNodeWrapper, @)
-    @hooks.onUnload _.bind(@unloadNode, @)
-    @hooks.onUnload _.bind(@deleteNodeWrapper, @)
+    @hooks.onInit @addNodeIdToElData
+    @hooks.onInit (node) => @addRemoveEventHandlerToEl(node)
+    @hooks.onActivation (node) => @addNodeWrapper(node)
+    @hooks.onUnload @unloadNode
+    @hooks.onUnload @deleteNodeWrapper
 
   createTree: ->
     @setInitialNodes()

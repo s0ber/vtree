@@ -1,3 +1,4 @@
+_ = require('underscore')
 Launcher = require('src/vtree_src/launcher')
 Node = require('src/vtree_src/node')
 TreeManager = require('src/vtree_src/tree_manager')
@@ -33,14 +34,14 @@ describe 'TreeManager', ->
         expect(@treeManager.addNodeIdToElData).to.be.calledOnce
 
       it 'adds @addRemoveEventHandlerToEl init hook', ->
-        sinon.spy(TreeManager::, 'addRemoveEventHandlerToEl')
         @treeManager = new TreeManager(@config, @launcherHooks)
+        sinon.spy(@treeManager, 'addRemoveEventHandlerToEl')
         node = new Node(@$el, @treeManager.hooks)
         expect(@treeManager.addRemoveEventHandlerToEl).to.be.calledOnce
 
       it 'adds @addNodeWrapper activation hook', ->
-        sinon.spy(TreeManager::, 'addNodeWrapper')
         @treeManager = new TreeManager(@config, @launcherHooks)
+        sinon.spy(@treeManager, 'addNodeWrapper')
         node = new Node(@$el, @treeManager.hooks)
         node.activate()
         expect(@treeManager.addNodeWrapper).to.be.calledOnce

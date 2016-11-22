@@ -19,7 +19,8 @@ module.exports = class NodeData
   namespaceNameUnderscored: null
 
   constructor: (options) ->
-    _.extend(@, options)
+    for key, value of options
+      @[key] = value
     @data = {}
 
   setData: (name, value) ->
