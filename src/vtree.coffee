@@ -1,3 +1,4 @@
+$ = require 'jquery'
 Configuration = require('./configuration')
 DOM = require './vtree_src/dom'
 Launcher = require './vtree_src/launcher'

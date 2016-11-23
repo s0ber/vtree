@@ -1,3 +1,4 @@
+$ = require 'jquery'
 TreeManager = require('./tree_manager')
 Hooks = require('./hooks')
 
@@ -15,7 +16,7 @@ module.exports = class Launcher
     # Special event definition
     $.event.special.remove ?=
       remove: (handleObj) ->
-        el = this
+        el = @
         e =
           type: 'remove'
           data: handleObj.data
@@ -53,5 +54,3 @@ module.exports = class Launcher
   @hooks: ->
     return @_hooks if @_hooks?
     @_hooks ?= new Hooks
-
-modula.export('vtree/launcher', Launcher)

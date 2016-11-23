@@ -1,3 +1,4 @@
+$ = require 'jquery'
 NodeWrapper = require('src/vtree_src/node_wrapper')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
 nodesWithDataView = require('../fixtures/nodes_with_data_view')

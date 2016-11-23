@@ -1,3 +1,4 @@
+$ = require 'jquery'
 NodeData = require('./node_data')
 
 module.exports = class NodeWrapper
@@ -48,7 +49,7 @@ module.exports = class NodeWrapper
       isComponentIndex: @isComponentIndex()
       isComponentPart: not @isStandAlone()
       componentId: if @isStandAlone() then null else @component().id
-      componentIndexNode: @componentIndexNode()?.nodeWrapper?.nodeData || null
+      componentIndexNode: @componentIndexNode()?.nodeWrapper?.nodeData or null
 
       nodeName: @_camelize(@nodeName)
       nodeNameUnderscored: @nodeName
