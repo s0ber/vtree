@@ -3,6 +3,7 @@
   "version": "0.3.0",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
+  "main": "build/vtree.min.js",
   "devDependencies": {
     "chai": "^3.5.0",
     "coffee-loader": "^0.7.2",
@@ -11,6 +12,7 @@
     "coffeelint-mocha": "0.1.0",
     "ejs-loader": "^0.3.0",
     "es6-collections": "^0.5.6",
+    "jquery": "^3.1.1",
     "karma": "^0.13.22",
     "karma-chai": "^0.1.0",
     "karma-cli": "^0.1.2",
@@ -45,7 +47,9 @@
     "url": "https://github.com/s0ber/vtree.git"
   },
   "dependencies": {
-    "async_fn": "^0.1.6",
-    "jquery": "^2.2.0"
+    "async_fn": "0.2.1"
+  },
+  "peerDependencies": {
+    "jquery": "^3.1.1"
   }
 }

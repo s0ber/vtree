@@ -1,58 +1,18 @@
-this["Vtree"] =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId])
-/******/ 			return installedModules[moduleId].exports;
-/******/
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			exports: {},
-/******/ 			id: moduleId,
-/******/ 			loaded: false
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
-/******/ })
-/************************************************************************/
-/******/ ([
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["Vtree"] = factory();
+	else
+		root["Vtree"] = factory();
+})(this, function() {
+return webpackJsonpVtree([1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(1);
-
-
-/***/ },
-/* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Configuration, DOM, Launcher, Vtree;
+	/* WEBPACK VAR INJECTION */(function($) {var Configuration, DOM, Launcher, Vtree;
 	
 	Configuration = __webpack_require__(2);
 	
@@ -127,9 +87,11 @@ this["Vtree"] =
 	})();
 	
 	window.Vtree = Vtree;
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
+/* 1 */,
 /* 2 */
 /***/ function(module, exports) {
 
@@ -181,9 +143,9 @@ this["Vtree"] =
 
 /***/ },
 /* 3 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	var DOM;
+	/* WEBPACK VAR INJECTION */(function($) {var DOM;
 	
 	module.exports = DOM = (function() {
 	  function DOM() {}
@@ -291,13 +253,14 @@ this["Vtree"] =
 	  return DOM;
 
 	})();
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Hooks, Launcher, TreeManager;
+	/* WEBPACK VAR INJECTION */(function($) {var Hooks, Launcher, TreeManager;
 	
 	TreeManager = __webpack_require__(5);
 	
@@ -375,13 +338,14 @@ this["Vtree"] =
 	})();
 	
 	modula["export"]('vtree/launcher', Launcher);
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Hooks, Node, NodeWrapper, NodesCache, TreeManager;
+	/* WEBPACK VAR INJECTION */(function($) {var Hooks, Node, NodeWrapper, NodesCache, TreeManager;
 	
 	NodesCache = __webpack_require__(6);
 	
@@ -583,7 +547,8 @@ this["Vtree"] =
 	  return TreeManager;
 
 	})();
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 /* 6 */
@@ -1010,4 +975,6 @@ this["Vtree"] =
 
 
 /***/ }
-/******/ ]);
+])
+});
+;

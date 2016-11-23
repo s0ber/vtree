@@ -1,3 +1,4 @@
+$ = require 'jquery'
 Launcher = require 'src/vtree_src/launcher'
 nodesWithDataView = require('../fixtures/nodes_with_data_view')
 Configuration = require 'src/configuration'

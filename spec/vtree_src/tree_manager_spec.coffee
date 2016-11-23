@@ -1,3 +1,4 @@
+$ = require 'jquery'
 _ = require('underscore')
 Launcher = require('src/vtree_src/launcher')
 Node = require('src/vtree_src/node')
@@ -69,7 +70,7 @@ describe 'TreeManager', ->
         expect($el.data('vtree-node-id')).to.be.eql node.id
 
     describe '.addRemoveEventHandlerToEl', ->
-      it "adds calls @treemanager.removeNode with $el node provided", ->
+      it 'adds calls @treemanager.removeNode with $el node provided', ->
         $el = $('<div />')
         node = new Node($el, @treeManager.hooks)
         sinon.spy(@treeManager, 'removeNode')

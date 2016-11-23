@@ -1,3 +1,4 @@
+$ = require 'jquery'
 Vtree = require('src/vtree')
 DOM = require('src/vtree_src/dom')
 nodesForRefresh = require('../fixtures/nodes_for_refresh')
