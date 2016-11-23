@@ -20,7 +20,7 @@ module.exports = {
     path: path.resolve('./build'),
     filename: 'vtree.min.js',
     library: 'Vtree',
-    libraryTarget: 'this'
+    libraryTarget: 'umd'
   },
   resolve: {
     root: process.cwd(),
@@ -40,6 +40,7 @@ module.exports = {
     ]
   },
   plugins: plugins,
+  externals: externals,
   devServer: {
     stats: 'errors-only'
   }
