@@ -40,6 +40,7 @@ module.exports = {
     ]
   },
   plugins: plugins,
+  externals: externals,
   devServer: {
     stats: 'errors-only'
   }

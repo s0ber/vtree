@@ -1,24 +1,66 @@
-(function webpackUniversalModuleDefinition(root, factory) {
-	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
-	else if(typeof define === 'function' && define.amd)
-		define([], factory);
-	else if(typeof exports === 'object')
-		exports["Vtree"] = factory();
-	else
-		root["Vtree"] = factory();
-})(this, function() {
-return webpackJsonpVtree([1],[
+this["Vtree"] =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+/******/
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var Configuration, DOM, Launcher, Vtree;
+	module.exports = __webpack_require__(1);
+
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $, Configuration, DOM, Launcher, Vtree;
 	
-	Configuration = __webpack_require__(2);
+	$ = __webpack_require__(2);
 	
-	DOM = __webpack_require__(3);
+	Configuration = __webpack_require__(3);
 	
-	Launcher = __webpack_require__(4);
+	DOM = __webpack_require__(4);
+	
+	Launcher = __webpack_require__(6);
 	
 	module.exports = Vtree = (function() {
 	  function Vtree() {}
@@ -87,12 +129,16 @@ return webpackJsonpVtree([1],[
 	})();
 	
 	window.Vtree = Vtree;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
 
 /***/ },
-/* 1 */,
 /* 2 */
+/***/ function(module, exports) {
+
+	(function() { module.exports = this["jquery"]; }());
+
+/***/ },
+/* 3 */
 /***/ function(module, exports) {
 
 	var Configuration;
@@ -142,10 +188,14 @@ return webpackJsonpVtree([1],[
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var DOM;
+	var $, AsyncFn, DOM;
+	
+	$ = __webpack_require__(2);
+	
+	AsyncFn = __webpack_require__(5);
 	
 	module.exports = DOM = (function() {
 	  function DOM() {}
@@ -253,18 +303,26 @@ return webpackJsonpVtree([1],[
 	  return DOM;
 
 	})();
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var Hooks, Launcher, TreeManager;
+	!function(n,e){ true?module.exports=e(__webpack_require__(2)):"function"==typeof define&&define.amd?define(["jquery"],e):"object"==typeof exports?exports.AsyncFn=e(require("jquery")):n.AsyncFn=e(n.jquery)}(this,function(n){return function(n){function e(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var t={};return e.m=n,e.c=t,e.p="",e(0)}([function(n,e,t){n.exports=t(1)},function(n,e,t){var r;r=t(2),n.exports=window.AsyncFn=function(){function n(n){this.dfd=new r.Deferred,this.fn=n}return n.prototype.done=function(n){if(this.callback=n,this.isCalled)return this.callback()},n.prototype.call=function(){if(!this.isCalled)return this.fn().always(function(n){return function(){if(n.isCalled=!0,n.dfd.resolve(),n.callback)return n.callback()}}(this))},n.addToCallQueue=function(e){var t;return t=new n(e),null!=this.currentFn?this.currentFn.done(function(){return t.call()}):t.call(),this.currentFn=t},n.setImmediate=function(){var n,e,t,r;return e={},r=e,n=Math.random(),t=function(t){var r;if(t.data.toString()===n.toString())return e=e.next,r=e.func,delete e.func,r()},window.addEventListener&&window.postMessage?(window.addEventListener("message",t,!1),function(e){return r=r.next={func:e},window.postMessage(n,"*")}):function(n){return setTimeout(n,0)}}(),n}()},function(e,t){e.exports=n}])});
+	//# sourceMappingURL=async_fn.min.js.map
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $, Hooks, Launcher, TreeManager;
 	
-	TreeManager = __webpack_require__(5);
+	$ = __webpack_require__(2);
 	
-	Hooks = __webpack_require__(8);
+	TreeManager = __webpack_require__(7);
+	
+	Hooks = __webpack_require__(10);
 	
 	module.exports = Launcher = (function() {
 	  function Launcher() {}
@@ -334,26 +392,25 @@ return webpackJsonpVtree([1],[
 	  };
 	
 	  return Launcher;
-	
+
 	})();
-	
-	modula["export"]('vtree/launcher', Launcher);
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var Hooks, Node, NodeWrapper, NodesCache, TreeManager;
+	var $, Hooks, Node, NodeWrapper, NodesCache, TreeManager;
 	
-	NodesCache = __webpack_require__(6);
+	$ = __webpack_require__(2);
 	
-	Node = __webpack_require__(7);
+	NodesCache = __webpack_require__(8);
 	
-	NodeWrapper = __webpack_require__(9);
+	Node = __webpack_require__(9);
 	
-	Hooks = __webpack_require__(8);
+	NodeWrapper = __webpack_require__(11);
+	
+	Hooks = __webpack_require__(10);
 	
 	module.exports = TreeManager = (function() {
 	  function TreeManager(config, launcherHooks) {
@@ -547,11 +604,10 @@ return webpackJsonpVtree([1],[
 	  return TreeManager;
 
 	})();
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
 
 /***/ },
-/* 6 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var VtreeNodesCache;
@@ -604,12 +660,12 @@ return webpackJsonpVtree([1],[
 
 
 /***/ },
-/* 7 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Hooks, Node;
 	
-	Hooks = __webpack_require__(8);
+	Hooks = __webpack_require__(10);
 	
 	module.exports = Node = (function() {
 	  var nodeId;
@@ -700,7 +756,7 @@ return webpackJsonpVtree([1],[
 
 
 /***/ },
-/* 8 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var Hooks,
@@ -781,12 +837,14 @@ return webpackJsonpVtree([1],[
 
 
 /***/ },
-/* 9 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var NodeData, NodeWrapper;
+	var $, NodeData, NodeWrapper;
 	
-	NodeData = __webpack_require__(10);
+	$ = __webpack_require__(2);
+	
+	NodeData = __webpack_require__(12);
 	
 	module.exports = NodeWrapper = (function() {
 	  var SECRET_KEY, componentId;
@@ -920,7 +978,7 @@ return webpackJsonpVtree([1],[
 
 
 /***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports) {
 
 	var NodeData;
@@ -975,6 +1033,4 @@ return webpackJsonpVtree([1],[
 
 
 /***/ }
-])
-});
-;
+/******/ ]);
