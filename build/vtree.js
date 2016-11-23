@@ -1,5 +1,14 @@
-this["Vtree"] =
-/******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("jquery"));
+	else if(typeof define === 'function' && define.amd)
+		define(["jquery"], factory);
+	else if(typeof exports === 'object')
+		exports["Vtree"] = factory(require("jquery"));
+	else
+		root["Vtree"] = factory(root["jquery"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -135,7 +144,7 @@ this["Vtree"] =
 /* 2 */
 /***/ function(module, exports) {
 
-	(function() { module.exports = this["jquery"]; }());
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 
 /***/ },
 /* 3 */
@@ -1033,4 +1042,6 @@ this["Vtree"] =
 
 
 /***/ }
-/******/ ]);
+/******/ ])
+});
+;
