@@ -1,5 +1,4 @@
-$ = require 'jquery'
-AsyncFn = require('async_fn')
+{$, AsyncFn} = require '../libs'
 
 module.exports = class DOM
 

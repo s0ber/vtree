@@ -1,4 +1,4 @@
-$ = require 'jquery'
+{$} = require '../libs'
 NodesCache = require('./vtree_nodes_cache')
 Node = require('./node')
 NodeWrapper = require('./node_wrapper')

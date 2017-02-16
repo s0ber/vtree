@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "main": "build/vtree.min.js",
@@ -38,7 +38,9 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "build": "env NODE_ENV=production webpack",
+    "build": "npm run build-new && npm run build-deprecated",
+    "build-new": "env NODE_ENV=production webpack",
+    "build-deprecated": "env NODE_ENV=production DEPRECATED_JQUERY=1 webpack",
     "test": "karma start"
   },
   "license": "MIT",
@@ -47,7 +49,7 @@
     "url": "https://github.com/s0ber/vtree.git"
   },
   "dependencies": {
-    "async_fn": "0.2.2"
+    "async_fn": "0.2.3"
   },
   "peerDependencies": {
     "jquery": "^2.2.0"
