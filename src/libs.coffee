@@ -1,5 +1,7 @@
 if process.env.DEPRECATED_JQUERY
-  module.exports = {$: window.$}
+  AsyncFn = require('async_fn/build/async_fn.deprecated.min')
+  module.exports = {$: window.$, AsyncFn}
 else
   jquery = require 'jquery'
-  module.exports = {$: jquery}
+  AsyncFn = require 'async_fn'
+  module.exports = {$: jquery, AsyncFn}

@@ -49,7 +49,7 @@
     "url": "https://github.com/s0ber/vtree.git"
   },
   "dependencies": {
-    "async_fn": "0.2.2"
+    "async_fn": "0.2.3"
   },
   "peerDependencies": {
     "jquery": "^2.2.0"

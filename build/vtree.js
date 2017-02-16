@@ -65,9 +65,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	$ = __webpack_require__(2).$;
 	
-	Configuration = __webpack_require__(4);
+	Configuration = __webpack_require__(5);
 	
-	DOM = __webpack_require__(5);
+	DOM = __webpack_require__(6);
 	
 	Launcher = __webpack_require__(7);
 	
@@ -144,16 +144,20 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jquery;
+	var AsyncFn, jquery;
 	
 	if (false) {
+	  AsyncFn = require('async_fn/build/async_fn.deprecated.min');
 	  module.exports = {
-	    $: window.$
+	    $: window.$,
+	    AsyncFn: AsyncFn
 	  };
 	} else {
 	  jquery = __webpack_require__(3);
+	  AsyncFn = __webpack_require__(4);
 	  module.exports = {
-	    $: jquery
+	    $: jquery,
+	    AsyncFn: AsyncFn
 	  };
 	}
 
@@ -166,6 +170,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(n,e){ true?module.exports=e(__webpack_require__(3)):"function"==typeof define&&define.amd?define(["jquery"],e):"object"==typeof exports?exports.AsyncFn=e(require("jquery")):n.AsyncFn=e(n.jquery)}(this,function(n){return function(n){function e(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var t={};return e.m=n,e.c=t,e.p="",e(0)}([function(n,e,t){n.exports=t(1)},function(n,e,t){var r;r=t(2).$,n.exports=window.AsyncFn=function(){function n(n){this.dfd=new r.Deferred,this.fn=n}return n.prototype.done=function(n){if(this.callback=n,this.isCalled)return this.callback()},n.prototype.call=function(){if(!this.isCalled)return this.fn().always(function(n){return function(){if(n.isCalled=!0,n.dfd.resolve(),n.callback)return n.callback()}}(this))},n.addToCallQueue=function(e){var t;return t=new n(e),null!=this.currentFn?this.currentFn.done(function(){return t.call()}):t.call(),this.currentFn=t},n.setImmediate=function(){var n,e,t,r;return e={},r=e,n=Math.random(),t=function(t){var r;if(t.data.toString()===n.toString())return e=e.next,r=e.func,delete e.func,r()},window.addEventListener&&window.postMessage?(window.addEventListener("message",t,!1),function(e){return r=r.next={func:e},window.postMessage(n,"*")}):function(n){return setTimeout(n,0)}}(),n}()},function(n,e,t){var r;r=t(3),n.exports={$:r}},function(e,t){e.exports=n}])});
+	//# sourceMappingURL=async_fn.min.js.map
+
+/***/ },
+/* 5 */
 /***/ function(module, exports) {
 
 	var Configuration;
@@ -215,14 +226,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $, AsyncFn, DOM;
+	var $, AsyncFn, DOM, ref;
 	
-	$ = __webpack_require__(2).$;
-	
-	AsyncFn = __webpack_require__(6);
+	ref = __webpack_require__(2), $ = ref.$, AsyncFn = ref.AsyncFn;
 	
 	module.exports = DOM = (function() {
 	  function DOM() {}
@@ -331,13 +340,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	})();
 
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(n,e){ true?module.exports=e(__webpack_require__(3)):"function"==typeof define&&define.amd?define(["jquery"],e):"object"==typeof exports?exports.AsyncFn=e(require("jquery")):n.AsyncFn=e(n.jquery)}(this,function(n){return function(n){function e(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var t={};return e.m=n,e.c=t,e.p="",e(0)}([function(n,e,t){n.exports=t(1)},function(n,e,t){var r;r=t(2),n.exports=window.AsyncFn=function(){function n(n){this.dfd=new r.Deferred,this.fn=n}return n.prototype.done=function(n){if(this.callback=n,this.isCalled)return this.callback()},n.prototype.call=function(){if(!this.isCalled)return this.fn().always(function(n){return function(){if(n.isCalled=!0,n.dfd.resolve(),n.callback)return n.callback()}}(this))},n.addToCallQueue=function(e){var t;return t=new n(e),null!=this.currentFn?this.currentFn.done(function(){return t.call()}):t.call(),this.currentFn=t},n.setImmediate=function(){var n,e,t,r;return e={},r=e,n=Math.random(),t=function(t){var r;if(t.data.toString()===n.toString())return e=e.next,r=e.func,delete e.func,r()},window.addEventListener&&window.postMessage?(window.addEventListener("message",t,!1),function(e){return r=r.next={func:e},window.postMessage(n,"*")}):function(n){return setTimeout(n,0)}}(),n}()},function(e,t){e.exports=n}])});
-	//# sourceMappingURL=async_fn.min.js.map
 
 /***/ },
 /* 7 */

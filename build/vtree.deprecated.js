@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("jquery"));
+		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define(["jquery"], factory);
+		define([], factory);
 	else if(typeof exports === 'object')
-		exports["Vtree"] = factory(require("jquery"));
+		exports["Vtree"] = factory();
 	else
-		root["Vtree"] = factory(root["jquery"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_6__) {
+		root["Vtree"] = factory();
+})(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -65,11 +65,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	$ = __webpack_require__(2).$;
 	
-	Configuration = __webpack_require__(3);
+	Configuration = __webpack_require__(4);
 	
-	DOM = __webpack_require__(4);
+	DOM = __webpack_require__(5);
 	
-	Launcher = __webpack_require__(7);
+	Launcher = __webpack_require__(6);
 	
 	module.exports = Vtree = (function() {
 	  function Vtree() {}
@@ -144,22 +144,33 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var jquery;
+	var AsyncFn, jquery;
 	
 	if (true) {
+	  AsyncFn = __webpack_require__(3);
 	  module.exports = {
-	    $: window.$
+	    $: window.$,
+	    AsyncFn: AsyncFn
 	  };
 	} else {
 	  jquery = require('jquery');
+	  AsyncFn = require('async_fn');
 	  module.exports = {
-	    $: jquery
+	    $: jquery,
+	    AsyncFn: AsyncFn
 	  };
 	}
 
 
 /***/ },
 /* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(n,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports.AsyncFn=t():n.AsyncFn=t()}(this,function(){return function(n){function t(r){if(e[r])return e[r].exports;var o=e[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var e={};return t.m=n,t.c=e,t.p="",t(0)}([function(n,t,e){n.exports=e(1)},function(n,t,e){var r;r=e(2).$,n.exports=window.AsyncFn=function(){function n(n){this.dfd=new r.Deferred,this.fn=n}return n.prototype.done=function(n){if(this.callback=n,this.isCalled)return this.callback()},n.prototype.call=function(){if(!this.isCalled)return this.fn().always(function(n){return function(){if(n.isCalled=!0,n.dfd.resolve(),n.callback)return n.callback()}}(this))},n.addToCallQueue=function(t){var e;return e=new n(t),null!=this.currentFn?this.currentFn.done(function(){return e.call()}):e.call(),this.currentFn=e},n.setImmediate=function(){var n,t,e,r;return t={},r=t,n=Math.random(),e=function(e){var r;if(e.data.toString()===n.toString())return t=t.next,r=t.func,delete t.func,r()},window.addEventListener&&window.postMessage?(window.addEventListener("message",e,!1),function(t){return r=r.next={func:t},window.postMessage(n,"*")}):function(n){return setTimeout(n,0)}}(),n}()},function(n,t,e){n.exports={$:window.$}}])});
+	//# sourceMappingURL=async_fn.deprecated.min.js.map
+
+/***/ },
+/* 4 */
 /***/ function(module, exports) {
 
 	var Configuration;
@@ -209,14 +220,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $, AsyncFn, DOM;
+	var $, AsyncFn, DOM, ref;
 	
-	$ = __webpack_require__(2).$;
-	
-	AsyncFn = __webpack_require__(5);
+	ref = __webpack_require__(2), $ = ref.$, AsyncFn = ref.AsyncFn;
 	
 	module.exports = DOM = (function() {
 	  function DOM() {}
@@ -327,29 +336,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(n,e){ true?module.exports=e(__webpack_require__(6)):"function"==typeof define&&define.amd?define(["jquery"],e):"object"==typeof exports?exports.AsyncFn=e(require("jquery")):n.AsyncFn=e(n.jquery)}(this,function(n){return function(n){function e(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var t={};return e.m=n,e.c=t,e.p="",e(0)}([function(n,e,t){n.exports=t(1)},function(n,e,t){var r;r=t(2),n.exports=window.AsyncFn=function(){function n(n){this.dfd=new r.Deferred,this.fn=n}return n.prototype.done=function(n){if(this.callback=n,this.isCalled)return this.callback()},n.prototype.call=function(){if(!this.isCalled)return this.fn().always(function(n){return function(){if(n.isCalled=!0,n.dfd.resolve(),n.callback)return n.callback()}}(this))},n.addToCallQueue=function(e){var t;return t=new n(e),null!=this.currentFn?this.currentFn.done(function(){return t.call()}):t.call(),this.currentFn=t},n.setImmediate=function(){var n,e,t,r;return e={},r=e,n=Math.random(),t=function(t){var r;if(t.data.toString()===n.toString())return e=e.next,r=e.func,delete e.func,r()},window.addEventListener&&window.postMessage?(window.addEventListener("message",t,!1),function(e){return r=r.next={func:e},window.postMessage(n,"*")}):function(n){return setTimeout(n,0)}}(),n}()},function(e,t){e.exports=n}])});
-	//# sourceMappingURL=async_fn.min.js.map
-
-/***/ },
 /* 6 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_6__;
-
-/***/ },
-/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $, Hooks, Launcher, TreeManager;
 	
 	$ = __webpack_require__(2).$;
 	
-	TreeManager = __webpack_require__(8);
+	TreeManager = __webpack_require__(7);
 	
-	Hooks = __webpack_require__(11);
+	Hooks = __webpack_require__(10);
 	
 	module.exports = Launcher = (function() {
 	  function Launcher() {}
@@ -424,20 +420,20 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $, Hooks, Node, NodeWrapper, NodesCache, TreeManager;
 	
 	$ = __webpack_require__(2).$;
 	
-	NodesCache = __webpack_require__(9);
+	NodesCache = __webpack_require__(8);
 	
-	Node = __webpack_require__(10);
+	Node = __webpack_require__(9);
 	
-	NodeWrapper = __webpack_require__(12);
+	NodeWrapper = __webpack_require__(11);
 	
-	Hooks = __webpack_require__(11);
+	Hooks = __webpack_require__(10);
 	
 	module.exports = TreeManager = (function() {
 	  function TreeManager(config, launcherHooks) {
@@ -634,7 +630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	var VtreeNodesCache;
@@ -687,12 +683,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Hooks, Node;
 	
-	Hooks = __webpack_require__(11);
+	Hooks = __webpack_require__(10);
 	
 	module.exports = Node = (function() {
 	  var nodeId;
@@ -783,7 +779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var Hooks,
@@ -864,14 +860,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $, NodeData, NodeWrapper;
 	
 	$ = __webpack_require__(2).$;
 	
-	NodeData = __webpack_require__(13);
+	NodeData = __webpack_require__(12);
 	
 	module.exports = NodeWrapper = (function() {
 	  var SECRET_KEY, componentId;
@@ -1005,7 +1001,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports) {
 
 	var NodeData;
