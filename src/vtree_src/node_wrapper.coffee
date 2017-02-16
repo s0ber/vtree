@@ -1,4 +1,4 @@
-$ = require 'jquery'
+{$} = require '../libs'
 NodeData = require('./node_data')
 
 module.exports = class NodeWrapper

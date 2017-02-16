@@ -1,4 +1,4 @@
-$ = require 'jquery'
+{$} = require '../libs'
 TreeManager = require('./tree_manager')
 Hooks = require('./hooks')
 
