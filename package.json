@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "main": "build/vtree.min.js",

@@ -11,6 +11,7 @@ module.exports = class TreeManager
     throw new Error('Launcher hooks are required') unless @launcherHooks?
     @initNodeHooks()
 
+    @isInitializing = false
     @initialNodes = []
     @nodesCache = new NodesCache()
 
@@ -23,10 +24,12 @@ module.exports = class TreeManager
     @hooks.onUnload @deleteNodeWrapper
 
   createTree: ->
+    @isInitializing = true
     @setInitialNodes()
     @setParentsForInitialNodes()
     @setChildrenForInitialNodes()
     @activateInitialNodes()
+    @isInitializing = false
 
   setInitialNodes: ->
     $els = $(@config.selector)
@@ -94,6 +97,14 @@ module.exports = class TreeManager
       @nodesCache.removeById(childNode.id)
 
   refresh: (refreshedNode) ->
+    if @isInitializing
+      throw new Error '''
+        Vtree: You can't start initializing new nodes while current nodes are still initializing.
+        Please modify DOM asynchronously in such cases (use Vtree.DOM.htmlAsync, Vtree.DOM.appendAsync, etc).
+        This will guarantee that existing tree is completely initialized.
+      '''
+
+    @isInitializing = true
     $els = refreshedNode.$el.find(@config.selector)
     newNodes = [refreshedNode]
 
@@ -118,6 +129,7 @@ module.exports = class TreeManager
     @setParentsForNodes(newNodes)
     @setChildrenForNodes(newNodes)
     @activateNode(refreshedNode)
+    @isInitializing = false
 
   addNodeIdToElData: (node) ->
     node.$el.data('vtree-node-id', node.id)
