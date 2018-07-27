@@ -568,6 +568,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  TreeManager.prototype.refresh = function(refreshedNode) {
 	    var $el, $els, i, j, k, len, newNodes, node, nodeId, ref;
 	    if (this.isInitializing) {
+	      this.isInitializing = false;
 	      throw new Error('Vtree: You can\'t start initializing new nodes while current nodes are still initializing.\nPlease modify DOM asynchronously in such cases (use Vtree.DOM.htmlAsync, Vtree.DOM.appendAsync, etc).\nThis will guarantee that existing tree is completely initialized.');
 	    }
 	    this.isInitializing = true;
