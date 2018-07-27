@@ -98,6 +98,7 @@ module.exports = class TreeManager
 
   refresh: (refreshedNode) ->
     if @isInitializing
+      @isInitializing = false
       throw new Error '''
         Vtree: You can't start initializing new nodes while current nodes are still initializing.
         Please modify DOM asynchronously in such cases (use Vtree.DOM.htmlAsync, Vtree.DOM.appendAsync, etc).
