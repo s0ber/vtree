@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "main": "build/vtree.min.js",
@@ -46,7 +46,7 @@
     "url": "https://github.com/s0ber/vtree.git"
   },
   "dependencies": {
-    "async_fn": "0.2.2"
+    "async_fn": "^0.2.4"
   },
   "peerDependencies": {
     "jquery": "^2.2.0"
