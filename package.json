@@ -10,10 +10,22 @@
     "/dist"
   ],
   "devDependencies": {
-    "jquery": "^3.6.0"
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/jest": "^29.5.13",
+    "@types/jquery": "^3.5.30",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-extended": "^4.0.2",
+    "jquery": "^3.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
+    "vite": "^5.4.6",
+    "vite-plugin-dts": "^4.2.1"
   },
   "dependencies": {
-    "async_fn": "1.0.0-rc2"
+    "async_fn": "1.0.0-rc3"
   },
   "peerDependencies": {
     "jquery": "^3.6.0"
