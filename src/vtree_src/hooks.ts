@@ -1,4 +1,6 @@
-type Callback = (...args: any[]) => void
+import type Node from './node'
+
+type Callback = (node: Node) => void
 
 export default class Hooks {
   onInitCallbacks: Callback[]
@@ -15,24 +17,24 @@ export default class Hooks {
     this.onInitCallbacks.push(callback)
   }
 
-  init(...args: any[]) {
-    Array.from(this.onInitCallbacks).map((callback) => callback(...args))
+  init(node: Node) {
+    this.onInitCallbacks.forEach(callback => callback(node))
   }
 
   onActivation(callback: Callback) {
     this.onActivationCallbacks.push(callback)
   }
 
-  activate(...args: any[]) {
-    Array.from(this.onActivationCallbacks).map((callback) => callback(...args))
+  activate(node: Node) {
+    this.onActivationCallbacks.forEach(callback => callback(node))
   }
 
   onUnload(callback: Callback) {
     this.onUnloadCallbacks.push(callback)
   }
 
-  unload(...args: any[]) {
-    Array.from(this.onUnloadCallbacks).map((callback) => callback(...args))
+  unload(node: Node) {
+    this.onUnloadCallbacks.forEach(callback => callback(node))
   }
 
   reset() {

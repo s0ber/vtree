@@ -24,7 +24,6 @@ export default class NodeWrapper {
     name: string
   }
 
-
   constructor(public node: Node, public config: Configuration, public hooks: Hooks) {
     this.$el = this.node.$el
     this.el = this.node.el

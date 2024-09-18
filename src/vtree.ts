@@ -51,8 +51,7 @@ export default class Vtree {
   }
 
   static get launcher() {
-    this._launcher ??= new Launcher()
-    return this._launcher
+    return this._launcher ??= new Launcher()
   }
 
   static get hooks() {
