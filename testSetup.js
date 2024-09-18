@@ -1,4 +1,7 @@
 // add all jest-extended matchers
-import { toHaveBeenCalledBefore } from 'jest-extended'
+import { toHaveBeenCalledBefore, toHaveBeenCalledOnce } from 'jest-extended'
 
-expect.extend({ toHaveBeenCalledBefore })
+expect.extend({
+  toHaveBeenCalledBefore,
+  toHaveBeenCalledOnce
+})

@@ -8,7 +8,7 @@ export default class Node {
   id: string
   parent?: Node
   children: Node[]
-  private isActivated = false
+  isActivated = false
   isRemoved = false
 
   nodeWrapper?: NodeWrapper
@@ -16,7 +16,6 @@ export default class Node {
   constructor(public $el: JQuery, public hooks = new Hooks()) {
     this.el = this.$el[0]
     this.id = `nodeId${nodeId}`
-    this.parent = null
     this.children = []
 
     nodeId++

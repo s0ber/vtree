@@ -1,93 +1,109 @@
-VtreeNodesCache = require('src/vtree_src/vtree_nodes_cache')
+/*
+ * decaffeinate suggestions:
+ * DS102: Remove unnecessary code created because of implicit returns
+ * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
+ */
+const VtreeNodesCache = require('src/vtree_src/vtree_nodes_cache');
 
-describe 'VtreeNodesCache', ->
+describe('VtreeNodesCache', function() {
 
-  beforeEach ->
-    @nodesCache = new VtreeNodesCache
+  beforeEach(function() {
+    return this.nodesCache = new VtreeNodesCache;
+  });
 
-  describe 'Initial state of cache', ->
+  describe('Initial state of cache', function() {
 
-    describe '.show', ->
-      it 'returns empty hash by default', ->
-        nodesHash = @nodesCache.show()
-        expect(nodesHash).to.be.an 'object'
-        expect(nodesHash).to.be.eql {}
+    describe('.show', () => it('returns empty hash by default', function() {
+      const nodesHash = this.nodesCache.show();
+      expect(nodesHash).to.be.an('object');
+      return expect(nodesHash).to.be.eql({});
+  }));
 
-    describe '.showRootNodes', ->
-      it 'returns empty list by default', ->
-        rootNodesList = @nodesCache.showRootNodes()
-        expect(rootNodesList).to.be.an 'array'
-        expect(rootNodesList).to.be.eql []
+    return describe('.showRootNodes', () => it('returns empty list by default', function() {
+      const rootNodesList = this.nodesCache.showRootNodes();
+      expect(rootNodesList).to.be.an('array');
+      return expect(rootNodesList).to.be.eql([]);
+  }));
+});
 
-  describe 'Cache management actions', ->
+  return describe('Cache management actions', function() {
 
-    beforeEach ->
-      @node = id: 1, whatever: 'content'
-      @secondNode = id: 2, whatever: 'more content'
+    beforeEach(function() {
+      this.node = {id: 1, whatever: 'content'};
+      return this.secondNode = {id: 2, whatever: 'more content'};
+    });
 
-    describe '.add', ->
-      it 'adds node to nodes hash', ->
-        @nodesCache.add(@node)
-        expect(@nodesCache.show()).to.be.eql {1: @node}
+    describe('.add', () => it('adds node to nodes hash', function() {
+      this.nodesCache.add(this.node);
+      expect(this.nodesCache.show()).to.be.eql({1: this.node});
 
-        @nodesCache.add(@secondNode)
-        expect(@nodesCache.show()).to.be.eql {1: @node, 2: @secondNode}
+      this.nodesCache.add(this.secondNode);
+      return expect(this.nodesCache.show()).to.be.eql({1: this.node, 2: this.secondNode});
+  }));
 
-    describe '.addAsRoot', ->
-      it 'adds node to root nodes list', ->
-        @nodesCache.add(@node)
-        @nodesCache.addAsRoot(@node)
-        expect(@nodesCache.showRootNodes()).to.be.eql [@node]
+    describe('.addAsRoot', () => it('adds node to root nodes list', function() {
+      this.nodesCache.add(this.node);
+      this.nodesCache.addAsRoot(this.node);
+      expect(this.nodesCache.showRootNodes()).to.be.eql([this.node]);
 
-        @nodesCache.add(@secondNode)
-        @nodesCache.addAsRoot(@secondNode)
-        expect(@nodesCache.showRootNodes()).to.be.eql [@node, @secondNode]
+      this.nodesCache.add(this.secondNode);
+      this.nodesCache.addAsRoot(this.secondNode);
+      return expect(this.nodesCache.showRootNodes()).to.be.eql([this.node, this.secondNode]);
+  }));
 
-    describe '.getById', ->
-      it "returns node by it's index", ->
-        @nodesCache.add(@node)
+    describe('.getById', () => it("returns node by it's index", function() {
+      this.nodesCache.add(this.node);
 
-        returnedNode = @nodesCache.getById(@node.id)
-        expect(returnedNode).to.be.equal(@node)
+      const returnedNode = this.nodesCache.getById(this.node.id);
+      return expect(returnedNode).to.be.equal(this.node);
+    }));
 
-    describe '.removeById', ->
-      it 'removes node from nodes hash by provided id', ->
-        @nodesCache.add(@node)
-        @nodesCache.add(@secondNode)
-        @nodesCache.removeById(2)
+    describe('.removeById', function() {
+      it('removes node from nodes hash by provided id', function() {
+        this.nodesCache.add(this.node);
+        this.nodesCache.add(this.secondNode);
+        this.nodesCache.removeById(2);
 
-        nodesHash = @nodesCache.show()
-        expect(nodesHash).to.be.eql {1: @node}
+        const nodesHash = this.nodesCache.show();
+        return expect(nodesHash).to.be.eql({1: this.node});
+    });
 
-      it 'removes node from root nodes list by provided id', ->
-        @nodesCache.add(@node)
-        @nodesCache.add(@secondNode)
+      return it('removes node from root nodes list by provided id', function() {
+        this.nodesCache.add(this.node);
+        this.nodesCache.add(this.secondNode);
 
-        @nodesCache.addAsRoot(@node)
-        @nodesCache.addAsRoot(@secondNode)
-        @nodesCache.removeById(1)
+        this.nodesCache.addAsRoot(this.node);
+        this.nodesCache.addAsRoot(this.secondNode);
+        this.nodesCache.removeById(1);
 
-        rootNodesList = @nodesCache.showRootNodes()
-        expect(rootNodesList).to.be.eql [@secondNode]
+        const rootNodesList = this.nodesCache.showRootNodes();
+        return expect(rootNodesList).to.be.eql([this.secondNode]);
+    });
+  });
 
-    describe '.clear', ->
-      it 'clears nodes hash', ->
-        @nodesCache.add(@node)
-        @nodesCache.add(@secondNode)
-        @nodesCache.clear()
+    return describe('.clear', function() {
+      it('clears nodes hash', function() {
+        this.nodesCache.add(this.node);
+        this.nodesCache.add(this.secondNode);
+        this.nodesCache.clear();
 
-        nodesHash = @nodesCache.show()
-        expect(nodesHash).to.be.an 'object'
-        expect(nodesHash).to.be.eql {}
+        const nodesHash = this.nodesCache.show();
+        expect(nodesHash).to.be.an('object');
+        return expect(nodesHash).to.be.eql({});
+    });
 
-      it 'clears root nodes list', ->
-        @nodesCache.add(@node)
-        @nodesCache.add(@secondNode)
-        @nodesCache.addAsRoot(@node)
-        @nodesCache.addAsRoot(@secondNode)
+      return it('clears root nodes list', function() {
+        this.nodesCache.add(this.node);
+        this.nodesCache.add(this.secondNode);
+        this.nodesCache.addAsRoot(this.node);
+        this.nodesCache.addAsRoot(this.secondNode);
 
-        @nodesCache.clear()
+        this.nodesCache.clear();
 
-        rootNodesList = @nodesCache.showRootNodes()
-        expect(rootNodesList).to.be.an 'array'
-        expect(rootNodesList).to.be.eql []
+        const rootNodesList = this.nodesCache.showRootNodes();
+        expect(rootNodesList).to.be.an('array');
+        return expect(rootNodesList).to.be.eql([]);
+    });
+  });
+});
+});

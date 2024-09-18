@@ -1,10 +1,10 @@
 import type Node from './node'
 
-type Callback = (node: Node) => void
+type Callback = (...args: any[]) => void
 
 export default class Hooks {
   onInitCallbacks: Callback[]
-  private onActivationCallbacks: Callback[]
+  onActivationCallbacks: Callback[]
   onUnloadCallbacks: Callback[]
 
   constructor() {
@@ -17,24 +17,24 @@ export default class Hooks {
     this.onInitCallbacks.push(callback)
   }
 
-  init(node: Node) {
-    this.onInitCallbacks.forEach(callback => callback(node))
+  init(...args: any[]) {
+    this.onInitCallbacks.forEach(callback => callback(...args))
   }
 
   onActivation(callback: Callback) {
     this.onActivationCallbacks.push(callback)
   }
 
-  activate(node: Node) {
-    this.onActivationCallbacks.forEach(callback => callback(node))
+  activate(...args: any[]) {
+    this.onActivationCallbacks.forEach(callback => callback(...args))
   }
 
   onUnload(callback: Callback) {
     this.onUnloadCallbacks.push(callback)
   }
 
-  unload(node: Node) {
-    this.onUnloadCallbacks.forEach(callback => callback(node))
+  unload(...args: any[]) {
+    this.onUnloadCallbacks.forEach(callback => callback(...args))
   }
 
   reset() {

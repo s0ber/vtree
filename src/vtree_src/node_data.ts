@@ -1,4 +1,4 @@
-interface Data {
+export interface Data {
   el: HTMLElement
   $el: JQuery
 
@@ -7,7 +7,7 @@ interface Data {
   isStandAlone: boolean
   componentId?: number
 
-  componentIndexNode: NodeData
+  componentIndexNode?: NodeData
 
   nodeName: string
   componentName: string
@@ -27,7 +27,7 @@ export default class NodeData implements Data {
   isStandAlone: boolean
   componentId: number
 
-  componentIndexNode: NodeData
+  componentIndexNode?: NodeData
 
   nodeName: string
   componentName: string

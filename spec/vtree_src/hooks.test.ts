@@ -1,108 +1,123 @@
-Hooks = require('src/vtree_src/hooks')
+import Hooks from '../../src/vtree_src/hooks'
+import Node from '../../src/vtree_src/node'
+import $ from 'jquery'
 
-describe 'Hooks', ->
+describe('Hooks', () => {
+  let hooks: Hooks
+  let callback: jest.Mock
+  let secondCallback: jest.Mock
+  let thirdCallback: jest.Mock
+  let node: Node
 
-  beforeEach ->
-    @hooks = new Hooks()
-    @callback = sinon.spy()
-    @secondCallback = sinon.spy()
-    @thirdCallback = sinon.spy()
+  beforeEach(() => {
+    hooks = new Hooks()
+    callback = jest.fn()
+    secondCallback = jest.fn()
+    thirdCallback = jest.fn()
+    node = new Node($('div'))
+  })
 
-  describe 'Initialization behavior', ->
+  describe('Initialization behavior', () => {
+    describe('.onInit', () => {
+      it('saves reference to provided callback inside @onInitCallbacks()', () => {
+        hooks.onInit(callback)
+        hooks.onInit(secondCallback)
+        hooks.onInit(thirdCallback)
 
-    describe '.onInit', ->
-      it 'saves reference to provided callback inside @onInitCallbacks()', ->
-        @hooks.onInit(@callback)
-        @hooks.onInit(@secondCallback)
-        @hooks.onInit(@thirdCallback)
+        expect(hooks.onInitCallbacks).toEqual([callback, secondCallback, thirdCallback])
+      })
+    })
 
-        expect(@hooks.onInitCallbacks()).to.be.eql [@callback, @secondCallback, @thirdCallback]
+    describe('.init', () => {
+      it('calls @onInitCallbacks() callbacks one by one', () => {
+        hooks.onInit(callback)
+        hooks.onInit(secondCallback)
+        hooks.onInit(thirdCallback)
+        hooks.init(node)
 
-    describe '.init', ->
-      it 'calls @onInitCallbacks() callbacks one by one', ->
-        @hooks.onInit(@callback)
-        @hooks.onInit(@secondCallback)
-        @hooks.onInit(@thirdCallback)
-        @hooks.init()
+        expect(callback).toHaveBeenCalledOnce()
+        expect(secondCallback).toHaveBeenCalledOnce()
+        expect(thirdCallback).toHaveBeenCalledOnce()
+        expect(callback).toHaveBeenCalledBefore(secondCallback)
+        expect(secondCallback).toHaveBeenCalledBefore(thirdCallback)
+      })
 
-        expect(@callback).to.be.called.once
-        expect(@secondCallback).to.be.called.once
-        expect(@callback).to.be.calledBefore(@secondCallback)
-        expect(@secondCallback).to.be.calledBefore(@thirdCallback)
+      it('calls @onInitCallbacks() callbacks with provided arguments', () => {
+        hooks.onInit(callback)
+        hooks.onInit(secondCallback)
+        hooks.init('arg1', 'arg2')
 
-      it 'calls @onInitCallbacks() callbacks with provided arguments', ->
-        arg1 = 'argument 1'
-        arg2 = 'argument 2'
+        expect(callback).toHaveBeenCalledWith('arg1', 'arg2')
+        expect(secondCallback).toHaveBeenCalledWith('arg1', 'arg2')
+    })
+  })
+})
 
-        @hooks.onInit(@callback)
-        @hooks.onInit(@secondCallback)
-        @hooks.init(arg1, arg2)
+  describe('Activation behavior', () => {
+    describe('.onActivation', () => {
+      it('saves reference to provided callback inside @onActivationCallbacks()', () => {
+        hooks.onActivation(callback)
+        hooks.onActivation(secondCallback)
+        hooks.onActivation(thirdCallback)
 
-        expect(@callback.lastCall.args).to.be.eql [arg1, arg2]
-        expect(@secondCallback.lastCall.args).to.be.eql [arg1, arg2]
+        expect(hooks.onActivationCallbacks).toEqual([callback, secondCallback, thirdCallback])
+      })
+    })
 
-  describe 'Activation behavior', ->
+    describe('.activate', () => {
+      it('calls @onActivationCallbacks() callbacks one by one', () => {
+        hooks.onActivation(callback)
+        hooks.onActivation(secondCallback)
+        hooks.onActivation(thirdCallback)
+        hooks.activate(node)
 
-    describe '.onActivation', ->
-      it 'saves reference to provided callback inside @onActivationCallbacks()', ->
-        @hooks.onActivation(@callback)
-        @hooks.onActivation(@secondCallback)
-        @hooks.onActivation(@thirdCallback)
+        expect(callback).toHaveBeenCalledOnce()
+        expect(secondCallback).toHaveBeenCalledOnce()
+        expect(callback).toHaveBeenCalledBefore(secondCallback)
+        expect(secondCallback).toHaveBeenCalledBefore(thirdCallback)
+      })
 
-        expect(@hooks.onActivationCallbacks()).to.be.eql [@callback, @secondCallback, @thirdCallback]
+      it('calls @onActivationCallbacks() callbacks with provided arguments', () => {
+        hooks.onActivation(callback)
+        hooks.onActivation(secondCallback)
+        hooks.activate('arg1', 'arg2')
 
-    describe '.activate', ->
-      it 'calls @onActivationCallbacks() callbacks one by one', ->
-        @hooks.onActivation(@callback)
-        @hooks.onActivation(@secondCallback)
-        @hooks.onActivation(@thirdCallback)
-        @hooks.activate()
+        expect(callback).toHaveBeenCalledWith('arg1', 'arg2')
+        expect(secondCallback).toHaveBeenCalledWith('arg1', 'arg2')
+      })
+    })
+  })
 
-        expect(@callback).to.be.called.once
-        expect(@secondCallback).to.be.called.once
-        expect(@callback).to.be.calledBefore(@secondCallback)
-        expect(@secondCallback).to.be.calledBefore(@thirdCallback)
+  describe('Unload behavior', () => {
+    describe('.onUnload', () => it('saves reference to provided callback inside @onUnloadCallbacks()', () => {
+      hooks.onUnload(callback)
+      hooks.onUnload(secondCallback)
+      hooks.onUnload(thirdCallback)
 
-      it 'calls @onActivationCallbacks() callbacks with provided arguments', ->
-        arg1 = 'argument 1'
-        arg2 = 'argument 2'
+      expect(hooks.onUnloadCallbacks).toEqual([callback, secondCallback, thirdCallback])
+    }))
 
-        @hooks.onActivation(@callback)
-        @hooks.onActivation(@secondCallback)
-        @hooks.activate(arg1, arg2)
+    describe('.unload', () => {
+      it('calls @onUnloadCallbacks() callbacks one by one', () => {
+        hooks.onUnload(callback)
+        hooks.onUnload(secondCallback)
+        hooks.onUnload(thirdCallback)
+        hooks.unload(node)
 
-        expect(@callback.lastCall.args).to.be.eql [arg1, arg2]
-        expect(@secondCallback.lastCall.args).to.be.eql [arg1, arg2]
+        expect(callback).toHaveBeenCalledOnce()
+        expect(secondCallback).toHaveBeenCalledOnce()
+        expect(callback).toHaveBeenCalledBefore(secondCallback)
+        expect(secondCallback).toHaveBeenCalledBefore(thirdCallback)
+      })
 
-  describe 'Unload behavior', ->
+      it('calls @onUnloadCallbacks() callbacks with provided arguments', () => {
+        hooks.onUnload(callback)
+        hooks.onUnload(secondCallback)
+        hooks.unload('arg1', 'arg2')
 
-    describe '.onUnload', ->
-      it 'saves reference to provided callback inside @onUnloadCallbacks()', ->
-        @hooks.onUnload(@callback)
-        @hooks.onUnload(@secondCallback)
-        @hooks.onUnload(@thirdCallback)
-
-        expect(@hooks.onUnloadCallbacks()).to.be.eql [@callback, @secondCallback, @thirdCallback]
-
-    describe '.unload', ->
-      it 'calls @onUnloadCallbacks() callbacks one by one', ->
-        @hooks.onUnload(@callback)
-        @hooks.onUnload(@secondCallback)
-        @hooks.onUnload(@thirdCallback)
-        @hooks.unload()
-
-        expect(@callback).to.be.called.once
-        expect(@secondCallback).to.be.called.once
-        expect(@callback).to.be.calledBefore(@secondCallback)
-        expect(@secondCallback).to.be.calledBefore(@thirdCallback)
-
-      it 'calls @onUnloadCallbacks() callbacks with provided arguments', ->
-        arg1 = 'argument 1'
-        arg2 = 'argument 2'
-
-        @hooks.onUnload(@callback)
-        @hooks.onUnload(@secondCallback)
-        @hooks.unload(arg1, arg2)
-
-        expect(@callback.lastCall.args).to.be.eql [arg1, arg2]
-        expect(@secondCallback.lastCall.args).to.be.eql [arg1, arg2]
+        expect(callback).toHaveBeenCalledWith('arg1', 'arg2')
+        expect(secondCallback).toHaveBeenCalledWith('arg1', 'arg2')
+      })
+    })
+  })
+})

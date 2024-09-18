@@ -13,9 +13,9 @@ export default class NodeWrapper {
   nodeName: string
   nodeData: NodeData
 
-  private isStandAlone: boolean
-  private isComponentIndex: boolean
-  private componentIndexNode?: Node
+  isStandAlone: boolean
+  isComponentIndex: boolean
+  componentIndexNode?: Node
   private nodeUnderscoredName: string
   private component: {
     namespace: string
