@@ -12,6 +12,9 @@ export default defineConfig({
       name: 'vtree',
       // the proper extensions will be added
       fileName: 'vtree',
+    },
+    rollupOptions: {
+      external: ['jquery']
     }
   },
   plugins: [

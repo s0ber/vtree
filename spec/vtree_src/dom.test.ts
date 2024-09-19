@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import Vtree from '../../src/vtree'
+import Vtree from '../../src/index'
 import DOM from '../../src/vtree_src/dom'
 import { nodesForRefresh } from '../fixtures/nodes_for_refresh'
 import { nodesWithDataView } from '../fixtures/nodes_with_data_view'

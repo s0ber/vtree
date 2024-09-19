@@ -1,5 +1,5 @@
 import Configuration from '../src/configuration'
-import Vtree from '../src/vtree'
+import Vtree from '../src/index'
 import Launcher from '../src/vtree_src/launcher'
 
 describe('Vtree', () => {

@@ -1,4 +1,4 @@
-import Vtree from '../src/vtree'
+import Vtree from '../src/index'
 import $ from 'jquery'
 
 import { nodesForRefresh } from './fixtures/nodes_for_refresh'
