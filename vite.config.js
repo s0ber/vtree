@@ -9,7 +9,7 @@ export default defineConfig({
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, 'src/index.ts'),
-      name: 'vtree',
+      name: 'Vtree',
       // the proper extensions will be added
       fileName: 'vtree',
     },
@@ -24,4 +24,3 @@ export default defineConfig({
     })
   ]
 })
-
