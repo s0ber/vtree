@@ -1,6 +1,6 @@
+import $ from 'jquery'
 import VtreeNodesCache from '../../src/vtree_src/vtree_nodes_cache'
 import Node from '../../src/vtree_src/node'
-import $ from 'jquery'
 
 describe('VtreeNodesCache', () => {
   let nodesCache: VtreeNodesCache

@@ -1,5 +1,5 @@
-import NodeData, { type Data } from '../../src/vtree_src/node_data'
 import $ from 'jquery'
+import NodeData, { type Data } from '../../src/vtree_src/node_data'
 
 describe('NodeData', () => {
   let options: Data

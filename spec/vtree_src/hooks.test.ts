@@ -1,6 +1,6 @@
+import $ from 'jquery'
 import Hooks from '../../src/vtree_src/hooks'
 import Node from '../../src/vtree_src/node'
-import $ from 'jquery'
 
 describe('Hooks', () => {
   let hooks: Hooks
