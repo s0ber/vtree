@@ -6,28 +6,8 @@ import TreeManager from '../../src/vtree_src/tree_manager'
 import Node from '../../src/vtree_src/node'
 import NodeData from '../../src/vtree_src/node_data'
 
-const nodesForRefresh = `
-  <div id='view4' data-view='test_view4'>
-    <div id='view5' data-view='test_view5'>
-      <div id='view6' data-view='test_view6'></div>
-    </div>
-    <div id='view7' data-view='test_namespace#test_view7'></div>
-    <div></div>
-    <div id='component2' data-component='component_namespace#test_component2'>
-      <div id='view8' data-view='test_view8'></div>
-      <div id='view9' data-view='test_namespace#test_view9'></div>
-    </div>
-  </div>
-`
-
-const nodesWithDataView = `
-  <div id='component1' data-component='component_namespace#test_component'>
-    <div id='view1' data-view='test_view1'></div>
-    <div id='no_view'></div>
-    <div id='view2' data-view='test_view2'>
-      <div id='view3' data-view='test_view3'></div>
-    </div>
-`
+import { nodesForRefresh } from '../fixtures/nodes_for_refresh'
+import { nodesWithDataView } from '../fixtures/nodes_with_data_view'
 
 describe('NodeWrapper', () => {
   let launcherHooks: Hooks

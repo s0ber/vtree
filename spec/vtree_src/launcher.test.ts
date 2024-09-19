@@ -1,108 +1,115 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-const $ = require('jquery');
-const Launcher = require('src/vtree_src/launcher');
-const nodesWithDataView = require('../fixtures/nodes_with_data_view');
-const Configuration = require('src/configuration');
+import $ from 'jquery'
+import Launcher from '../../src/vtree_src/launcher'
+import type TreeManager from '../../src/vtree_src/tree_manager'
+import Configuration from '../../src/configuration'
 
-describe('Launcher', function() {
-  describe('.initRemoveEvent', () => it('creates custom jquery event, which being triggered when element being removed from DOM', function() {
-    Launcher.initRemoveEvent();
-    const fnSpy = sinon.spy();
-    const $el = $('<div />');
-    const $el2 = $('<div />');
+import { nodesWithDataView } from '../fixtures/nodes_with_data_view'
 
-    $('body').append($el).append($el2);
-    $el.on('remove', fnSpy);
-    $el2.on('remove', fnSpy);
-    $el.remove();
-    $el2.remove();
+describe('Launcher', () => {
+  let launcher: Launcher
+  let config: Configuration
 
-    return expect(fnSpy).to.be.calledTwice;
-  }));
+  beforeEach(() => {
+    launcher = new Launcher()
+    config = new Configuration()
+  })
 
-  describe('.launch', function() {
-    beforeEach(function() {
-      return this.config = new Configuration();
-    });
+  describe('.initRemoveEvent', () => {
+    it('creates custom jquery event, which being triggered when element being removed from DOM', () => {
+      launcher = new Launcher()
+      launcher.initRemoveEvent()
 
-    it('initializes TreeManager instance', function() {
-      sinon.spy(Launcher, 'initTreeManager');
-      Launcher.launch(this.config);
-      expect(Launcher.initTreeManager).to.be.calledOnce;
-      expect(Launcher.treeManager.config).to.eq(this.config);
-      return expect(Launcher.treeManager.launcherHooks).to.eq(Launcher.hooks());
-    });
+      const fnSpy = jest.fn()
+      const $el = $('<div />')
+      const $el2 = $('<div />')
 
-    it('initializes custom jquery remove event', function() {
-      sinon.spy(Launcher, 'initRemoveEvent');
-      Launcher.launch(this.config);
-      return expect(Launcher.initRemoveEvent).to.be.calledOnce;
-    });
+      $('body').append($el).append($el2)
+      $el.on('remove', fnSpy)
+      $el2.on('remove', fnSpy)
+      $el.remove()
+      $el2.remove()
 
-    return it('initializes custom jquery refresh event', function() {
-      sinon.spy(Launcher, 'initRefreshEvent');
-      Launcher.launch(this.config);
-      return expect(Launcher.initRefreshEvent).to.be.calledOnce;
-    });
-  });
+      expect(fnSpy).toHaveBeenCalledTimes(2)
+    })
+  })
 
-  describe('.initTreeManager', () => it('saves reference to new TreeManager instance in @treeManager', function() {
-    const config = new Configuration();
-    Launcher.initTreeManager(config);
-    return expect(Launcher.treeManager.constructor).to.match(/TreeManager/);
-  }));
+  describe('.launch', () => {
+    it('initializes TreeManager instance', () => {
+      launcher.launch(config)
+      expect(launcher.treeManager.config).toBe(config)
+      expect(launcher.treeManager.launcherHooks).toBe(launcher.hooks)
+    })
 
-  describe('.createViewsTree', () => it('creates view tree with help of @treeManager', function() {
-    sinon.spy(Launcher.treeManager, 'createTree');
-    Launcher.createViewsTree();
-    return expect(Launcher.treeManager.createTree).to.be.calledOnce;
-  }));
+    it('initializes custom jquery remove event', () => {
+      jest.spyOn(launcher, 'initRemoveEvent')
+      launcher.launch(config)
 
-  return describe('.initRefreshEvent', function() {
-    it('creates custom jquery refresh event', function() {
-      Launcher.initRefreshEvent();
-      return expect(Launcher.isRefreshEventInitialized).to.be.true;
-    });
+      expect(launcher.initRemoveEvent).toHaveBeenCalledOnce()
+    })
 
-    return describe('Custom jquery refresh event', function() {
-      before(function() {
-        Launcher.initRefreshEvent();
-        this.treeManager = Launcher.treeManager;
-        return sinon.spy(this.treeManager, 'refresh');
-      });
+    it('initializes custom jquery refresh event', () => {
+      jest.spyOn(launcher, 'initRefreshEvent')
+      launcher.launch(config)
 
-      beforeEach(function() {
-        $('body').empty().append($(nodesWithDataView()));
-        return this.treeManager.createTree();
-      });
+      expect(launcher.initRefreshEvent).toHaveBeenCalledOnce()
+      expect(launcher.initRefreshEvent).toHaveBeenCalledWith(config)
+    })
+  })
 
-      it("calls tree manager's refresh event", function() {
-        const initCallCount = this.treeManager.refresh.callCount;
-        const $el = $('body').find('#component1');
-        $el.trigger('refresh');
-        return expect(this.treeManager.refresh.callCount).to.be.eql(initCallCount + 1);
-      });
+  describe('.createViewsTree', () => {
+    it('creates view tree with help of @treeManager', () => {
+      launcher = new Launcher()
+      launcher.launch(config)
 
-      it('looks for closest element with initialized node', function() {
-        const $elWithoutView = $('body').find('#no_view');
-        const $closestWithView = $('body').find('#component1');
-        $elWithoutView.trigger('refresh');
+      jest.spyOn(launcher.treeManager, 'createTree')
+      launcher.createViewsTree()
 
-        const node = this.treeManager.refresh.lastCall.args[0];
-        return expect(node.el).to.be.equal($closestWithView[0]);
-    });
+      expect(launcher.treeManager.createTree).toHaveBeenCalledOnce()
+    })
+  })
 
-      return it('refreshes element if it has node', function() {
-        const $el = $('body').find('#view2');
-        $el.trigger('refresh');
+  describe('.initRefreshEvent', () => {
+    it('creates custom jquery refresh event', () => {
+      launcher = new Launcher()
 
-        const node = this.treeManager.refresh.lastCall.args[0];
-        return expect(node.el).to.be.equal($el[0]);
-    });
-  });
-});
-});
+      launcher.initRefreshEvent(config)
+      expect(launcher.isRefreshEventInitialized).toBe(true)
+    })
+
+    describe('Custom jquery refresh event', () => {
+      let treeManager: TreeManager
+
+      beforeEach(() => {
+        launcher.launch(config)
+        treeManager = launcher.treeManager
+
+        $('body').empty().append($(nodesWithDataView))
+        treeManager.createTree()
+        jest.spyOn(treeManager, 'refresh')
+      })
+
+      it("calls tree manager's refresh event", () => {
+        const $el = $('body').find('#component1')
+        $el.trigger('refresh')
+        expect(treeManager.refresh).toHaveBeenCalledOnce()
+      })
+
+      it('looks for closest element with initialized node', () => {
+        const $elWithoutView = $('body').find('#no_view')
+        const $closestWithView = $('body').find('#component1')
+        $elWithoutView.trigger('refresh')
+
+        expect(treeManager.refresh).toHaveBeenCalledWith(expect.objectContaining({
+          el: $closestWithView[0]
+        }))
+      })
+
+      it('refreshes element if it has node', () => {
+        const $el = $('body').find('#view2')
+        $el.trigger('refresh')
+
+        expect(treeManager.refresh).toHaveBeenCalledWith(expect.objectContaining({ el: $el[0] }))
+      })
+    })
+  })
+})

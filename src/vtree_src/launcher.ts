@@ -53,9 +53,11 @@ export default class Launcher {
       if (!nodeId) return
 
       const node = this.treeManager.nodesCache.getById(nodeId)
+      console.log(node)
       this.treeManager.refresh(node)
     }
 
+    $('body').off('refresh') // dispose any existing handlers
     $('body').on('refresh', refreshHandler)
     $('body').on('refresh', '*' , refreshHandler)
   }

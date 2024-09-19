@@ -1,109 +1,112 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-const VtreeNodesCache = require('src/vtree_src/vtree_nodes_cache');
+import VtreeNodesCache from '../../src/vtree_src/vtree_nodes_cache'
+import Node from '../../src/vtree_src/node'
+import $ from 'jquery'
 
-describe('VtreeNodesCache', function() {
+describe('VtreeNodesCache', () => {
+  let nodesCache: VtreeNodesCache
 
-  beforeEach(function() {
-    return this.nodesCache = new VtreeNodesCache;
-  });
+  beforeEach(() => {
+    nodesCache = new VtreeNodesCache
+  })
 
-  describe('Initial state of cache', function() {
+  describe('Initial state of cache', () => {
+    describe('.show', () => {
+      it('returns empty hash by default', () => {
+        const nodesHash = nodesCache.show()
+        expect(nodesHash).toEqual({})
+      })
+    })
 
-    describe('.show', () => it('returns empty hash by default', function() {
-      const nodesHash = this.nodesCache.show();
-      expect(nodesHash).to.be.an('object');
-      return expect(nodesHash).to.be.eql({});
-  }));
+    describe('.showRootNodes', () => it('returns empty list by default', () => {
+      const rootNodesList = nodesCache.showRootNodes()
+      expect(rootNodesList).toEqual([])
+    }))
+  })
 
-    return describe('.showRootNodes', () => it('returns empty list by default', function() {
-      const rootNodesList = this.nodesCache.showRootNodes();
-      expect(rootNodesList).to.be.an('array');
-      return expect(rootNodesList).to.be.eql([]);
-  }));
-});
+  describe('Cache management actions', () => {
+    let node: Node
+    let secondNode: Node
 
-  return describe('Cache management actions', function() {
+    beforeEach(() => {
+      node = new Node($('div'))
+      secondNode = new Node($('div'))
+    })
 
-    beforeEach(function() {
-      this.node = {id: 1, whatever: 'content'};
-      return this.secondNode = {id: 2, whatever: 'more content'};
-    });
+    describe('.add', () => {
+      it('adds node to nodes hash', () => {
+        nodesCache.add(node)
+        expect(nodesCache.show()).toEqual({[node.id]: node})
 
-    describe('.add', () => it('adds node to nodes hash', function() {
-      this.nodesCache.add(this.node);
-      expect(this.nodesCache.show()).to.be.eql({1: this.node});
+        nodesCache.add(secondNode)
+        expect(nodesCache.show()).toEqual({[node.id]: node, [secondNode.id]: secondNode})
+      })
+    })
 
-      this.nodesCache.add(this.secondNode);
-      return expect(this.nodesCache.show()).to.be.eql({1: this.node, 2: this.secondNode});
-  }));
+    describe('.addAsRoot', () => {
+      it('adds node to root nodes list', () => {
+        nodesCache.add(node)
+        nodesCache.addAsRoot(node)
+        expect(nodesCache.showRootNodes()).toEqual([node])
 
-    describe('.addAsRoot', () => it('adds node to root nodes list', function() {
-      this.nodesCache.add(this.node);
-      this.nodesCache.addAsRoot(this.node);
-      expect(this.nodesCache.showRootNodes()).to.be.eql([this.node]);
+        nodesCache.add(secondNode)
+        nodesCache.addAsRoot(secondNode)
+        expect(nodesCache.showRootNodes()).toEqual([node, secondNode])
+      })
+    })
 
-      this.nodesCache.add(this.secondNode);
-      this.nodesCache.addAsRoot(this.secondNode);
-      return expect(this.nodesCache.showRootNodes()).to.be.eql([this.node, this.secondNode]);
-  }));
+    describe('.getById', () => {
+      it("returns node by it's index", () => {
+        nodesCache.add(node)
 
-    describe('.getById', () => it("returns node by it's index", function() {
-      this.nodesCache.add(this.node);
+        const returnedNode = nodesCache.getById(node.id)
+        expect(returnedNode).toEqual(node)
+      })
+    })
 
-      const returnedNode = this.nodesCache.getById(this.node.id);
-      return expect(returnedNode).to.be.equal(this.node);
-    }));
+    describe('.removeById', () => {
+      it('removes node from nodes hash by provided id', () => {
+        nodesCache.add(node)
+        nodesCache.add(secondNode)
+        nodesCache.removeById(secondNode.id)
 
-    describe('.removeById', function() {
-      it('removes node from nodes hash by provided id', function() {
-        this.nodesCache.add(this.node);
-        this.nodesCache.add(this.secondNode);
-        this.nodesCache.removeById(2);
+        const nodesHash = nodesCache.show()
+        expect(nodesHash).toEqual({ [node.id]: node })
+      })
 
-        const nodesHash = this.nodesCache.show();
-        return expect(nodesHash).to.be.eql({1: this.node});
-    });
+      it('removes node from root nodes list by provided id', () => {
+        nodesCache.add(node)
+        nodesCache.add(secondNode)
 
-      return it('removes node from root nodes list by provided id', function() {
-        this.nodesCache.add(this.node);
-        this.nodesCache.add(this.secondNode);
+        nodesCache.addAsRoot(node)
+        nodesCache.addAsRoot(secondNode)
+        nodesCache.removeById(node.id)
 
-        this.nodesCache.addAsRoot(this.node);
-        this.nodesCache.addAsRoot(this.secondNode);
-        this.nodesCache.removeById(1);
+        const rootNodesList = nodesCache.showRootNodes()
+        expect(rootNodesList).toEqual([secondNode])
+      })
+    })
 
-        const rootNodesList = this.nodesCache.showRootNodes();
-        return expect(rootNodesList).to.be.eql([this.secondNode]);
-    });
-  });
+    describe('.clear', () => {
+      it('clears nodes hash', () => {
+        nodesCache.add(node)
+        nodesCache.add(secondNode)
+        nodesCache.clear()
 
-    return describe('.clear', function() {
-      it('clears nodes hash', function() {
-        this.nodesCache.add(this.node);
-        this.nodesCache.add(this.secondNode);
-        this.nodesCache.clear();
+        const nodesHash = nodesCache.show()
+        expect(nodesHash).toEqual({})
+      })
 
-        const nodesHash = this.nodesCache.show();
-        expect(nodesHash).to.be.an('object');
-        return expect(nodesHash).to.be.eql({});
-    });
+      it('clears root nodes list', () => {
+        nodesCache.add(node)
+        nodesCache.add(secondNode)
+        nodesCache.addAsRoot(node)
+        nodesCache.addAsRoot(secondNode)
 
-      return it('clears root nodes list', function() {
-        this.nodesCache.add(this.node);
-        this.nodesCache.add(this.secondNode);
-        this.nodesCache.addAsRoot(this.node);
-        this.nodesCache.addAsRoot(this.secondNode);
+        nodesCache.clear()
 
-        this.nodesCache.clear();
-
-        const rootNodesList = this.nodesCache.showRootNodes();
-        expect(rootNodesList).to.be.an('array');
-        return expect(rootNodesList).to.be.eql([]);
-    });
-  });
-});
-});
+        const rootNodesList = nodesCache.showRootNodes()
+        expect(rootNodesList).toEqual([])
+      })
+    })
+  })
+})
