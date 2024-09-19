@@ -2,9 +2,10 @@ import $ from 'jquery'
 import TreeManager from './tree_manager'
 import Hooks from './hooks'
 import type Config from '../configuration'
+import type NodeData from './node_data'
 
 export default class Launcher {
-  hooks = new Hooks()
+  hooks: Hooks<(nodeData: NodeData) => void> = new Hooks()
   treeManager: TreeManager
   isRefreshEventInitialized = false
 
@@ -53,7 +54,6 @@ export default class Launcher {
       if (!nodeId) return
 
       const node = this.treeManager.nodesCache.getById(nodeId)
-      console.log(node)
       this.treeManager.refresh(node)
     }
 

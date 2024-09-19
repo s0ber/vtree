@@ -3,7 +3,7 @@ import Hooks from '../../src/vtree_src/hooks'
 import Node from '../../src/vtree_src/node'
 
 describe('Hooks', () => {
-  let hooks: Hooks
+  let hooks: Hooks<(node: Node) => void>
   let callback: jest.Mock
   let secondCallback: jest.Mock
   let thirdCallback: jest.Mock

@@ -13,7 +13,7 @@ import { nodesWithDataView } from '../fixtures/nodes_with_data_view'
 describe('TreeManager', () => {
   let launcher: Launcher
   let config: Configuration
-  let launcherHooks: Hooks
+  let launcherHooks: typeof launcher.hooks
   let $el: JQuery
   let treeManager: TreeManager
 

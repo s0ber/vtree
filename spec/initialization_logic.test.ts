@@ -1,73 +1,89 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-const Vtree = require('src/vtree');
-const $ = require('jquery');
-const nodesForRefresh = require('./fixtures/nodes_for_refresh');
-const nodesWithDataView = require('./fixtures/nodes_with_data_view');
+import Vtree from '../src/vtree'
+import $ from 'jquery'
 
-const ERROR_MESSAGE = "You can't start initializing new nodes";
+import { nodesForRefresh } from './fixtures/nodes_for_refresh'
+import { nodesWithDataView } from './fixtures/nodes_with_data_view'
 
-describe('Initializing nodes while other nodes initializing', function() {
-  beforeEach(function() {
-    Vtree.hooks()._reset();
-    return $('body').html(nodesWithDataView);
-  });
+const ERROR_MESSAGE = "You can't start initializing new nodes"
 
-  after(() => Vtree.hooks()._reset());
+describe('Initializing nodes while other nodes initializing', () => {
+  beforeEach(() => {
+    Vtree.hooks.reset()
+    $('body').html(nodesWithDataView)
+  })
 
-  context('not trying to modify DOM in the middle of initial nodes initialization', function() {
-    beforeEach(() => Vtree.onNodeInit(function(node) {}));
+  afterAll(() => Vtree.hooks.reset())
 
-    return it('does not throw Vtree error', () => expect(() => Vtree.initNodes()).not.to.throw(ERROR_MESSAGE));
-  });
+  describe('not trying to modify DOM in the middle of initial nodes initialization', () => {
+    beforeEach(() => {
+      Vtree.onNodeInit(() => {})
+    })
 
-  context('trying to modify DOM in the middle of initial nodes initialization', function() {
+    it('does not throw Vtree error', () => {
+      expect(() => Vtree.initNodes()).not.toThrow(ERROR_MESSAGE)
+    })
+  })
+
+  describe('trying to modify DOM in the middle of initial nodes initialization', () => {
     beforeEach(() => Vtree.onNodeInit(function(node) {
-      if (node.nodeName === 'TestView2') { return Vtree.DOM.html($('#component1'), nodesForRefresh); }
-    }));
+      if (node.nodeName === 'TestView2') { Vtree.DOM.html($('#component1'), nodesForRefresh) }
+    }))
 
-    return it('throws Vtree error', () => expect(() => Vtree.initNodes()).to.throw(ERROR_MESSAGE));
-  });
+    it('throws Vtree error', () => {
+      expect(() => Vtree.initNodes()).toThrow(ERROR_MESSAGE)
+    })
+  })
 
-  context('trying to asynchronously modify DOM in the middle of initial nodes initialization', function() {
-    beforeEach(() => Vtree.onNodeInit(function(node) {
-      if (node.nodeName === 'TestView2') { return Vtree.DOM.htmlAsync($('#component1'), nodesForRefresh); }
-    }));
+  describe('trying to asynchronously modify DOM in the middle of initial nodes initialization', () => {
+    beforeEach(() => {
+      Vtree.onNodeInit((node) => {
+        if (node.nodeName === 'TestView2') Vtree.DOM.htmlAsync($('#component1'), nodesForRefresh)
+      })
+    })
 
-    return it('does not throw Vtree error', () => expect(() => Vtree.initNodes()).not.to.throw(ERROR_MESSAGE));
-  });
+    it('does not throw Vtree error', () => {
+      expect(() => Vtree.initNodes()).not.toThrow(ERROR_MESSAGE)
+    })
+  })
 
-  context('not trying to modify DOM in the middle of subsequent nodes initialization', function() {
-    beforeEach(() => Vtree.onNodeInit(function(node) {}));
+  describe('not trying to modify DOM in the middle of subsequent nodes initialization', () => {
+    beforeEach(() => Vtree.onNodeInit(() => {}))
 
-    return it('does not throw Vtree error', () => expect(function() {
-      Vtree.initNodes();
-      return Vtree.DOM.html($('#component1'), nodesForRefresh);
-    }).not.to.throw(ERROR_MESSAGE));
-  });
+    it('does not throw Vtree error', () => {
+      expect(() => {
+        Vtree.initNodes()
+        Vtree.DOM.html($('#component1'), nodesForRefresh)
+      }).not.toThrow(ERROR_MESSAGE)
+    })
+  })
 
-  context('trying to modify DOM in the middle of subsequent nodes initialization', function() {
-    beforeEach(() => Vtree.onNodeInit(function(node) {
-      if (node.nodeName === 'TestView7') { return Vtree.DOM.html($('#component2'), '<div>TEST HTML</div>'); }
-    }));
+  describe('trying to modify DOM in the middle of subsequent nodes initialization', () => {
+    beforeEach(() => {
+      Vtree.onNodeInit(node => {
+        if (node.nodeName === 'TestView7') Vtree.DOM.html($('#component2'), '<div>TEST HTML</div>')
+      })
+    })
 
-    return it('throws Vtree error', () => expect(function() {
-      Vtree.initNodes();
-      return Vtree.DOM.html($('#component1'), nodesForRefresh);
-    }).to.throw(ERROR_MESSAGE));
-  });
+    it('throws Vtree error', () => {
+      expect(() => {
+        Vtree.initNodes()
+        Vtree.DOM.html($('#component1'), nodesForRefresh)
+      }).toThrow(ERROR_MESSAGE)
+    })
+  })
 
-  return context('trying to asynchronously modify DOM in the middle of subsequent nodes initialization', function() {
-    beforeEach(() => Vtree.onNodeInit(function(node) {
-      if (node.nodeName === 'TestView7') { return Vtree.DOM.htmlAsync($('#component2'), '<div>TEST HTML</div>'); }
-    }));
+  describe('trying to asynchronously modify DOM in the middle of subsequent nodes initialization', () => {
+    beforeEach(() => {
+      Vtree.onNodeInit(node => {
+        if (node.nodeName === 'TestView7') Vtree.DOM.htmlAsync($('#component2'), '<div>TEST HTML</div>')
+      })
+    })
 
-    return it('does not throw Vtree error', () => expect(function() {
-      Vtree.initNodes();
-      return Vtree.DOM.html($('#component1'), nodesForRefresh);
-    }).not.to.throw(ERROR_MESSAGE));
-  });
-});
+    it('does not throw Vtree error', () => {
+      expect(() => {
+        Vtree.initNodes()
+        Vtree.DOM.html($('#component1'), nodesForRefresh)
+      }).not.toThrow(ERROR_MESSAGE)
+    })
+  })
+})

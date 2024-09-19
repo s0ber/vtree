@@ -24,7 +24,7 @@ export default class NodeWrapper {
     name: string
   }
 
-  constructor(public node: Node, public config: Configuration, public hooks: Hooks) {
+  constructor(public node: Node, public config: Configuration, public hooks: Hooks<(nodeData: NodeData) => void>) {
     this.$el = this.node.$el
     this.el = this.node.el
 

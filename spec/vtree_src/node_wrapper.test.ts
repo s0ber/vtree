@@ -10,7 +10,7 @@ import { nodesForRefresh } from '../fixtures/nodes_for_refresh'
 import { nodesWithDataView } from '../fixtures/nodes_with_data_view'
 
 describe('NodeWrapper', () => {
-  let launcherHooks: Hooks
+  let launcherHooks: Hooks<(nodeData: NodeData) => void>
 
   beforeAll(() => {
     launcherHooks = new Hooks()

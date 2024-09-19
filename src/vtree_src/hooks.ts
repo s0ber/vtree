@@ -1,11 +1,9 @@
-import type Node from './node'
-
 type Callback = (...args: any[]) => void
 
-export default class Hooks {
-  onInitCallbacks: Callback[]
-  onActivationCallbacks: Callback[]
-  onUnloadCallbacks: Callback[]
+export default class Hooks<C extends Callback> {
+  onInitCallbacks: C[]
+  onActivationCallbacks: C[]
+  onUnloadCallbacks: C[]
 
   constructor() {
     this.onInitCallbacks = []
@@ -13,7 +11,7 @@ export default class Hooks {
     this.onUnloadCallbacks = []
   }
 
-  onInit(callback: Callback) {
+  onInit(callback: C) {
     this.onInitCallbacks.push(callback)
   }
 
@@ -21,7 +19,7 @@ export default class Hooks {
     this.onInitCallbacks.forEach(callback => callback(...args))
   }
 
-  onActivation(callback: Callback) {
+  onActivation(callback: C) {
     this.onActivationCallbacks.push(callback)
   }
 
@@ -29,7 +27,7 @@ export default class Hooks {
     this.onActivationCallbacks.forEach(callback => callback(...args))
   }
 
-  onUnload(callback: Callback) {
+  onUnload(callback: C) {
     this.onUnloadCallbacks.push(callback)
   }
 

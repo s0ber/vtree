@@ -1,4 +1,5 @@
 import addToAsyncQueue from 'async_fn'
+import $ from 'jquery'
 
 export default class DOM {
   static html($el: JQuery, html: string) {

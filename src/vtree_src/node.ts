@@ -13,7 +13,7 @@ export default class Node {
 
   nodeWrapper?: NodeWrapper
 
-  constructor(public $el: JQuery, public hooks = new Hooks()) {
+  constructor(public $el: JQuery, public hooks: Hooks<(node: Node) => void> = new Hooks()) {
     this.el = this.$el[0]
     this.id = `nodeId${nodeId}`
     this.children = []

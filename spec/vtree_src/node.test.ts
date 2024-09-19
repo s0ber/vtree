@@ -2,6 +2,8 @@ import $ from 'jquery'
 import Node from '../../src/vtree_src/node'
 import Hooks from '../../src/vtree_src/hooks'
 
+type NodeHooks = Hooks<(node: Node) => void>
+
 describe('Node', () => {
   let $el: JQuery
   let $secondEl: JQuery
@@ -45,7 +47,7 @@ describe('Node', () => {
   })
 
     it('has null reference for @parent', () => {
-      expect(node.parent).toBeNull()
+      expect(node.parent).toBe(undefined)
     })
 
     it('has empty list reference for @children', () => {
@@ -110,7 +112,7 @@ describe('Node', () => {
 })
 
   describe('Initialization behavior', () => {
-    let hooks: Hooks
+    let hooks: NodeHooks
 
     beforeEach(() => {
       hooks = new Hooks()
@@ -130,7 +132,7 @@ describe('Node', () => {
   })
 
   describe('Activation behavior', () => {
-    let hooks: Hooks
+    let hooks: NodeHooks
 
     beforeEach(() => {
       hooks = new Hooks()
@@ -164,7 +166,7 @@ describe('Node', () => {
   })
 
   describe('Unload behavior', () => {
-    let hooks: Hooks
+    let hooks: NodeHooks
 
     beforeEach(() => {
       hooks = new Hooks()
@@ -193,7 +195,7 @@ describe('Node', () => {
   })
 
   describe('Remove behavior', () => describe('.remove', () => {
-    let hooks: Hooks
+    let hooks: NodeHooks
 
     beforeEach(() => {
       hooks = new Hooks()

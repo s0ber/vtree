@@ -2,6 +2,7 @@ import Configuration from './configuration'
 import DOM from './vtree_src/dom'
 import Launcher from './vtree_src/launcher'
 import addToAsyncQueue from 'async_fn'
+import type NodeData from './vtree_src/node_data'
 
 export default class Vtree {
   static _launcher: Launcher
@@ -23,7 +24,7 @@ export default class Vtree {
       }))
   }
 
-  static onNodeInit(callback: () => void) {
+  static onNodeInit(callback: (nodeWrapper: NodeData) => void) {
     return this.hooks.onInit(callback)
   }
 
@@ -31,7 +32,7 @@ export default class Vtree {
     return this.hooks.onInitCallbacks
   }
 
-  static onNodeUnload(callback: () => void) {
+  static onNodeUnload(callback: (nodeWrapper: NodeData) => void) {
     return this.hooks.onUnload(callback)
   }
 

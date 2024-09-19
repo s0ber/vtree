@@ -1,67 +1,79 @@
-/*
- * decaffeinate suggestions:
- * DS102: Remove unnecessary code created because of implicit returns
- * DS207: Consider shorter variations of null checks
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
- */
-const Configuration = require('src/configuration');
-const Vtree = require('src/vtree');
-const Hooks = require('src/vtree_src/hooks');
+import Configuration from '../src/configuration'
+import Vtree from '../src/vtree'
+import Launcher from '../src/vtree_src/launcher'
 
-const Launcher = {
-  launch: sinon.spy(),
-  createViewsTree: sinon.spy(),
-  hooks() { return this._hooks != null ? this._hooks : (this._hooks = new Hooks()); }
-};
+describe('Vtree', () => {
+  let initialLauncher: Launcher
 
-describe('Vtree', function() {
+  beforeAll(() => {
+    initialLauncher = Vtree._launcher
 
-  before(function() {
-    this.initialLauncher = Vtree._launcher;
-    return Vtree._launcher = (() => Launcher);
-  });
+    Vtree._launcher = new Launcher()
+  })
 
-  after(function() {
-    return Vtree._launcher = this.initialLauncher;
-  });
+  afterAll(() => {
+    Vtree._launcher = initialLauncher
+  })
 
-  describe('.initNodes', () => it("calls Launcher's launch and createViewsTree functions", function() {
-    Vtree.initNodes();
-    expect(Launcher.launch).to.be.calledOnce;
-    return expect(Launcher.createViewsTree).to.be.calledOnce;
-  }));
+  describe('.initNodes', () => it("calls Launcher's launch and createViewsTree functions", () => {
+    jest.spyOn(Vtree.launcher, 'launch')
+    jest.spyOn(Vtree.launcher, 'createViewsTree')
 
-  describe('.getInitCallbacks', () => it('returns empty list by default', () => expect(Vtree.getInitCallbacks()).to.be.eql([])));
+    Vtree.initNodes()
 
-  describe('.onNodeInit', () => it('adds initialization callback to onInit callbacks', function() {
-    const callback = function() {};
-    const secondCallback = function() {};
-    Vtree.onNodeInit(callback);
-    expect(Vtree.getInitCallbacks()).to.be.eql([callback]);
-    Vtree.onNodeInit(secondCallback);
-    return expect(Vtree.getInitCallbacks()).to.be.eql([callback, secondCallback]);
-}));
+    expect(Vtree.launcher.launch).toHaveBeenCalledOnce()
+    expect(Vtree.launcher.createViewsTree).toHaveBeenCalledOnce()
+  }))
 
-  describe('.getUnloadCallbacks', () => it('returns empty list by default', () => expect(Vtree.getUnloadCallbacks()).to.be.eql([])));
+  describe('.getInitCallbacks', () => {
+    it('returns empty list by default', () => {
+      expect(Vtree.getInitCallbacks()).toEqual([])
+    })
+  })
 
-  describe('.onNodeUnload', () => it('adds unload callback to onUnload callbacks', function() {
-    const callback = function() {};
-    const secondCallback = function() {};
-    Vtree.onNodeUnload(callback);
-    expect(Vtree.getUnloadCallbacks()).to.be.eql([callback]);
-    Vtree.onNodeUnload(secondCallback);
-    return expect(Vtree.getUnloadCallbacks()).to.be.eql([callback, secondCallback]);
-}));
+  describe('.onNodeInit', () => {
+    it('adds initialization callback to onInit callbacks', () => {
+      const callback = () => {}
+      const secondCallback = () => {}
 
-  return describe('.configure', () => it('extends configuration data with provided options', function() {
-    const config = new Configuration;
-    Vtree.config = () => config;
-    Vtree.configure({
-      viewSelector: '.test_view_selector',
-      componentSelector: '.test_component_selector'
-    });
+      Vtree.onNodeInit(callback)
+      expect(Vtree.getInitCallbacks()).toEqual([callback])
 
-    expect(Vtree.config().viewSelector).to.be.equal('.test_view_selector');
-    return expect(Vtree.config().componentSelector).to.be.equal('.test_component_selector');
-  }));
-});
+      Vtree.onNodeInit(secondCallback)
+      expect(Vtree.getInitCallbacks()).toEqual([callback, secondCallback])
+    })
+  })
+
+  describe('.getUnloadCallbacks', () => {
+    it('returns empty list by default', () => {
+      expect(Vtree.getUnloadCallbacks()).toEqual([])
+    })
+  })
+
+  describe('.onNodeUnload', () => {
+    it('adds unload callback to onUnload callbacks', () => {
+      const callback = () => {}
+      const secondCallback = () => {}
+      Vtree.onNodeUnload(callback)
+      expect(Vtree.getUnloadCallbacks()).toEqual([callback])
+
+      Vtree.onNodeUnload(secondCallback)
+      expect(Vtree.getUnloadCallbacks()).toEqual([callback, secondCallback])
+    })
+  })
+
+  describe('.configure', () => {
+    it('extends configuration data with provided options', () => {
+      const config = new Configuration
+      Vtree._config = config
+
+      Vtree.configure({
+        viewSelector: '.test_view_selector',
+        componentSelector: '.test_component_selector'
+      })
+
+      expect(Vtree.config.viewSelector).toBe('.test_view_selector')
+      expect(Vtree.config.componentSelector).toBe('.test_component_selector')
+    })
+  })
+})

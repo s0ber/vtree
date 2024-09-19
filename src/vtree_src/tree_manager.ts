@@ -2,16 +2,17 @@ import $ from 'jquery'
 import NodesCache from './vtree_nodes_cache'
 import Node from './node'
 import NodeWrapper from './node_wrapper'
+import type NodeData from './node_data'
 import Hooks from './hooks'
 import Config from '../configuration'
 
 export default class TreeManager {
   isInitializing = false
   initialNodes: Node[] = []
-  hooks = new Hooks()
+  hooks: Hooks<(node: Node) => void> = new Hooks()
   nodesCache = new NodesCache()
 
-  constructor(public config: Config, public launcherHooks: Hooks) {
+  constructor(public config: Config, public launcherHooks: Hooks<(nodeData: NodeData) => void>) {
     this.hooks.onInit(this.addNodeIdToElData)
     this.hooks.onInit(node => this.addRemoveEventHandlerToEl(node))
     this.hooks.onActivation(node => this.addNodeWrapper(node))
