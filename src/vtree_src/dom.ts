@@ -33,7 +33,7 @@ export default class DOM {
   }
 
   static htmlAsync($el: JQuery, html: string) {
-    addToAsyncQueue(() =>
+    return addToAsyncQueue(() =>
       new Promise<void>(resolve => {
         requestAnimationFrame(() => {
           $el.children().each((_i, child) => { $(child).remove() })
@@ -45,7 +45,7 @@ export default class DOM {
   }
 
   static appendAsync($parentEl: JQuery, $el: JQuery) {
-    addToAsyncQueue(() =>
+    return addToAsyncQueue(() =>
       new Promise<void>(resolve => {
         requestAnimationFrame(() => {
           $parentEl.append($el)
@@ -56,7 +56,7 @@ export default class DOM {
   }
 
   static prependAsync($parentEl: JQuery, $el: JQuery) {
-    addToAsyncQueue(() =>
+    return addToAsyncQueue(() =>
       new Promise<void>(resolve => {
         requestAnimationFrame(() => {
           $parentEl.prepend($el)
@@ -67,7 +67,7 @@ export default class DOM {
   }
 
   static beforeAsync($el: JQuery, $inserterdEl: JQuery) {
-    addToAsyncQueue(() =>
+    return addToAsyncQueue(() =>
       new Promise<void>(resolve => {
         requestAnimationFrame(() => {
           $el.before($inserterdEl)
@@ -78,7 +78,7 @@ export default class DOM {
   }
 
   static afterAsync($el: JQuery, $inserterdEl: JQuery) {
-    addToAsyncQueue(() =>
+    return addToAsyncQueue(() =>
       new Promise<void>(resolve => {
         requestAnimationFrame(() => {
           $el.after($inserterdEl)

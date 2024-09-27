@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "1.0.0-rc1",
+  "version": "1.0.0-rc3",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "type": "module",
