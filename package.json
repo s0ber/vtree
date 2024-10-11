@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "1.0.0-rc3",
+  "version": "1.0.0-rc5",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "type": "module",
@@ -25,17 +25,18 @@
     "vite-plugin-dts": "^4.2.1"
   },
   "dependencies": {
-    "async_fn": "1.0.0-rc3"
+    "async_fn": "1.0.0-rc7"
   },
   "peerDependencies": {
     "jquery": "^3.6.0"
   },
+  "browserslist": ["defaults"],
   "engine": {
     "node": ">=20"
   },
   "scripts": {
     "build": "vite build",
-    "prepublishOnly": "npm run typecheck",
+    "prepublishOnly": "npm run typecheck && npm run build",
     "test": "jest",
     "typecheck": "tsc"
   },
