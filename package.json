@@ -1,54 +1,51 @@
 {
   "name": "v_tree",
-  "version": "0.3.6",
+  "version": "1.0.0",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
-  "main": "build/vtree.min.js",
+  "type": "module",
+  "main": "dist/vtree.umd.cjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "devDependencies": {
-    "chai": "^3.5.0",
-    "coffee-loader": "^0.7.2",
-    "coffee-script": "^1.10.0",
-    "coffeelint": "^1.9.7",
-    "coffeelint-mocha": "0.1.0",
-    "ejs-loader": "^0.3.0",
-    "es6-collections": "^0.5.6",
-    "jquery": "^2.2.0",
-    "karma": "^0.13.22",
-    "karma-chai": "^0.1.0",
-    "karma-cli": "^0.1.2",
-    "karma-mocha": "^0.2.2",
-    "karma-mocha-reporter": "^2.2.1",
-    "karma-phantomjs-launcher": "^1.0.0",
-    "karma-sinon-chai": "^1.2.0",
-    "karma-webpack": "^1.7.0",
-    "lolex": "^1.4.0",
-    "mocha": "^2.4.5",
-    "phantomjs-prebuilt": "^2.1.5",
-    "raw-loader": "^0.5.1",
-    "sinon": "^1.17.3",
-    "sinon-chai": "^2.8.0",
-    "underscore": "^1.8.3",
-    "unminified-webpack-plugin": "^1.1.1",
-    "webpack": "^1.12.14",
-    "webpack-dev-middleware": "^1.5.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/jest": "^29.5.13",
+    "@types/jquery": "^3.5.30",
+    "browserslist-to-esbuild": "^2.1.1",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jest-extended": "^4.0.2",
+    "jquery": "^3.6.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2",
+    "vite": "^5.4.6",
+    "vite-plugin-dts": "^4.2.1"
   },
+  "dependencies": {
+    "async_fn": "1.0.0"
+  },
+  "peerDependencies": {
+    "jquery": "^3.6.0"
+  },
+  "browserslist": [
+    "defaults"
+  ],
   "engine": {
-    "node": ">= 0.10"
+    "node": ">=20"
   },
   "scripts": {
-    "build": "env NODE_ENV=production webpack",
-    "test": "karma start"
+    "build": "vite build",
+    "prepublishOnly": "npm run typecheck && npm run build",
+    "test": "jest",
+    "typecheck": "tsc"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/s0ber/vtree.git"
-  },
-  "dependencies": {
-    "async_fn": "^0.2.4"
-  },
-  "peerDependencies": {
-    "jquery": "^2.2.0"
+    "url": "git+ssh://git@github.com/s0ber/vtree.git"
   }
 }
