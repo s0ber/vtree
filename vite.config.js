@@ -1,10 +1,11 @@
 import { resolve } from 'path'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
+import browserslistToEsbuild from 'browserslist-to-esbuild'
 
 export default defineConfig({
   build: {
-    target: 'esnext',
+    target: browserslistToEsbuild(),
     sourcemap: true,
     lib: {
       // Could also be a dictionary or array of multiple entry points

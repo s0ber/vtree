@@ -1,6 +1,6 @@
 {
   "name": "v_tree",
-  "version": "1.0.0-rc5",
+  "version": "1.0.0-rc6",
   "author": "Sergey Shishkalov <sergeyshishkalov@gmail.com>",
   "description": "Library for automated initialization of backbone views (or whatever)",
   "type": "module",
@@ -15,6 +15,7 @@
     "@babel/preset-typescript": "^7.24.7",
     "@types/jest": "^29.5.13",
     "@types/jquery": "^3.5.30",
+    "browserslist-to-esbuild": "^2.1.1",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-extended": "^4.0.2",
@@ -25,12 +26,14 @@
     "vite-plugin-dts": "^4.2.1"
   },
   "dependencies": {
-    "async_fn": "1.0.0-rc7"
+    "async_fn": "1.0.0-rc8"
   },
   "peerDependencies": {
     "jquery": "^3.6.0"
   },
-  "browserslist": ["defaults"],
+  "browserslist": [
+    "defaults"
+  ],
   "engine": {
     "node": ">=20"
   },
